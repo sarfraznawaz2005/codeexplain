@@ -130,10 +130,4 @@ npm run build
 
 ## License
 
-MIT License - see LICENSE file for details
-
-## Support
-
-For issues and questions:
-- Report bugs: https://github.com/sst/opencode/issues
-- Get help: /help command in opencode
+MIT License
