@@ -1133,10 +1133,10 @@
                     </button>
                 </div>
                 <div class="explanation-content">
-                    <p>Okay, I will explain the provided JavaScript code file (<code>aiEngine.js</code>) in a beginner-friendly way. Here&#39;s a breakdown:</p>
+                    <p>Okay, I&#39;ll explain the JavaScript code in <code>aiEngine.js</code> for you like you&#39;re a beginner developer.  Here&#39;s a breakdown in markdown format:</p>
 <h2>Explanation of <code>aiEngine.js</code></h2>
-<p>This file defines the <code>AIEngine</code> class, which is responsible for using AI models (like Gemini, OpenAI, or Ollama) to generate explanations for code. It takes code as input, sends it to an AI model, and returns an explanation of what the code does.  It also handles caching of responses to improve performance and reduce API costs.</p>
-<h3>1. Imports and Constants</h3>
+<p>This file, <code>aiEngine.js</code>, is the core of an AI-powered code explanation tool. It uses large language models (LLMs) from different providers (like Google, OpenAI, or a local Ollama instance) to analyze code and generate human-readable explanations. Let&#39;s break down the code section by section:</p>
+<p><strong>1. Imports and Setup:</strong></p>
 javascript
 const { ChatOpenAI } = require('@langchain/openai');
 const { ChatGoogleGenerativeAI } = require('@langchain/google-genai');
@@ -1144,40 +1144,48 @@ const { ChatOllama } = require('@langchain/ollama');
 const chalk = require('chalk');
 const { CacheManager } = require('../core/cacheManager');
 const { PromptManager } = require('./promptManager');
+```
 
-<p>// Constants
+<ul>
+<li><strong><code>require(...)</code>:</strong>  This is how JavaScript (Node.js) imports code from other files or libraries.  Think of it like including building blocks into your program.<ul>
+<li><code>@langchain/openai</code>, <code>@langchain/google-genai</code>, <code>@langchain/ollama</code>: These are libraries that allow the code to interact with AI models from OpenAI (like GPT), Google (like Gemini), and Ollama (local models). Langchain helps to create applications using LLMs.</li>
+<li><code>chalk</code>:  A library that adds colors to the console output, making it easier to read logs and messages.</li>
+<li><code>../core/cacheManager</code>:  Imports the <code>CacheManager</code> class from another file. This class handles storing and retrieving explanations so you don&#39;t have to re-generate them every time (saves time and money!). The <code>../</code> means it&#39;s going up one directory level.</li>
+<li><code>./promptManager</code>: Imports the <code>PromptManager</code> class from another file in the same directory.  This class is responsible for creating the prompts that are sent to the AI model. A &quot;prompt&quot; is the instruction or question you give to the AI.</li>
+</ul>
+</li>
+</ul>
+<p><strong>2. Constants:</strong></p>
+<pre><code class="language-javascript">// Constants
 const PROVIDERS = {
   GEMINI: &#39;gemini&#39;,
   OPENAI: &#39;openai&#39;,
   OLLAMA: &#39;ollama&#39;
-};</p>
-<p>const MODES = {
+};
+
+const MODES = {
   EXPLAIN: &#39;explain&#39;,
   ARCHITECTURE: &#39;architecture&#39;,
   ARCH: &#39;arch&#39;,
   LINE_BY_LINE: &#39;linebyline&#39;
-};</p>
-<p>const USER_LEVELS = {
+};
+
+const USER_LEVELS = {
   EXPERT: &#39;expert&#39;,
   BEGINNER: &#39;beginner&#39;
-};</p>
-<pre><code>
-*   **`require(...)`**: This imports external libraries or modules.
-    *   `@langchain/openai`, `@langchain/google-genai`, `@langchain/ollama`: These are Langchain libraries that provide interfaces to interact with OpenAI, Google Gemini, and Ollama AI models, respectively. Langchain helps structure interactions with Large Language Models (LLMs).
-    *   `chalk`:  A library for adding colors and styles to console output, making the logs more readable.
-    *   `../core/cacheManager`: Imports a custom `CacheManager` class (likely from a file in the `core` directory), which handles caching of code explanations to avoid redundant API calls.
-    *   `./promptManager`: Imports a custom `PromptManager` class (from the same directory), which is responsible for managing and building prompts that are sent to the AI model.  A prompt is the instruction and context you give the AI.
-
-*   **`PROVIDERS`**: Defines constants for the supported AI providers (Gemini, OpenAI, Ollama). This makes the code more readable and maintainable.  Using constants avoids &quot;magic strings&quot;.
-*   **`MODES`**: Defines constants for different explanation modes (e.g., &quot;explain&quot;, &quot;architecture&quot;, &quot;linebyline&quot;). These modes likely determine the type of explanation the AI will generate.  The `ARCH` mode is an alias for the `ARCHITECTURE` mode.
-*   **`USER_LEVELS`**: Defines constants for user levels (expert, beginner). This allows the AI to tailor its explanations to the user&#39;s level of understanding.
-
-### 2. `AIEngine` Class
-
-```javascript
-class AIEngine {
+};
+</code></pre>
+<ul>
+<li><strong><code>const</code>:</strong>  Declares variables that cannot be reassigned after they are initialized.</li>
+<li><strong><code>PROVIDERS</code></strong>: Defines the supported AI model providers.  The code can work with Gemini, OpenAI, or Ollama.</li>
+<li><strong><code>MODES</code></strong>: Defines the different types of explanations the tool can generate (e.g., explaining the code, describing the architecture, or doing a line-by-line explanation).</li>
+<li><strong><code>USER_LEVELS</code></strong>: Defines the user&#39;s experience level, which can influence how the explanations are generated (e.g., a beginner might get more detailed explanations).</li>
+</ul>
+<p><strong>3. <code>AIEngine</code> Class:</strong></p>
+<p>This is the main class that orchestrates the whole process.</p>
+<pre><code class="language-javascript">class AIEngine {
   constructor(config) {
-    // ... (constructor code) ...
+    // ...
   }
 
   async init() {
@@ -1219,401 +1227,367 @@ class AIEngine {
 
 module.exports = { AIEngine };
 </code></pre>
-<p>This defines the main class that orchestrates the code explanation process.  Let&#39;s break down its key parts:</p>
-<h4>2.1. <code>constructor(config)</code></h4>
-<pre><code class="language-javascript">constructor(config) {
-  this.config = config;
-  this.provider = config.provider ?? PROVIDERS.GEMINI;
-  this.model = config.model; // Allow model specification
-  this.apiKey = config.apiKey;
-  this.baseUrl = config.baseUrl; // For Ollama or custom endpoints
-  this.verbose = config.verbose || false;
-
-  // Initialize managers
-  this.cacheManager = new CacheManager();
-  this.promptManager = new PromptManager();
-
-  // Initialize managers immediately
-  this.init();
-
-  // Initialize token tracking
-  this.tokenUsage = {
-    totalInputTokens: 0,
-    totalOutputTokens: 0,
-    totalTokens: 0,
-    cachedFiles: 0,
-    processedFiles: 0
-  };
-
-  // Validate API key (not required for Ollama)
-  if (!this.apiKey &amp;&amp; this.provider !== &#39;ollama&#39;) {
-    throw new Error(&#39;API key required for &#39; + this.provider + &#39;. Please provide an API key via --apikey option or config file.&#39;);
+<ul>
+<li><strong><code>class AIEngine { ... }</code></strong>:  Defines a class named <code>AIEngine</code>. Classes are like blueprints for creating objects.</li>
+<li><strong><code>constructor(config)</code></strong>:  The constructor is a special method that runs when you create a new <code>AIEngine</code> object. It takes a <code>config</code> object as input, which contains settings like the AI provider, API key, and verbosity level.</li>
+<li><strong><code>this.config = config;</code></strong>:  Saves the configuration settings to the <code>AIEngine</code> object.  <code>this</code> refers to the current object.</li>
+<li><strong><code>this.provider = config.provider ?? PROVIDERS.GEMINI;</code></strong>:  Sets the AI provider.  If the <code>config</code> doesn&#39;t specify a provider, it defaults to <code>GEMINI</code>. The <code>??</code> is the nullish coalescing operator.</li>
+<li><strong><code>this.model = config.model;</code></strong>:  Sets the specific model to use (e.g., <code>gpt-4o</code>, <code>gemini-2.5-flash</code>, <code>llama2</code>).</li>
+<li><strong><code>this.apiKey = config.apiKey;</code></strong>:  Stores the API key for the AI provider.</li>
+<li><strong><code>this.baseUrl = config.baseUrl;</code></strong>: Stores the base URL, useful for Ollama or custom endpoints.</li>
+<li><strong><code>this.verbose = config.verbose || false;</code></strong>:  Determines whether to print detailed logs to the console. The <code>||</code> is the OR operator, if <code>config.verbose</code> is not defined, the value will be <code>false</code>.</li>
+<li><strong><code>this.cacheManager = new CacheManager();</code></strong>:  Creates a new instance of the <code>CacheManager</code> class.</li>
+<li><strong><code>this.promptManager = new PromptManager();</code></strong>: Creates a new instance of the <code>PromptManager</code> class.</li>
+<li><strong><code>this.init();</code></strong>: Initializes the cache and prompt managers.</li>
+<li><strong><code>this.tokenUsage = { ... };</code></strong>:  Initializes an object to track token usage.  Tokens are like words or pieces of words that the AI model uses. Tracking tokens is important because you&#39;re often charged based on the number of tokens used.</li>
+<li><strong><code>if (!this.apiKey &amp;&amp; this.provider !== &#39;ollama&#39;) { ... }</code></strong>:  Checks if an API key is provided when needed. Ollama does not require an API key because it is running locally.</li>
+<li><strong><code>this.setupModel();</code></strong>:  Calls the <code>setupModel()</code> method to initialize the AI model based on the selected provider.</li>
+</ul>
+<p><strong>4. <code>init()</code> Method:</strong></p>
+<pre><code class="language-javascript">  async init() {
+    await this.cacheManager.initialize();
+    await this.promptManager.initialize();
   }
-
-  // Set up model based on provider
-  this.setupModel();
-}
 </code></pre>
 <ul>
-<li>The constructor is called when you create a new <code>AIEngine</code> object (e.g., <code>const engine = new AIEngine(myConfig);</code>).</li>
-<li>It takes a <code>config</code> object as input, which contains settings like the AI provider to use, API keys, verbosity, and more.</li>
-<li><code>this.config = config;</code>: Stores the configuration for later use.</li>
-<li><code>this.provider = config.provider ?? PROVIDERS.GEMINI;</code>: Determines the AI provider. If <code>config.provider</code> is not provided, it defaults to <code>GEMINI</code>. The <code>??</code> is the nullish coalescing operator.</li>
-<li><code>this.model = config.model;</code>: Allows specifying a particular model for the provider.</li>
-<li><code>this.apiKey = config.apiKey;</code>: Stores the API key needed to access the AI provider.</li>
-<li><code>this.baseUrl = config.baseUrl;</code>: Stores the base URL, useful for Ollama or custom API endpoints.</li>
-<li><code>this.verbose = config.verbose || false;</code>:  Enables verbose logging (more detailed output) if <code>config.verbose</code> is true.  The <code>||</code> is the logical OR operator.</li>
-<li>It creates instances of <code>CacheManager</code> and <code>PromptManager</code> to handle caching and prompt generation.</li>
-<li>It initializes token usage tracking to keep track of the number of tokens used for API calls.  Tokens are units of text that AI models use.</li>
-<li>It validates that an API key is provided if the chosen provider requires one (i.e., not Ollama).</li>
-<li>Finally, it calls <code>this.setupModel()</code> to initialize the AI model instance based on the chosen provider.</li>
+<li><strong><code>async</code></strong>:  Indicates that this method is asynchronous, meaning it can perform operations that take time without blocking the main thread.</li>
+<li><strong><code>await</code></strong>:  Waits for the <code>initialize()</code> methods of the <code>CacheManager</code> and <code>PromptManager</code> to complete before continuing.</li>
+<li>This function initializes the cache and prompt managers.</li>
 </ul>
-<h4>2.2. <code>async init()</code></h4>
-<pre><code class="language-javascript">async init() {
-  await this.cacheManager.initialize();
-  await this.promptManager.initialize();
-}
-</code></pre>
-<ul>
-<li>This asynchronous method initializes the <code>CacheManager</code> and <code>PromptManager</code> instances. The <code>await</code> keyword ensures that these initializations complete before the <code>AIEngine</code> proceeds.</li>
-</ul>
-<h4>2.3. <code>setupModel()</code></h4>
-<pre><code class="language-javascript">setupModel() {
-  if (this.provider === PROVIDERS.GEMINI) {
-    this.modelInstance = new ChatGoogleGenerativeAI({
-      apiKey: this.apiKey,
-      modelName: this.model || &#39;gemini-2.5-flash&#39;,
-      maxOutputTokens: this.config.maxTokens || 15000
-    });
-  } else if (this.provider === PROVIDERS.OPENAI) {
-    this.modelInstance = new ChatOpenAI({
-      openAIApiKey: this.apiKey,
-      modelName: this.model || &#39;gpt-4o&#39;,
-      maxTokens: this.config.maxTokens || 15000,
-      ...(this.baseUrl &amp;&amp; { configuration: { baseURL: this.baseUrl } })
-    });
-  } else if (this.provider === PROVIDERS.OLLAMA) {
-    this.modelInstance = new ChatOllama({
-      baseUrl: this.baseUrl || &#39;http://localhost:11434&#39;,
-      model: this.model || &#39;llama2&#39;,
-      maxTokens: this.config.maxTokens || 15000
-    });
-  } else {
-    const supportedProviders = Object.values(PROVIDERS).join(&#39;, &#39;);
-    throw new Error(`Unsupported AI provider: ${this.provider}. Supported providers are: ${supportedProviders}`);
-  }
-}
-</code></pre>
-<ul>
-<li>This method creates an instance of the appropriate Langchain class (<code>ChatGoogleGenerativeAI</code>, <code>ChatOpenAI</code>, or <code>ChatOllama</code>) based on the configured <code>provider</code>.</li>
-<li>It passes the API key, model name, and other configuration options to the Langchain class constructor.</li>
-<li>It sets a default model if none is specified in the config.</li>
-<li>If an unsupported provider is specified, it throws an error.</li>
-</ul>
-<h4>2.4. <code>_log(level, message)</code></h4>
-<pre><code class="language-javascript">_log(level, message) {
-  switch (level) {
-    case &#39;error&#39;:
-      console.error(chalk.redBright(`❌ Error: ${message}`));
-      break;
-    case &#39;warn&#39;:
-      console.warn(chalk.yellowBright(`⚠️ Warning: ${message}`));
-      break;
-    case &#39;info&#39;:
-      this.verbose &amp;&amp; console.log(chalk.gray(`ℹ️ ${message}`));
-      break;
-  }
-}
-</code></pre>
-<ul>
-<li>A helper function for logging messages to the console with different colors based on the log level (error, warn, info).</li>
-<li>It uses the <code>chalk</code> library to add color to the output.</li>
-<li>Info logs are only displayed if <code>this.verbose</code> is true.</li>
-</ul>
-<h4>2.5. <code>async retryWithBackoff(fn)</code></h4>
-<pre><code class="language-javascript">async retryWithBackoff(fn) {
-  const retries = this.config.retry?.attempts || 3;
-  let delay = this.config.retry?.delay || 1000;
-  let lastError;
-
-  for (let i = 0; i &lt;= retries; i++) {
-    try {
-      return await fn();
-    } catch (error) {
-      lastError = error;
-
-      // If this was the last attempt, throw the error
-      if (i === retries) {
-        throw error;
-      }
-
-      // Log retry attempt
-      this._log(&#39;warn&#39;, `Attempt ${i + 1} failed. Retrying in ${delay}ms...`);
-
-      // Wait for the delay
-      await new Promise(resolve =&gt; setTimeout(resolve, delay));
-
-      // Exponential backoff: double the delay for next attempt
-      delay *= 2;
+<p><strong>5. <code>setupModel()</code> Method:</strong></p>
+<pre><code class="language-javascript">  setupModel() {
+    if (this.provider === PROVIDERS.GEMINI) {
+      this.modelInstance = new ChatGoogleGenerativeAI({
+        apiKey: this.apiKey,
+        modelName: this.model || &#39;gemini-2.5-flash&#39;,
+        maxOutputTokens: this.config.maxTokens || 15000
+      });
+    } else if (this.provider === PROVIDERS.OPENAI) {
+      this.modelInstance = new ChatOpenAI({
+        openAIApiKey: this.apiKey,
+        modelName: this.model || &#39;gpt-4o&#39;,
+        maxTokens: this.config.maxTokens || 15000,
+        ...(this.baseUrl &amp;&amp; { configuration: { baseURL: this.baseUrl } })
+      });
+    } else if (this.provider === PROVIDERS.OLLAMA) {
+      this.modelInstance = new ChatOllama({
+        baseUrl: this.baseUrl || &#39;http://localhost:11434&#39;,
+        model: this.model || &#39;llama2&#39;,
+        maxTokens: this.config.maxTokens || 15000
+      });
+    } else {
+      const supportedProviders = Object.values(PROVIDERS).join(&#39;, &#39;);
+      throw new Error(`Unsupported AI provider: ${this.provider}. Supported providers are: ${supportedProviders}`);
     }
   }
+</code></pre>
+<ul>
+<li>This method sets up the AI model instance based on the selected provider (<code>GEMINI</code>, <code>OPENAI</code>, or <code>OLLAMA</code>).</li>
+<li>It uses the appropriate Langchain class (<code>ChatGoogleGenerativeAI</code>, <code>ChatOpenAI</code>, or <code>ChatOllama</code>) to create the model instance.</li>
+<li>It passes in configuration options like the API key, model name, and maximum number of tokens.</li>
+<li>If an unsupported provider is specified, it throws an error.</li>
+</ul>
+<p><strong>6. <code>_log()</code> Method:</strong></p>
+<pre><code class="language-javascript">  _log(level, message) {
+    switch (level) {
+      case &#39;error&#39;:
+        console.error(chalk.redBright(`❌ Error: ${message}`));
+        break;
+      case &#39;warn&#39;:
+        console.warn(chalk.yellowBright(`⚠️ Warning: ${message}`));
+        break;
+      case &#39;info&#39;:
+        this.verbose &amp;&amp; console.log(chalk.gray(`ℹ️ ${message}`));
+        break;
+    }
+  }
+</code></pre>
+<ul>
+<li>A helper method for logging messages to the console with different colors based on the log level (<code>error</code>, <code>warn</code>, <code>info</code>).</li>
+<li>Uses the <code>chalk</code> library to add colors to the output.</li>
+<li>The <code>this.verbose &amp;&amp; ...</code> ensures that informational messages are only printed if the <code>verbose</code> option is enabled.</li>
+</ul>
+<p><strong>7. <code>retryWithBackoff()</code> Method:</strong></p>
+<pre><code class="language-javascript">  async retryWithBackoff(fn) {
+    const retries = this.config.retry?.attempts || 3;
+    let delay = this.config.retry?.delay || 1000;
+    let lastError;
 
-  throw lastError;
-}
+    for (let i = 0; i &lt;= retries; i++) {
+      try {
+        return await fn();
+      } catch (error) {
+        lastError = error;
+
+        // If this was the last attempt, throw the error
+        if (i === retries) {
+          throw error;
+        }
+
+        // Log retry attempt
+        this._log(&#39;warn&#39;, `Attempt ${i + 1} failed. Retrying in ${delay}ms...`);
+
+        // Wait for the delay
+        await new Promise(resolve =&gt; setTimeout(resolve, delay));
+
+        // Exponential backoff: double the delay for next attempt
+        delay *= 2;
+      }
+    }
+
+    throw lastError;
+  }
 </code></pre>
 <ul>
-<li>Implements an exponential backoff retry mechanism.  This is a strategy to handle temporary failures when calling an API.</li>
+<li>This method implements a retry mechanism with exponential backoff.  This is useful for handling temporary errors when communicating with the AI model.</li>
 <li>It takes a function <code>fn</code> as input, which is the operation to be retried.</li>
-<li>It retries the function up to a maximum number of attempts (default is 3), with an increasing delay between retries.</li>
-<li>If the function fails after all retries, it throws the last error.</li>
-<li>This is useful for handling rate limits or temporary network issues when calling the AI provider&#39;s API.</li>
+<li>It retries the function up to a maximum number of attempts (<code>this.config.retry?.attempts || 3</code>).</li>
+<li>If an error occurs, it waits for a certain amount of time (<code>delay</code>) before retrying.  The delay increases exponentially with each retry (doubling each time).</li>
+<li>If all retries fail, it throws the last error. The <code>?.</code> is the optional chaining operator.</li>
 </ul>
-<h4>2.6. <code>estimateTokens(text, metadata)</code></h4>
-<pre><code class="language-javascript">estimateTokens(text, metadata) {
-  if (metadata &amp;&amp; typeof metadata.completion_tokens === &#39;number&#39; &amp;&amp; typeof metadata.prompt_tokens === &#39;number&#39;) {
-    // If both prompt and completion tokens are available, return their sum
-    return metadata.prompt_tokens + metadata.completion_tokens
+<p><strong>8. <code>estimateTokens()</code> Method:</strong></p>
+<pre><code class="language-javascript">  estimateTokens(text, metadata) {
+    if (metadata &amp;&amp; typeof metadata.completion_tokens === &#39;number&#39; &amp;&amp; typeof metadata.prompt_tokens === &#39;number&#39;) {
+      // If both prompt and completion tokens are available, return their sum
+      return metadata.prompt_tokens + metadata.completion_tokens
+    }
+    if (metadata &amp;&amp; typeof metadata.total_tokens === &#39;number&#39;) {
+      return metadata.total_tokens
+    }
+    if (!text) return 0
+    // Fallback: rough estimate (1 token ≈ 4 chars)
+    return Math.ceil(text.length / 4)
   }
-  if (metadata &amp;&amp; typeof metadata.total_tokens === &#39;number&#39;) {
-    return metadata.total_tokens
-  }
-  if (!text) return 0
-  // Fallback: rough estimate (1 token ≈ 4 chars)
-  return Math.ceil(text.length / 4)
-}
 </code></pre>
 <ul>
-<li>Estimates the number of tokens in a given text.  Tokens are the basic units that language models process.</li>
-<li>It first tries to use metadata returned by the AI provider (if available) to get the exact number of tokens.</li>
-<li>If metadata is not available, it falls back to a rough estimate based on the length of the text (assuming 1 token is approximately 4 characters).</li>
+<li>Estimates the number of tokens in a given text.</li>
+<li>First, it tries to get the token count from the response metadata (if available).  The LLM providers often return the actual token count which is the most accurate value.</li>
+<li>If the metadata is not available, it falls back to a rough estimate based on the length of the text (assuming 1 token is approximately 4 characters).</li>
 </ul>
-<h4>2.7. <code>getUsageSummary()</code></h4>
-<pre><code class="language-javascript">getUsageSummary() {
-  return {
-    ...this.tokenUsage
-  };
-}
+<p><strong>9. <code>getUsageSummary()</code> Method:</strong></p>
+<pre><code class="language-javascript">  getUsageSummary() {
+    return {
+      ...this.tokenUsage
+    };
+  }
 </code></pre>
 <ul>
 <li>Returns a summary of the token usage, including the total number of input tokens, output tokens, and cached files.</li>
+<li>The <code>...this.tokenUsage</code> uses the spread operator to create a shallow copy of the <code>tokenUsage</code> object.</li>
 </ul>
-<h4>2.8. <code>async generateExplanations(analysis, progressCallback = null)</code></h4>
-<pre><code class="language-javascript">async generateExplanations(analysis, progressCallback = null) {
-  // Reset token tracking
-  this.tokenUsage = {
-    totalInputTokens: 0,
-    totalOutputTokens: 0,
-    totalTokens: 0,
-    cachedFiles: 0,
-    processedFiles: 0
-  };
+<p><strong>10. <code>generateExplanations()</code> Method:</strong></p>
+<pre><code class="language-javascript">  async generateExplanations(analysis, progressCallback = null) {
+    // Reset token tracking
+    this.tokenUsage = {
+      totalInputTokens: 0,
+      totalOutputTokens: 0,
+      totalTokens: 0,
+      cachedFiles: 0,
+      processedFiles: 0
+    };
 
-  if (Array.isArray(analysis)) {
-    // Multiple files - process with progress tracking
-    const results = [];
-    let completed = 0;
-    const total = analysis.length;
+    if (Array.isArray(analysis)) {
+      // Multiple files - process with progress tracking
+      const results = [];
+      let completed = 0;
+      const total = analysis.length;
 
-    for (let i = 0; i &lt; analysis.length; i++) {
-      const file = analysis[i];
+      for (let i = 0; i &lt; analysis.length; i++) {
+        const file = analysis[i];
 
-      const result = await this.explainFile(file);
+        const result = await this.explainFile(file);
 
-      results.push(result);
-      completed++;
+        results.push(result);
+        completed++;
 
-      // Show progress when file is completed
-      if (progressCallback) {
-        const progress = Math.round((completed / total) * 100);
-        progressCallback(file.path || `file-${i}`, completed, total, progress, result.cached, false); // isStarting = false
+        // Show progress when file is completed
+        if (progressCallback) {
+          const progress = Math.round((completed / total) * 100);
+          progressCallback(file.path || `file-${i}`, completed, total, progress, result.cached, false); // isStarting = false
+        }
       }
-    }
 
-    return results;
-  } else {
-    // Single file
-    const result = await this.explainFile(analysis);
-    if (progressCallback) {
-      progressCallback(analysis.path || &#39;single-file&#39;, 1, 1, 100, result.cached, false); // Completed
+      return results;
+    } else {
+      // Single file
+      const result = await this.explainFile(analysis);
+      if (progressCallback) {
+        progressCallback(analysis.path || &#39;single-file&#39;, 1, 1, 100, result.cached, false); // Completed
+      }
+      return result;
     }
-    return result;
   }
-}
 </code></pre>
 <ul>
 <li>This is the main method for generating explanations for code.</li>
-<li>It takes an <code>analysis</code> object as input, which can be a single file analysis or an array of file analyses.  The analysis object contains information about the code, such as its content, language, and file path.</li>
-<li>It resets the token usage tracking at the beginning.</li>
-<li>If <code>analysis</code> is an array, it processes each file analysis in the array, calling <code>this.explainFile()</code> for each one.</li>
-<li>It uses a <code>progressCallback</code> to report the progress of the explanation generation, especially when processing multiple files.</li>
-<li>If <code>analysis</code> is a single file analysis, it calls <code>this.explainFile()</code> to generate an explanation for that file.</li>
+<li>It takes an <code>analysis</code> object as input, which contains information about the code to be explained (e.g., the file path, language, and content).</li>
+<li>It can handle both single files and multiple files.</li>
+<li>It iterates through the files and calls the <code>explainFile()</code> method to generate an explanation for each file.</li>
+<li>It provides a <code>progressCallback</code> function that can be used to track the progress of the explanation generation.</li>
 </ul>
-<h4>2.9. <code>async explainFile(fileAnalysis)</code></h4>
-<pre><code class="language-javascript">async explainFile(fileAnalysis) {
-  if (!fileAnalysis) return null;
+<p><strong>11. <code>explainFile()</code> Method:</strong></p>
+<pre><code class="language-javascript">  async explainFile(fileAnalysis) {
+    if (!fileAnalysis) return null;
 
-  // Try to get cached explanation first (unless cache is disabled)
-  if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
-    if (this.verbose) {
-      console.log(chalk.gray(`🔍 Checking cache for: ${fileAnalysis.relativePath}`));
+    // Try to get cached explanation first (unless cache is disabled)
+    if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
+      if (this.verbose) {
+        console.log(chalk.gray(`🔍 Checking cache for: ${fileAnalysis.relativePath}`));
+      }
+
+      const cachedExplanation = await this.cacheManager.getCachedExplanation(
+        fileAnalysis.path,
+        this.config
+      );
+
+      if (cachedExplanation) {
+        if (this.verbose) {
+          console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
+        }
+        // Track cached file usage
+        this.tokenUsage.cachedFiles++;
+        return {
+          ...fileAnalysis,
+          explanation: cachedExplanation,
+          cached: true
+        };
+      } else {
+        if (this.verbose) {
+          console.log(chalk.gray(&#39;📭 Cache miss - will generate new explanation&#39;));
+        }
+      }
     }
 
-    const cachedExplanation = await this.cacheManager.getCachedExplanation(
-      fileAnalysis.path,
-      this.config
-    );
+    const prompt = await this.buildPrompt(fileAnalysis);
 
-    if (cachedExplanation) {
-      if (this.verbose) {
-        console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
-      }
-      // Track cached file usage
-      this.tokenUsage.cachedFiles++;
-      return {
-        ...fileAnalysis,
-        explanation: cachedExplanation,
-        cached: true
-      };
-    } else {
-      if (this.verbose) {
-        console.log(chalk.gray(&#39;📭 Cache miss - will generate new explanation&#39;));
-      }
-    }
-  }
+    // Estimate input tokens (prompt)
+    const inputTokens = this.estimateTokens(prompt);
+    this.tokenUsage.totalInputTokens += inputTokens;
+    this.tokenUsage.processedFiles++;
 
-  const prompt = await this.buildPrompt(fileAnalysis);
-
-  // Estimate input tokens (prompt)
-  const inputTokens = this.estimateTokens(prompt);
-  this.tokenUsage.totalInputTokens += inputTokens;
-  this.tokenUsage.processedFiles++;
-
-  // Verbose: Show prompt details
-  if (this.verbose) {
-    console.log(chalk.gray(`🔍 Processing: ${fileAnalysis.relativePath}`));
-    console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
-    console.log(chalk.gray(&#39;   &#39; + prompt.replace(/\n/g, &#39;\n   &#39;)));
-    console.log(&#39;&#39;);
-  }
-
-  try {
-    // Retry with exponential backoff using LangChain
-    const result = await this.retryWithBackoff(async () =&gt; {
-      return await this.modelInstance.invoke([
-        { role: &#39;system&#39;, content: &#39;You are a helpful assistant that provides detailed code explanations.&#39; },
-        { role: &#39;user&#39;, content: prompt }
-      ]);
-    });
-
-    const response = result.content;
-
-    // Get token usage from metadata
-    const metadata = result.additional_kwargs?.response_metadata ||
-      result.additional_kwargs?.usage_metadata ||
-      result.lc_kwargs?.response_metadata;
-
-    // Update token tracking with actual usage if available
-    const outputTokens = this.estimateTokens(response, metadata);
-    this.tokenUsage.totalOutputTokens += outputTokens;
-    this.tokenUsage.totalTokens += inputTokens + outputTokens;
-
-    // Verbose: Show response details
+    // Verbose: Show prompt details
     if (this.verbose) {
-      console.log(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
-      console.log(chalk.gray(&#39;   &#39; + response.substring(0, 200) + (response.length &gt; 200 ? &#39;...&#39; : &#39;&#39;)));
+      console.log(chalk.gray(`🔍 Processing: ${fileAnalysis.relativePath}`));
+      console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
+      console.log(chalk.gray(&#39;   &#39; + prompt.replace(/\n/g, &#39;\n   &#39;)));
       console.log(&#39;&#39;);
     }
 
-    // Cache the explanation (unless cache is disabled)
-    if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
+    try {
+      // Retry with exponential backoff using LangChain
+      const result = await this.retryWithBackoff(async () =&gt; {
+        return await this.modelInstance.invoke([
+          { role: &#39;system&#39;, content: &#39;You are a helpful assistant that provides detailed code explanations.&#39; },
+          { role: &#39;user&#39;, content: prompt }
+        ]);
+      });
+
+      const response = result.content;
+
+      // Get token usage from metadata
+      const metadata = result.additional_kwargs?.response_metadata ||
+        result.additional_kwargs?.usage_metadata ||
+        result.lc_kwargs?.response_metadata;
+
+      // Update token tracking with actual usage if available
+      const outputTokens = this.estimateTokens(response, metadata);
+      this.tokenUsage.totalOutputTokens += outputTokens;
+      this.tokenUsage.totalTokens += inputTokens + outputTokens;
+
+      // Verbose: Show response details
       if (this.verbose) {
-        console.log(chalk.gray(`💾 Saving to cache: ${fileAnalysis.relativePath}`));
+        console.log(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
+        console.log(chalk.gray(&#39;   &#39; + response.substring(0, 200) + (response.length &gt; 200 ? &#39;...&#39; : &#39;&#39;)));
+        console.log(&#39;&#39;);
       }
-      await this.cacheManager.setCachedExplanation(
-        fileAnalysis.path,
-        this.config,
-        response
-      );
+
+      // Cache the explanation (unless cache is disabled)
+      if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
+        if (this.verbose) {
+          console.log(chalk.gray(`💾 Saving to cache: ${fileAnalysis.relativePath}`));
+        }
+        await this.cacheManager.setCachedExplanation(
+          fileAnalysis.path,
+          this.config,
+          response
+        );
+      }
+
+      return {
+        ...fileAnalysis,
+        explanation: response,
+        cached: false
+      };
+    } catch (error) {
+      // Ensure all errors, including those after all retries, are handled here
+      console.error(`Error explaining file ${fileAnalysis.path}:`, error &amp;&amp; error.message ? error.message : error);
+      return {
+        ...fileAnalysis,
+        explanation: `Error generating explanation: ${error &amp;&amp; error.message ? error.message : error}`,
+        cached: false
+      };
     }
-
-    return {
-      ...fileAnalysis,
-      explanation: response,
-      cached: false
-    };
-  } catch (error) {
-    // Ensure all errors, including those after all retries, are handled here
-    console.error(`Error explaining file ${fileAnalysis.path}:`, error &amp;&amp; error.message ? error.message : error);
-    return {
-      ...fileAnalysis,
-      explanation: `Error generating explanation: ${error &amp;&amp; error.message ? error.message : error}`,
-      cached: false
-    };
   }
-}
 </code></pre>
 <ul>
-<li>This method generates an explanation for a single file analysis.</li>
-<li>First, it checks the cache to see if an explanation already exists for the file (if caching is enabled).</li>
-<li>If a cached explanation is found, it returns the cached explanation.</li>
-<li>If a cached explanation is not found, it builds a prompt using <code>this.buildPrompt()</code>. The prompt includes the code to be explained and instructions for the AI.</li>
-<li>It estimates the number of tokens in the prompt.</li>
-<li>It sends the prompt to the AI model using <code>this.modelInstance.invoke()</code>.  The <code>retryWithBackoff</code> function is used to handle potential errors during the API call.  The invoke method takes an array of messages, where each message has a <code>role</code> (system or user) and <code>content</code>.</li>
-<li>It gets the response from the AI model.</li>
-<li>It estimates the number of tokens in the response.</li>
+<li>This method generates an explanation for a single file.</li>
+<li>First, it checks if a cached explanation is available. If so, it returns the cached explanation.</li>
+<li>If no cached explanation is found, it builds a prompt using the <code>buildPrompt()</code> method.</li>
+<li>It sends the prompt to the AI model using the <code>modelInstance.invoke()</code> method.</li>
+<li>It gets the response from the AI model and extracts the explanation.</li>
 <li>It caches the explanation (if caching is enabled).</li>
-<li>It returns an object containing the file analysis, the explanation, and a flag indicating whether the explanation was retrieved from the cache.</li>
-<li>It includes comprehensive error handling, ensuring that any errors encountered during the process are caught and logged, and a suitable error message is returned.</li>
+<li>It returns an object containing the file analysis, the explanation, and a flag indicating whether the explanation was cached.</li>
+<li>It also handles any errors that occur during the explanation generation process.</li>
 </ul>
-<h4>2.10. <code>async buildPrompt(fileAnalysis)</code></h4>
-<pre><code class="language-javascript">async buildPrompt(fileAnalysis) {
-  const levelDescription = this.config.level === USER_LEVELS.EXPERT
-    ? &#39;an expert developer&#39;
-    : &#39;a beginner developer&#39;;
+<p><strong>12. <code>buildPrompt()</code> Method:</strong></p>
+<pre><code class="language-javascript">  async buildPrompt(fileAnalysis) {
+    const levelDescription = this.config.level === USER_LEVELS.EXPERT
+      ? &#39;an expert developer&#39;
+      : &#39;a beginner developer&#39;;
 
-  // Get the appropriate prompt template
-  let mode = this.config.mode || MODES.EXPLAIN;
-  // Handle architecture mode alias
-  if (mode === MODES.ARCH) {
-    mode = MODES.ARCHITECTURE;
+    // Get the appropriate prompt template
+    let mode = this.config.mode || MODES.EXPLAIN;
+    // Handle architecture mode alias
+    if (mode === MODES.ARCH) {
+      mode = MODES.ARCHITECTURE;
+    }
+    const promptTemplate = await this.promptManager.getPrompt(mode);
+
+    // Render the prompt with variables
+    const prompt = await this.promptManager.renderPrompt(promptTemplate, {
+      levelDescription: levelDescription,
+      language: fileAnalysis.language,
+      filePath: fileAnalysis.path,
+      codeContent: fileAnalysis.content
+    });
+
+    // Add instruction to always respond in markdown
+    return `${prompt}\n\nIMPORTANT: Always respond in markdown format.`;
   }
-  const promptTemplate = await this.promptManager.getPrompt(mode);
-
-  // Render the prompt with variables
-  const prompt = await this.promptManager.renderPrompt(promptTemplate, {
-    levelDescription: levelDescription,
-    language: fileAnalysis.language,
-    filePath: fileAnalysis.path,
-    codeContent: fileAnalysis.content
-  });
-
-  // Add instruction to always respond in markdown
-  return `${prompt}\n\nIMPORTANT: Always respond in markdown format.`;
-}
 </code></pre>
 <ul>
-<li>This method builds the prompt that is sent to the AI model.  The prompt provides context and instructions to the AI, guiding it to generate the desired explanation.</li>
-<li>It determines the appropriate level description (expert or beginner) based on the configuration.</li>
-<li>It gets the appropriate prompt template from the <code>PromptManager</code> based on the configured <code>mode</code>.</li>
-<li>It renders the prompt template using the <code>PromptManager</code>, passing in variables such as the level description, language, file path, and code content.</li>
+<li>This method builds the prompt that is sent to the AI model.</li>
+<li>It gets the appropriate prompt template from the <code>PromptManager</code> based on the selected mode (e.g., <code>explain</code>, <code>architecture</code>, <code>linebyline</code>).</li>
+<li>It renders the prompt with variables like the user level, language, file path, and code content.</li>
 <li>It adds an instruction to the prompt to always respond in markdown format.</li>
 </ul>
-<h3>3. <code>module.exports</code></h3>
+<p><strong>13. <code>module.exports</code>:</strong></p>
 <pre><code class="language-javascript">module.exports = { AIEngine };
 </code></pre>
 <ul>
-<li>This line exports the <code>AIEngine</code> class so that it can be used in other files.</li>
+<li>This line makes the <code>AIEngine</code> class available for use in other files.  This is how you export code from a Node.js module.</li>
 </ul>
-<h3>Summary</h3>
-<p>In essence, <code>aiEngine.js</code> is a core component responsible for:</p>
-<ol>
-<li><strong>Abstraction:</strong> Hiding the complexity of interacting with different AI providers (Gemini, OpenAI, Ollama) behind a single, consistent interface.</li>
-<li><strong>Prompt Engineering:</strong>  Creating effective prompts to guide the AI model to generate the desired code explanations.</li>
-<li><strong>Caching:</strong>  Storing and retrieving code explanations to improve performance and reduce API costs.</li>
-<li><strong>Error Handling:</strong>  Implementing robust error handling and retry mechanisms to ensure that the code explanation process is reliable.</li>
-<li><strong>Configuration:</strong> Centralizing the management of configuration settings.</li>
-</ol>
-<p>This file is a crucial part of a larger system that helps developers understand code more easily by leveraging the power of AI.</p>
+<p><strong>In Summary:</strong></p>
+<p>The <code>aiEngine.js</code> file is responsible for:</p>
+<ul>
+<li>Configuring and initializing the AI model.</li>
+<li>Building prompts for the AI model.</li>
+<li>Sending prompts to the AI model and receiving responses.</li>
+<li>Caching explanations to improve performance and reduce costs.</li>
+<li>Tracking token usage.</li>
+<li>Providing a simple interface for generating explanations for code.</li>
+</ul>
+<p>This file uses other modules (<code>CacheManager</code>, <code>PromptManager</code>) to handle specific tasks like caching and prompt management.  It also uses external libraries (<code>@langchain/*</code>, <code>chalk</code>) to interact with AI models and add colors to the console output.</p>
 <pre><code>
 </code></pre>
 
@@ -1729,15 +1703,99 @@ Please provide a clear explanation in markdown format.`</span>;
                     </button>
                 </div>
                 <div class="explanation-content">
-                    <p>Okay, I will explain the javascript code file <code>D:\MyDev\CodeExplain\src\ai\promptManager.js</code> to you. This file is responsible for managing prompts used by the AI assistant to explain code. It handles loading default prompts, allowing users to customize them, and rendering prompts with specific file content.</p>
-<p>Here&#39;s a breakdown:</p>
+                    <p>Okay, I&#39;ll explain the JavaScript code file <code>D:\MyDev\CodeExplain\src\ai\promptManager.js</code> in a way that&#39;s easy for a beginner to understand.  I&#39;ll break it down section by section.</p>
+<pre><code class="language-javascript">const fs = require(&#39;fs-extra&#39;);
+const path = require(&#39;path&#39;);
+
+class PromptManager {
+  constructor() {
+    this.promptsDir = path.join(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;prompts&#39;);
+    this.userPromptsDir = path.join(process.cwd(), &#39;.codeexplain&#39;, &#39;prompts&#39;);
+  }
+
+  async initialize() {
+    // Ensure user prompts directory exists
+    await fs.ensureDir(this.userPromptsDir);
+
+    // Copy default prompts to user directory if they don&#39;t exist
+    const defaultPrompts = await fs.readdir(this.promptsDir);
+    await Promise.all(
+      defaultPrompts.map(async (promptEntry) =&gt; {
+        const defaultPromptPath = path.join(this.promptsDir, promptEntry);
+        const userPromptPath = path.join(this.userPromptsDir, promptEntry);
+
+        // Check if it&#39;s a file before copying
+        const stat = await fs.stat(defaultPromptPath);
+        if (stat.isFile()) {
+          // Only copy if user doesn&#39;t have a custom version
+          if (!(await fs.pathExists(userPromptPath))) {
+            await fs.copy(defaultPromptPath, userPromptPath);
+          }
+        }
+      })
+    );
+  }
+
+  async getPrompt(mode) {
+    // First check if user has a custom prompt
+    const userPromptPath = path.join(this.userPromptsDir, `${mode}.md`);
+    if (await fs.pathExists(userPromptPath)) {
+      return await fs.readFile(userPromptPath, &#39;utf8&#39;);
+    }
+
+    // Fall back to default prompt
+    const defaultPromptPath = path.join(this.promptsDir, `${mode}.md`);
+    if (await fs.pathExists(defaultPromptPath)) {
+      return await fs.readFile(defaultPromptPath, &#39;utf8&#39;);
+    }
+
+    // Log warning about missing prompt files
+    console.warn(`Prompt for mode &#39;${mode}&#39; not found in user or default directories. Using generic fallback prompt.`);
+
+    // If no prompt found, return a basic template
+    return `You are an AI assistant that explains code.
+    
+Please explain the following {{language}} code file:
+
+File: {{filePath}}
+
+Code:
+{{codeContent}}
+
+Please provide a clear explanation in markdown format.`;
+  }
+
+  async renderPrompt(template, variables) {
+    let prompt = template;
+    for (const [key, value] of Object.entries(variables)) {
+      prompt = prompt.replace(new RegExp(`{{${key}}}`, &#39;g&#39;), value);
+    }
+    return prompt;
+  }
+}
+
+module.exports = { PromptManager };
+</code></pre>
+<h3>Overview</h3>
+<p>This code defines a <code>PromptManager</code> class in JavaScript.  The purpose of this class is to manage and retrieve prompts for an AI code explanation tool.  Think of prompts as instructions you give to the AI to guide its explanation.  The <code>PromptManager</code> handles:</p>
+<ol>
+<li><strong>Locating prompt files:</strong>  It knows where the default prompts are stored and where user-specific prompts can be stored.</li>
+<li><strong>Initializing user prompts:</strong> It copies the default prompts to the user&#39;s directory if the user doesn&#39;t have their own custom prompts yet.</li>
+<li><strong>Retrieving prompts:</strong>  It finds the appropriate prompt based on the desired &quot;mode&quot; (e.g., a specific language or style of explanation), prioritizing user-defined prompts over the defaults.</li>
+<li><strong>Rendering prompts:</strong>  It takes a template prompt and inserts specific information (like the file path and code content) into the template to create a complete, ready-to-use prompt for the AI.</li>
+</ol>
+<h3>Line-by-Line Explanation</h3>
+<p><strong>1. Imports:</strong></p>
 <pre><code class="language-javascript">const fs = require(&#39;fs-extra&#39;);
 const path = require(&#39;path&#39;);
 </code></pre>
 <ul>
-<li><strong><code>fs-extra</code></strong>: This line imports the <code>fs-extra</code> module. <code>fs-extra</code> is a Node.js library that extends the built-in <code>fs</code> (filesystem) module with extra features, especially for working with directories and files more easily (e.g., creating directories recursively, copying files).</li>
-<li><strong><code>path</code></strong>: This line imports the <code>path</code> module, which provides utilities for working with file and directory paths in a platform-independent way.</li>
+<li><p><code>const fs = require(&#39;fs-extra&#39;);</code>:  This line imports the <code>fs-extra</code> module.  <code>fs-extra</code> is a Node.js library that provides extra file system utility functions. It&#39;s like the standard <code>fs</code> (file system) module in Node.js but with added features like easily creating directories recursively.  We use it for reading files, writing files, creating directories, and checking if files exist.</p>
+</li>
+<li><p><code>const path = require(&#39;path&#39;);</code>: This line imports the <code>path</code> module.  The <code>path</code> module provides utilities for working with file and directory paths. It helps you construct file paths in a way that works correctly on different operating systems (Windows, macOS, Linux).</p>
+</li>
 </ul>
+<p><strong>2. <code>PromptManager</code> Class:</strong></p>
 <pre><code class="language-javascript">class PromptManager {
   constructor() {
     this.promptsDir = path.join(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;prompts&#39;);
@@ -1745,22 +1803,27 @@ const path = require(&#39;path&#39;);
   }
 </code></pre>
 <ul>
-<li><strong><code>PromptManager</code> Class</strong>: This defines a class named <code>PromptManager</code>.  Classes are a way to organize code into reusable blueprints for creating objects.  This class is responsible for managing the prompts.</li>
-<li><strong><code>constructor()</code></strong>:  This is the constructor method of the class. It&#39;s called when a new instance of the <code>PromptManager</code> class is created (e.g., <code>const manager = new PromptManager();</code>).<ul>
-<li><strong><code>this.promptsDir</code></strong>: This line sets the <code>promptsDir</code> property of the <code>PromptManager</code> instance. It uses <code>path.join</code> to construct an absolute path to the directory where the default prompt files are stored. Let&#39;s break down the path:<ul>
-<li><code>__dirname</code>: This is a special variable in Node.js that always holds the directory name of the current module (the directory containing this <code>promptManager.js</code> file).</li>
-<li><code>&#39;..&#39;, &#39;..&#39;</code> : moves up two directories from the current directory (from <code>src/ai</code> to <code>src</code> and then to the root directory, <code>CodeExplain</code>).</li>
-<li><code>&#39;prompts&#39;</code>:  Appends the &#39;prompts&#39; directory to the path, resulting in the path to the directory where the default prompt files reside.</li>
+<li><p><code>class PromptManager {</code>:  This defines a class named <code>PromptManager</code>. Classes are blueprints for creating objects, which are instances of the class.  In this case, we will create an object that will manage our prompts.</p>
+</li>
+<li><p><code>constructor() { ... }</code>:  This is the constructor of the class.  The constructor is a special method that&#39;s called when a new object of the class is created (using the <code>new</code> keyword).  It initializes the object&#39;s properties.</p>
+</li>
+<li><p><code>this.promptsDir = path.join(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;prompts&#39;);</code>:  This line sets the <code>promptsDir</code> property of the <code>PromptManager</code> object.</p>
+<ul>
+<li><code>__dirname</code>: This is a special variable in Node.js that holds the absolute path to the directory containing the current file (the <code>promptManager.js</code> file).</li>
+<li><code>&#39;..&#39;, &#39;..&#39;</code> : This navigates two levels up from the current directory. Assuming <code>promptManager.js</code> is in <code>D:\MyDev\CodeExplain\src\ai</code>, this goes up to <code>D:\MyDev\CodeExplain</code>.</li>
+<li><code>&#39;prompts&#39;</code>:  This adds the <code>prompts</code> directory to the path.</li>
+<li><code>path.join(...)</code>:  This joins all the path segments together to create a complete path to the directory where the default prompt files are stored.  So, <code>this.promptsDir</code> will likely be something like <code>D:\MyDev\CodeExplain\prompts</code>. This assumes the <code>prompts</code> folder is two directories above the current file.</li>
 </ul>
 </li>
-<li><strong><code>this.userPromptsDir</code></strong>: This line sets the <code>userPromptsDir</code> property. It constructs a path to a directory where user-specific (customized) prompt files will be stored.<ul>
-<li><code>process.cwd()</code>:  This returns the current working directory of the Node.js process. In most cases, this will be the root directory of your project.</li>
-<li><code>&#39;.codeexplain&#39;, &#39;prompts&#39;</code>: This appends <code>.codeexplain/prompts</code> to the current working directory, creating a hidden directory <code>.codeexplain</code> at the project root, which contains a <code>prompts</code> directory for user-specific prompts.</li>
+<li><p><code>this.userPromptsDir = path.join(process.cwd(), &#39;.codeexplain&#39;, &#39;prompts&#39;);</code>:  This line sets the <code>userPromptsDir</code> property.  This is where user-specific prompts will be stored.</p>
+<ul>
+<li><code>process.cwd()</code>:  This returns the current working directory of the Node.js process (where the script is being run from).  For example, if you run the script from <code>D:\MyProject</code>, then <code>process.cwd()</code> will return <code>D:\MyProject</code>.</li>
+<li><code>&#39;.codeexplain&#39;, &#39;prompts&#39;</code>: This creates a directory named <code>.codeexplain</code> in the root of your project (if it doesn&#39;t already exist) and then creates a <code>prompts</code> subdirectory within it.  The dot prefix in <code>.codeexplain</code> typically makes it a hidden directory on Unix-like systems.</li>
+<li>So, <code>this.userPromptsDir</code> will be something like <code>D:\MyProject\.codeexplain\prompts</code>.</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
+<p><strong>3. <code>initialize</code> Method:</strong></p>
 <pre><code class="language-javascript">  async initialize() {
     // Ensure user prompts directory exists
     await fs.ensureDir(this.userPromptsDir);
@@ -1785,25 +1848,32 @@ const path = require(&#39;path&#39;);
   }
 </code></pre>
 <ul>
-<li><strong><code>async initialize()</code></strong>: This is an asynchronous method designed to set up the prompt environment.  <code>async</code> means it can use <code>await</code> inside.<ul>
-<li><strong><code>await fs.ensureDir(this.userPromptsDir)</code></strong>: This line uses <code>fs-extra</code>&#39;s <code>ensureDir</code> function to ensure that the user prompt directory (<code>this.userPromptsDir</code>) exists. If the directory doesn&#39;t exist, it will be created (including any necessary parent directories).  <code>await</code> makes the code wait until the directory creation is complete before moving on.</li>
-<li><strong><code>const defaultPrompts = await fs.readdir(this.promptsDir)</code></strong>: This line reads the contents of the default prompts directory (<code>this.promptsDir</code>) using <code>fs.readdir</code>.  <code>fs.readdir</code> returns an array of filenames (or directory names) found in that directory. The <code>await</code> keyword means the code will pause here until the directory reading is complete and the <code>defaultPrompts</code> array is populated.</li>
-<li><strong><code>await Promise.all(...)</code></strong>: This part handles copying the default prompt files to the user&#39;s prompt directory if the user doesn&#39;t already have them.  <code>Promise.all</code> is used to run multiple asynchronous operations in parallel and wait for all of them to complete.<ul>
-<li><strong><code>defaultPrompts.map(async (promptEntry) =&gt; { ... })</code></strong>: This part iterates through each entry (filename) in the <code>defaultPrompts</code> array. For each <code>promptEntry</code>:<ul>
-<li><strong><code>const defaultPromptPath = path.join(this.promptsDir, promptEntry)</code></strong>: Creates the full path to the default prompt file.</li>
-<li><strong><code>const userPromptPath = path.join(this.userPromptsDir, promptEntry)</code></strong>: Creates the full path to where the prompt file should be in the user&#39;s prompt directory.</li>
-<li><strong><code>const stat = await fs.stat(defaultPromptPath)</code></strong>: Gets file stats for the default prompt path.</li>
-<li><strong><code>if (stat.isFile()) { ... }</code></strong>: Checks if the entry is a file (not a directory).  This is important to avoid trying to copy directories.</li>
-<li><strong><code>if (!(await fs.pathExists(userPromptPath))) { ... }</code></strong>: This line checks if the corresponding prompt file <em>already exists</em> in the user&#39;s prompt directory using <code>fs.pathExists</code>. The <code>!</code> negates the result, so the code inside the <code>if</code> block only executes if the file <em>does not</em> exist.</li>
-<li><strong><code>await fs.copy(defaultPromptPath, userPromptPath)</code></strong>: If the file doesn&#39;t exist in the user&#39;s directory, this line copies the default prompt file to the user&#39;s prompt directory using <code>fs.copy</code>.</li>
+<li><p><code>async initialize() { ... }</code>: This defines an asynchronous method called <code>initialize</code>. The <code>async</code> keyword allows you to use <code>await</code> inside the method.</p>
+</li>
+<li><p><code>await fs.ensureDir(this.userPromptsDir);</code>:  This line uses <code>fs-extra</code>&#39;s <code>ensureDir</code> function to make sure that the user prompts directory (<code>this.userPromptsDir</code>) exists.  If the directory doesn&#39;t exist, it will be created.  The <code>await</code> keyword means that the code will pause here until the directory is created.</p>
+</li>
+<li><p><code>const defaultPrompts = await fs.readdir(this.promptsDir);</code>: This reads the contents of the default prompts directory (<code>this.promptsDir</code>). <code>fs.readdir</code> returns an array of the names of the files and subdirectories in the directory. <code>await</code> makes the code wait until the directory has been read.</p>
+</li>
+<li><p><code>await Promise.all(defaultPrompts.map(async (promptEntry) =&gt; { ... }));</code>: This is a more complex part.  It iterates over each entry (file or directory name) in the <code>defaultPrompts</code> array and performs an action for each one.  <code>Promise.all</code> ensures that all the asynchronous operations inside the loop complete before the <code>initialize</code> method finishes.</p>
+<ul>
+<li><p><code>defaultPrompts.map(async (promptEntry) =&gt; { ... })</code>:  The <code>map</code> function creates a new array by applying a function to each element of the <code>defaultPrompts</code> array.  In this case, the function is an <code>async</code> function that takes a <code>promptEntry</code> (a file or directory name) as input.</p>
+</li>
+<li><p><code>const defaultPromptPath = path.join(this.promptsDir, promptEntry);</code>:  This constructs the full path to the default prompt file (e.g., <code>D:\MyDev\CodeExplain\prompts\javascript.md</code>).</p>
+</li>
+<li><p><code>const userPromptPath = path.join(this.userPromptsDir, promptEntry);</code>:  This constructs the full path to the corresponding user prompt file (e.g., <code>D:\MyProject\.codeexplain\prompts\javascript.md</code>).</p>
+</li>
+<li><p><code>const stat = await fs.stat(defaultPromptPath);</code>: Gets the file stats (size, type, etc.) for the default prompt file.</p>
+</li>
+<li><p><code>if (stat.isFile()) { ... }</code>:  This checks if the <code>defaultPromptPath</code> is a file. We only want to copy files, not directories.</p>
+</li>
+<li><p><code>if (!(await fs.pathExists(userPromptPath))) { ... }</code>:  This checks if a file with the same name already exists in the user prompts directory. <code>fs.pathExists</code> returns <code>true</code> if the file exists, and <code>false</code> otherwise. The <code>!</code> negates the result, so the code inside the <code>if</code> block will only execute if the user prompt file <em>does not</em> exist.</p>
+</li>
+<li><p><code>await fs.copy(defaultPromptPath, userPromptPath);</code>:  If the user prompt file doesn&#39;t exist, this line copies the default prompt file to the user prompts directory.  This ensures that the user has a default prompt to start with.</p>
+</li>
 </ul>
 </li>
-<li>The <code>Promise.all</code> ensures that all copy operations are completed before the <code>initialize</code> function finishes.</li>
 </ul>
-</li>
-</ul>
-</li>
-</ul>
+<p><strong>4. <code>getPrompt</code> Method:</strong></p>
 <pre><code class="language-javascript">  async getPrompt(mode) {
     // First check if user has a custom prompt
     const userPromptPath = path.join(this.userPromptsDir, `${mode}.md`);
@@ -1834,22 +1904,26 @@ Please provide a clear explanation in markdown format.`;
   }
 </code></pre>
 <ul>
-<li><strong><code>async getPrompt(mode)</code></strong>: This asynchronous method retrieves a prompt based on the given <code>mode</code>. The <code>mode</code> argument likely represents the type of code explanation being requested (e.g., &quot;javascript&quot;, &quot;python&quot;, etc.).<ul>
-<li><strong><code>const userPromptPath = path.join(this.userPromptsDir, </code>${mode}.md<code>)</code></strong>: Constructs the path to the user-specific prompt file for the given <code>mode</code>. It assumes prompt files are named like &quot;javascript.md&quot;, &quot;python.md&quot;, etc., and are stored in the user&#39;s prompt directory.</li>
-<li><strong><code>if (await fs.pathExists(userPromptPath)) { ... }</code></strong>: Checks if the user has a custom prompt file for the given <code>mode</code>.<ul>
-<li><strong><code>return await fs.readFile(userPromptPath, &#39;utf8&#39;)</code></strong>: If the user has a custom prompt, it reads the content of the file using <code>fs.readFile</code> (with UTF-8 encoding) and returns the prompt text.</li>
-</ul>
+<li><p><code>async getPrompt(mode) { ... }</code>: This defines an asynchronous method called <code>getPrompt</code>.  The <code>mode</code> parameter represents the type of prompt to retrieve (e.g., <code>&quot;javascript&quot;</code>, <code>&quot;python&quot;</code>, <code>&quot;detailed&quot;</code>).</p>
 </li>
-<li>**<code>const defaultPromptPath = path.join(this.promptsDir, </code>${mode}.md&quot;)<code>**: If no user-specific prompt is found, this line constructs the path to the default prompt file for the given </code>mode`.</li>
-<li><strong><code>if (await fs.pathExists(defaultPromptPath)) { ... }</code></strong>: Checks if a default prompt file exists for the given <code>mode</code>.<ul>
-<li><strong><code>return await fs.readFile(defaultPromptPath, &#39;utf8&#39;)</code></strong>: If the default prompt exists, it reads the file content and returns it.</li>
-</ul>
+<li><p><code>const userPromptPath = path.join(this.userPromptsDir, </code>${mode}.md<code>);</code>:  This constructs the path to the user-specific prompt file for the given <code>mode</code>.  For example, if <code>mode</code> is <code>&quot;javascript&quot;</code>, then <code>userPromptPath</code> might be <code>D:\MyProject\.codeexplain\prompts\javascript.md</code>.  It assumes prompts are stored as Markdown files (<code>.md</code>).</p>
 </li>
-<li><strong><code>console.warn(...)</code></strong>: If <em>neither</em> a user-specific <em>nor</em> a default prompt is found, this line logs a warning message to the console. This is helpful for debugging and letting the user know that something might be misconfigured.</li>
-<li><strong><code>return \</code>...``</strong>: If no prompt file is found, this line returns a hardcoded, basic fallback prompt. This ensures that the AI assistant always has <em>some</em> prompt to use, even if it&#39;s not ideal. The prompt includes placeholders like <code>{{language}}</code>, <code>{{filePath}}</code>, and <code>{{codeContent}}</code> which will be replaced later.</li>
-</ul>
+<li><p><code>if (await fs.pathExists(userPromptPath)) { ... }</code>:  This checks if the user-specific prompt file exists.</p>
+</li>
+<li><p><code>return await fs.readFile(userPromptPath, &#39;utf8&#39;);</code>:  If the user prompt file exists, this line reads the file&#39;s content and returns it.  <code>fs.readFile</code> reads the entire file into a string.  The <code>&#39;utf8&#39;</code> argument specifies that the file should be read as UTF-8 encoded text.  The <code>await</code> keyword makes the code wait until the file has been read.</p>
+</li>
+<li><p><code>const defaultPromptPath = path.join(this.promptsDir, </code>${mode}.md<code>);</code>:  If the user prompt file doesn&#39;t exist, this line constructs the path to the default prompt file for the given <code>mode</code>.</p>
+</li>
+<li><p><code>if (await fs.pathExists(defaultPromptPath)) { ... }</code>:  This checks if the default prompt file exists.</p>
+</li>
+<li><p><code>return await fs.readFile(defaultPromptPath, &#39;utf8&#39;);</code>:  If the default prompt file exists, this line reads the file&#39;s content and returns it.</p>
+</li>
+<li><p><code>console.warn(\</code>Prompt for mode &#39;${mode}&#39; not found in user or default directories. Using generic fallback prompt.`);`:  If neither the user prompt file nor the default prompt file exists, this line logs a warning message to the console. This is helpful for debugging.</p>
+</li>
+<li><p>The final <code>return</code> statement returns a basic, hardcoded prompt template string if no prompt file is found.  This acts as a fallback, ensuring that the AI always has some instructions to work with.  Notice the <code>{{language}}</code>, <code>{{filePath}}</code>, and <code>{{codeContent}}</code> placeholders. These will be replaced later with the actual language, file path, and code content.</p>
 </li>
 </ul>
+<p><strong>5. <code>renderPrompt</code> Method:</strong></p>
 <pre><code class="language-javascript">  async renderPrompt(template, variables) {
     let prompt = template;
     for (const [key, value] of Object.entries(variables)) {
@@ -1859,36 +1933,65 @@ Please provide a clear explanation in markdown format.`;
   }
 </code></pre>
 <ul>
-<li><strong><code>async renderPrompt(template, variables)</code></strong>: This asynchronous method takes a prompt template (a string with placeholders) and a <code>variables</code> object (containing key-value pairs) and replaces the placeholders in the template with the corresponding values.<ul>
-<li><strong><code>let prompt = template</code></strong>:  Creates a copy of the input <code>template</code> to avoid modifying the original.</li>
-<li><strong><code>for (const [key, value] of Object.entries(variables)) { ... }</code></strong>: This loop iterates through the <code>variables</code> object. <code>Object.entries(variables)</code> returns an array of <code>[key, value]</code> pairs. The <code>for...of</code> loop destructures each pair into the <code>key</code> and <code>value</code> variables.</li>
-<li><strong><code>prompt = prompt.replace(new RegExp(\</code>{{${key}}}`, &#39;g&#39;), value)`</strong>: This is the core of the template rendering.<ul>
-<li><strong><code>new RegExp(\</code>{{${key}}}`, &#39;g&#39;)`</strong>:  Creates a regular expression to find all occurrences of the placeholder in the template.<ul>
-<li><code> `{{\${key}}}</code>:  This creates the placeholder string using template literals.  It&#39;s important to escape the curly braces <code>{</code> and <code>}</code> because they have special meaning in regular expressions. The <code>${key}</code> injects the actual key name (e.g., &quot;language&quot;, &quot;filePath&quot;).</li>
-<li><code>&#39;g&#39;</code>:  This flag tells the regular expression to find <em>all</em> occurrences of the placeholder in the string, not just the first one.</li>
+<li><p><code>async renderPrompt(template, variables) { ... }</code>: This defines an asynchronous method called <code>renderPrompt</code>.  This method takes a <code>template</code> string (the prompt template) and a <code>variables</code> object as input. The <code>variables</code> object contains key-value pairs where the keys are the names of the placeholders in the template (e.g., <code>&quot;language&quot;</code>, <code>&quot;filePath&quot;</code>) and the values are the actual values to insert.</p>
+</li>
+<li><p><code>let prompt = template;</code>: This line creates a copy of the <code>template</code> string. This is important so you don&#39;t modify the original template.</p>
+</li>
+<li><p><code>for (const [key, value] of Object.entries(variables)) { ... }</code>:  This loop iterates over the key-value pairs in the <code>variables</code> object.  <code>Object.entries(variables)</code> returns an array of <code>[key, value]</code> pairs.</p>
+<ul>
+<li><code>const [key, value] of Object.entries(variables)</code>: Destructuring assignment to get the key and value from each entry.</li>
 </ul>
 </li>
-<li><strong><code>prompt.replace(...)</code></strong>: This replaces all occurrences of the placeholder with the corresponding <code>value</code>.</li>
+<li><p><code>prompt = prompt.replace(new RegExp(\</code>{{${key}}}`, &#39;g&#39;), value);<code>:  This is the core of the rendering logic.  It replaces each placeholder in the </code>prompt<code>string with its corresponding value from the</code>variables` object.</p>
+<ul>
+<li><code>new RegExp(\</code>{{${key}}}`, &#39;g&#39;)<code>:  This creates a regular expression that matches the placeholder </code>{{key}}<code>. The </code>g<code>flag (global) ensures that *all* occurrences of the placeholder are replaced, not just the first one.  The backticks (``) allow you to use template literals to embed the</code>key<code>variable into the regular expression string.  You need to escape the curly braces</code>{{<code>and</code>}}` with backslashes because they have special meaning in regular expressions.</li>
+<li><code>prompt.replace(...)</code>:  This replaces the matched placeholder with the <code>value</code>.</li>
 </ul>
 </li>
-<li><strong><code>return prompt</code></strong>: Returns the rendered prompt string with all the placeholders replaced by their values.</li>
-</ul>
+<li><p><code>return prompt;</code>:  This returns the rendered prompt string, with all the placeholders replaced by their actual values.</p>
 </li>
 </ul>
+<p><strong>6. Module Export:</strong></p>
 <pre><code class="language-javascript">module.exports = { PromptManager };
 </code></pre>
 <ul>
-<li><strong><code>module.exports = { PromptManager }</code></strong>: This line exports the <code>PromptManager</code> class, making it available for use in other modules or files within the Node.js project.  Other files can now <code>require</code> this file and use the <code>PromptManager</code> class.</li>
+<li><code>module.exports = { PromptManager };</code>:  This line exports the <code>PromptManager</code> class so that it can be used in other modules (files) in your Node.js project.  This makes the <code>PromptManager</code> accessible to other parts of your application.</li>
 </ul>
-<p><strong>In summary:</strong></p>
-<p>The <code>PromptManager</code> class is designed to:</p>
+<h3>Usage Example</h3>
+<p>Here&#39;s a simplified example of how you might use the <code>PromptManager</code> class:</p>
+<pre><code class="language-javascript">const { PromptManager } = require(&#39;./promptManager&#39;); // Adjust the path
+
+async function main() {
+  const promptManager = new PromptManager();
+  await promptManager.initialize();
+
+  const language = &#39;javascript&#39;;
+  const filePath = &#39;D:\\MyProject\\myFile.js&#39;;
+  const codeContent = &#39;function add(a, b) { return a + b; }&#39;;
+
+  const promptTemplate = await promptManager.getPrompt(language);
+  const renderedPrompt = await promptManager.renderPrompt(promptTemplate, {
+    language: language,
+    filePath: filePath,
+    codeContent: codeContent,
+  });
+
+  console.log(renderedPrompt); // Output the fully rendered prompt
+}
+
+main();
+</code></pre>
+<p>In this example:</p>
 <ol>
-<li><strong>Manage prompt files</strong>: It knows where the default prompt files are located and where user-customized prompts should be stored.</li>
-<li><strong>Initialize the prompt environment</strong>: It ensures that the user&#39;s prompt directory exists and copies default prompts to the user&#39;s directory if they don&#39;t already have them.</li>
-<li><strong>Retrieve prompts</strong>: Given a <code>mode</code> (e.g., the programming language), it tries to find a user-specific prompt, then a default prompt, and finally falls back to a generic prompt.</li>
-<li><strong>Render prompts</strong>: It takes a prompt template and a set of variables and replaces the placeholders in the template with the actual values, creating a complete and ready-to-use prompt for the AI assistant.</li>
+<li>We create a new <code>PromptManager</code> object.</li>
+<li>We call the <code>initialize</code> method to set up the user prompts directory and copy default prompts if needed.</li>
+<li>We define some variables that we want to insert into the prompt (language, file path, code content).</li>
+<li>We call the <code>getPrompt</code> method to retrieve the prompt template for the &quot;javascript&quot; mode.</li>
+<li>We call the <code>renderPrompt</code> method to replace the placeholders in the template with the actual values.</li>
+<li>We print the rendered prompt to the console.  This is the final prompt that you would send to your AI code explanation tool.</li>
 </ol>
-<p>This code is well-structured and uses best practices like asynchronous operations, error handling (the warning message), and clear separation of concerns. It provides a flexible and robust way to manage prompts for an AI code explanation tool.</p>
+<h3>In Summary</h3>
+<p>The <code>PromptManager</code> class provides a structured way to manage and customize prompts for an AI code explanation tool. It handles finding, loading, and rendering prompts, making it easier to provide specific instructions to the AI based on the context of the code being explained. This is a common pattern in AI-powered applications where prompts are crucial for controlling the AI&#39;s behavior.</p>
 
                 </div>
             </div>
