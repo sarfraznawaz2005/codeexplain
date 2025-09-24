@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Explanation: src\</title>
+    <title>Code Explanation: src</title>
     <!-- Critical CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -564,21 +564,26 @@
         });
 
         // Navigation arrow event listeners
-        document.getElementById('prev-file').addEventListener('click', () => {
-            const currentFile = getCurrentVisibleFile();
-            const prevFile = getPreviousFile(currentFile);
-            if (prevFile) {
-                prevFile.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+        const prevFileBtn = document.getElementById('prev-file');
+        const nextFileBtn = document.getElementById('next-file');
+        
+        if (prevFileBtn && nextFileBtn) {
+            prevFileBtn.addEventListener('click', () => {
+                const currentFile = getCurrentVisibleFile();
+                const prevFile = getPreviousFile(currentFile);
+                if (prevFile) {
+                    prevFile.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
 
-        document.getElementById('next-file').addEventListener('click', () => {
-            const currentFile = getCurrentVisibleFile();
-            const nextFile = getNextFile(currentFile);
-            if (nextFile) {
-                nextFile.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+            nextFileBtn.addEventListener('click', () => {
+                const currentFile = getCurrentVisibleFile();
+                const nextFile = getNextFile(currentFile);
+                if (nextFile) {
+                    nextFile.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
 
         // Use requestAnimationFrame for smoother scroll performance
         let isScrolling = false;
@@ -708,6 +713,12 @@
     function updateNavigationArrows() {
         const fileCount = cachedFileEntries.length;
         const navArrows = document.getElementById('nav-arrows');
+        
+        // If navArrows element doesn't exist (e.g., in architecture, onboarding, or flowchart modes), return
+        if (!navArrows) {
+            return;
+        }
+        
         if (fileCount > 1) {
             navArrows.classList.remove('d-none');
         } else {
@@ -728,7 +739,7 @@
                 <div class="row align-items-center">
                     <div class="col-auto d-flex align-items-center">
                         <i class="fas fa-code text-primary me-3 fs-4"></i>
-                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">src\</span></h1>
+                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">src</span></h1>
                     </div>
                     <div class="col text-center d-none d-md-block">
                         <small class="text-muted">AI-Powered Code Explanation</small>
@@ -740,30 +751,9 @@
 
 
         
-        <!-- Sidebar Toggle Button (Mobile) -->
-        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Sidebar Navigation -->
-        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(0); opacity: 1; pointer-events: auto; transition: all 0.3s ease; z-index: 1000;">
-            <div class="position-absolute" style="top: 0; right: 0; width: 5px; height: 100%; cursor: ew-resize; background: rgba(0,0,0,0.1);" id="sidebar-resizer"></div>
-            <div class="p-3 border-bottom">
-                <h2 class="h6 fw-bold mb-0 text-muted d-flex align-items-center">
-                    <i class="fas fa-folder-tree me-2"></i>
-                    Project Files
-                </h2>
-            </div>
-            <div class="sidebar-content" style="height: calc(100% - 60px); overflow-y: auto;">
-                <ul class="list-unstyled p-2">
-                                    <li><a href="#file-0" class="d-block py-1 px-2 text-decoration-none rounded">project-architecture</a></li>
-
-                </ul>
-            </div>
-        </aside>
 
         <!-- Main Content -->
-        <main style="margin-left: 280px; width: calc(100% - 280px); margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
+        <main style="margin-left: 0px; width: 100%; margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
             <div class="container-fluid">
                 <!-- File Entries -->
                 <div id="file-entries" class="row g-4">
@@ -1182,15 +1172,7 @@ The following are key modules that form the backbone of the application:
             </div>
         </main>
 
-        <!-- Navigation Arrows -->
-        <div id="nav-arrows" class="position-fixed d-none d-flex flex-column" style="bottom: 20px; right: 20px; z-index: 1040; gap: 8px;">
-            <button id="prev-file" class="btn btn-primary btn-sm" title="Previous file">
-                <i class="fas fa-chevron-up"></i>
-            </button>
-            <button id="next-file" class="btn btn-primary btn-sm" title="Next file">
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
+        
     </div>
 
     <!-- Non-critical scripts -->

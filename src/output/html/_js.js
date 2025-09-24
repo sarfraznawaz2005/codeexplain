@@ -212,21 +212,26 @@
         });
 
         // Navigation arrow event listeners
-        document.getElementById('prev-file').addEventListener('click', () => {
-            const currentFile = getCurrentVisibleFile();
-            const prevFile = getPreviousFile(currentFile);
-            if (prevFile) {
-                prevFile.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+        const prevFileBtn = document.getElementById('prev-file');
+        const nextFileBtn = document.getElementById('next-file');
+        
+        if (prevFileBtn && nextFileBtn) {
+            prevFileBtn.addEventListener('click', () => {
+                const currentFile = getCurrentVisibleFile();
+                const prevFile = getPreviousFile(currentFile);
+                if (prevFile) {
+                    prevFile.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
 
-        document.getElementById('next-file').addEventListener('click', () => {
-            const currentFile = getCurrentVisibleFile();
-            const nextFile = getNextFile(currentFile);
-            if (nextFile) {
-                nextFile.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
+            nextFileBtn.addEventListener('click', () => {
+                const currentFile = getCurrentVisibleFile();
+                const nextFile = getNextFile(currentFile);
+                if (nextFile) {
+                    nextFile.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
 
         // Use requestAnimationFrame for smoother scroll performance
         let isScrolling = false;
@@ -356,6 +361,12 @@
     function updateNavigationArrows() {
         const fileCount = cachedFileEntries.length;
         const navArrows = document.getElementById('nav-arrows');
+        
+        // If navArrows element doesn't exist (e.g., in architecture, onboarding, or flowchart modes), return
+        if (!navArrows) {
+            return;
+        }
+        
         if (fileCount > 1) {
             navArrows.classList.remove('d-none');
         } else {
