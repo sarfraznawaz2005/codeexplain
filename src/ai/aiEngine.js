@@ -5,6 +5,7 @@ const { ChatOllama } = require('@langchain/ollama');
 const chalk = require('chalk');
 const { CacheManager } = require('../core/cacheManager');
 const { PromptManager } = require('./promptManager');
+const { dd } = require('../utils/utils'); // Debugging helper
 
 // Constants
 const PROVIDERS = {

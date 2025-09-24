@@ -207,7 +207,13 @@ function arrayToHumanReadableList(array) {
   return arrCopy.join(', ') + ', and ' + last;
 }
 
+function dd(data) {
+  process.stdout.write(JSON.stringify(data, null, 2) + '\n');
+  process.exit();
+}
+
 module.exports = {
+  dd,
   escapeHtml,
   escapeRegExp,
   getFileExtension,
