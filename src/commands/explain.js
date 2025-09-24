@@ -8,8 +8,6 @@ const { HTMLOutput } = require('../output/html/htmlOutput');
 const { PDFOutput } = require('../output/pdf/pdfOutput');
 const { PromptManager } = require('../ai/promptManager');
 const { FlowchartGenerator } = require('../flowchart/flowchartGenerator');
-const { ArchitectureGenerator } = require('../appoverview/architectureGenerator');
-const { OnboardingGenerator } = require('../appoverview/onboardingGenerator');
 const {
   MODE_LINE_BY_LINE,
   MODE_FLOWCHART,
@@ -21,14 +19,6 @@ const {
 
 async function generateFlowchart(analysis, config) {
   return FlowchartGenerator.generate(analysis, config);
-}
-
-async function generateArchitecture(analysis, config) {
-  return ArchitectureGenerator.generate(analysis, config);
-}
-
-async function generateOnboarding(analysis, config) {
-  return OnboardingGenerator.generate(analysis, config);
 }
 
 async function explain(paths, options) {
@@ -169,13 +159,13 @@ async function explain(paths, options) {
       console.log(chalk.green('✅ Flowchart generation completed!'));
     } else if (effectiveMode === 'architecture') {
       console.log(chalk.yellow('🏗️ Generating architecture overview...'));
-      const architectureResult = await generateArchitecture(allAnalysis, finalConfig);
-      explanations = [architectureResult];
+      const aiEngine = new AIEngine(finalConfig);
+      explanations = await aiEngine.generateExplanations(allAnalysis);
       console.log(chalk.green('✅ Architecture overview generation completed!'));
     } else if (finalConfig.mode === MODE_ONBOARDING) {
       console.log(chalk.yellow('👨‍💻 Generating onboarding guide...'));
-      const onboardingResult = await generateOnboarding(allAnalysis, finalConfig);
-      explanations = [onboardingResult];
+      const aiEngine = new AIEngine(finalConfig);
+      explanations = await aiEngine.generateExplanations(allAnalysis);
       console.log(chalk.green('✅ Onboarding guide generation completed!'));
     } else {
       // Generate AI explanations with progress tracking for normal modes

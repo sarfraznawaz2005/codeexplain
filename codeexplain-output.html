@@ -758,17 +758,17 @@
                 <!-- File Entries -->
                 <div id="file-entries" class="row g-4">
                     
-<div class="file-entry col-12 mb-4" id="file-0" data-file-path="project-architecture" data-file-index="0">
+<div class="file-entry col-12 mb-4" id="file-0" data-file-path="developer-onboarding" data-file-index="0">
     <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
         <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="0" style="font-size: 1.1rem;">
                     <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
                     <i class="fas fa-file-code me-2"></i>
-                    Project Architecture
+                    Developer Onboarding
                 </h2>
                 <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    architecture
+                    onboarding
                 </span>
             </div>
         </div>
@@ -776,193 +776,101 @@
         <div class="card-body p-0">
               <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
                   <div class="p-3">
-                      <pre class="mb-0"><code class="language-architecture" style="font-size: 0.9rem; line-height: 1.5;">
-<span class="hljs-section"># Project Architecture Overview</span>
+                      <pre class="mb-0"><code class="language-onboarding" style="font-size: 0.9rem; line-height: 1.5;">
+<span class="hljs-comment"># Codebase Summary</span>
 
-<span class="hljs-section">## 🏗️ High-Level System Architecture</span>
+<span class="hljs-comment">## Project Structure</span>
 
-This document provides an overview of the system&#x27;s architecture, including major components and their relationships.
+<span class="hljs-comment">### ai</span>
 
-<span class="hljs-section">## 📁 Project Structure</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**aiEngine.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">aiEngine</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**promptManager.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">promptManager</span> <span class="hljs-string">module</span>
 
-<span class="hljs-section">### ai</span>
+<span class="hljs-comment">### commands</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`aiEngine.js`</span> - Contains code for aiEngine module
-<span class="hljs-bullet">-</span> <span class="hljs-code">`promptManager.js`</span> - Contains code for promptManager module
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**explain.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">explain</span> <span class="hljs-string">module</span>
 
-<span class="hljs-section">### appoverview</span>
+<span class="hljs-comment">### core</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`architectureGenerator.js`</span> - Application entry point and main initialization
-<span class="hljs-bullet">-</span> <span class="hljs-code">`onboardingGenerator.js`</span> - Application entry point and main initialization
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**cacheManager.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">cacheManager</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**codeAnalyzer.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">codeAnalyzer</span> <span class="hljs-string">module</span>
 
-<span class="hljs-section">### commands</span>
+<span class="hljs-comment">### config</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`explain.js`</span> - Contains code for explain module
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**configManager.js** (javascript):</span> <span class="hljs-string">Configuration</span> <span class="hljs-string">settings</span> <span class="hljs-string">and</span> <span class="hljs-string">environment</span> <span class="hljs-string">variables</span>
 
-<span class="hljs-section">### core</span>
+<span class="hljs-comment">### flowchart</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`cacheManager.js`</span> - Contains code for cacheManager module
-<span class="hljs-bullet">-</span> <span class="hljs-code">`codeAnalyzer.js`</span> - Contains code for codeAnalyzer module
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**flowchartGenerator.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">flowchartGenerator</span> <span class="hljs-string">module</span>
 
-<span class="hljs-section">### config</span>
+<span class="hljs-comment">### utils</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`configManager.js`</span> - Configuration settings and environment variables
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**constants.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">constants</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**languageMap.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">languageMap</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**utils.js** (javascript):</span> <span class="hljs-string">Provides</span> <span class="hljs-string">utility</span> <span class="hljs-string">functions</span> <span class="hljs-string">and</span> <span class="hljs-string">reusable</span> <span class="hljs-string">code</span>
 
-<span class="hljs-section">### utils</span>
+<span class="hljs-comment">### output/html</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`constants.js`</span> - Contains code for constants module
-<span class="hljs-bullet">-</span> <span class="hljs-code">`languageMap.js`</span> - Contains code for languageMap module
-<span class="hljs-bullet">-</span> <span class="hljs-code">`utils.js`</span> - Provides utility functions and reusable code
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**htmlOutput.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">htmlOutput</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**htmlTemplate.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">htmlTemplate</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**_css.css** (css):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">_css</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**_flowchart.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">_flowchart</span> <span class="hljs-string">module</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**_js.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">_js</span> <span class="hljs-string">module</span>
 
-<span class="hljs-section">### flowchart</span>
+<span class="hljs-comment">### output/pdf</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`flowchartGenerator.js`</span> - Contains code for flowchartGenerator module
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**pdfOutput.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">pdfOutput</span> <span class="hljs-string">module</span>
 
-<span class="hljs-section">### output/html</span>
+<span class="hljs-comment">## Technology Stack</span>
 
-<span class="hljs-bullet">-</span> <span class="hljs-code">`htmlOutput.js`</span> - Contains code for htmlOutput module
-<span class="hljs-bullet">-</span> <span class="hljs-code">`htmlTemplate.js`</span> - Contains code for htmlTemplate module
-<span class="hljs-bullet">-</span> <span class="hljs-code">`_css.css`</span> - Contains code for <span class="hljs-emphasis">_css module
-- `_</span>flowchart.js` - Contains code for <span class="hljs-emphasis">_flowchart module
-- `_</span>js.js` - Contains code for <span class="hljs-emphasis">_js module
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**Languages**:</span> <span class="hljs-string">javascript,</span> <span class="hljs-string">css</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">**File Types**:</span> <span class="hljs-string">.js,</span> <span class="hljs-string">.css</span>
 
-### output/pdf
+<span class="hljs-comment">## Key Files Content</span>
 
-- `pdfOutput.js` - Contains code for pdfOutput module
+<span class="hljs-comment">### config/configManager.js</span>
 
+<span class="hljs-string">```javascript</span>
+<span class="hljs-string">const</span> <span class="hljs-string">path</span> <span class="hljs-string">=</span> <span class="hljs-string">require(&#x27;path&#x27;);</span>
+<span class="hljs-string">const</span> <span class="hljs-string">fs</span> <span class="hljs-string">=</span> <span class="hljs-string">require(&#x27;fs-extra&#x27;);</span>
 
+<span class="hljs-string">//</span> <span class="hljs-string">Configuration</span> <span class="hljs-string">constants</span>
+<span class="hljs-string">const</span> <span class="hljs-string">CONFIG_DEFAULTS</span> <span class="hljs-string">=</span> {
+  <span class="hljs-attr">GEMINI_MODEL:</span> <span class="hljs-string">&#x27;gemini-2.5-flash&#x27;</span>,
+  <span class="hljs-attr">OPENAI_MODEL:</span> <span class="hljs-string">&#x27;gpt-4o&#x27;</span>,
+  <span class="hljs-attr">RETRY_ATTEMPTS:</span> <span class="hljs-number">3</span>,
+  <span class="hljs-attr">RETRY_DELAY:</span> <span class="hljs-number">1000</span>,
+  <span class="hljs-attr">JSON_INDENT_SPACES:</span> <span class="hljs-number">2</span>
+}<span class="hljs-string">;</span>
 
-## 🧩 Component Breakdown
+<span class="hljs-string">const</span> <span class="hljs-string">CONFIG_DIR_NAME</span> <span class="hljs-string">=</span> <span class="hljs-string">&#x27;.codeexplain&#x27;</span><span class="hljs-string">;</span>
+<span class="hljs-string">const</span> <span class="hljs-string">CONFIG_FILE_NAME</span> <span class="hljs-string">=</span> <span class="hljs-string">&#x27;config.json&#x27;</span><span class="hljs-string">;</span>
 
-### Services
+<span class="hljs-string">class</span> <span class="hljs-string">ConfigManager</span> {
+  <span class="hljs-comment">#codeExplainDir;</span>
 
-- <span class="hljs-strong">**ai/promptManager.js**</span> - Contains code for promptManager module
-- <span class="hljs-strong">**core/cacheManager.js**</span> - Contains code for cacheManager module
+  <span class="hljs-string">constructor(configPath)</span> {
+    <span class="hljs-string">this.configPath</span> <span class="hljs-string">=</span> <span class="hljs-string">configPath;</span>
+    <span class="hljs-string">this.#codeExplainDir</span> <span class="hljs-string">=</span> <span class="hljs-string">path.join(process.cwd()</span>, <span class="hljs-string">CONFIG_DIR_NAME);</span>
+    <span class="hljs-string">this.defaultConfig</span> <span class="hljs-string">=</span> {
+      <span class="hljs-attr">provider:</span> <span class="hljs-string">&#x27;gemini&#x27;</span>,
+      <span class="hljs-attr">model:</span> <span class="hljs-string">&#x27;gemini-2.5-flash&#x27;</span>,
+      <span class="hljs-attr">output:</span> <span class="hljs-string">&#x27;html&#x27;</span>,
+      <span class="hljs-attr">mode:</span> <span class="hljs-string">&#x27;explain&#x27;</span>,
+      <span class="hljs-attr">level:</span> <span class="hljs-string">&#x27;beginner&#x27;</span>,
+      <span class="hljs-attr">maxTokens:</span> <span class="hljs-number">15000</span>,
+      <span class="hljs-attr">baseUrl:</span> <span class="hljs-literal">null</span>, <span class="hljs-string">//</span> <span class="hljs-string">For</span> <span class="hljs-string">Ollama</span> <span class="hljs-string">or</span> <span class="hljs-string">custom</span> <span class="hljs-string">OpenAI</span> <span class="hljs-string">endpoints</span>
+      <span class="hljs-attr">retry:</span> {
+        <span class="hljs-attr">attempts:</span> <span class="hljs-string">CONFIG_DEFAULTS.RETRY_ATTEMPTS</span>,
+        <span class="hljs-attr">delay:</span> <span class="hljs-string">CONFIG_DEFAULTS.RETRY_DELAY</span>
+      },
+      <span class="hljs-attr">codeExtensions:</span> [
+        <span class="hljs-string">//</span> <span class="hljs-string">Web</span> <span class="hljs-string">Development</span>
+        <span class="hljs-string">&#x27;.js&#x27;</span>, <span class="hljs-string">&#x27;.jsx&#x27;</span>, <span class="hljs-string">&#x27;.ts&#x27;</span>, <span class="hljs-string">&#x27;.tsx&#x27;</span>, <span class="hljs-string">&#x27;.vue&#x27;</span>, <span class="hljs-string">&#x27;.svel
+... (truncated)
+```
 
-### Utilities
-
-- <span class="hljs-strong">**utils/utils.js**</span> - Provides utility functions and reusable code
-
-### Configs
-
-- <span class="hljs-strong">**config/configManager.js**</span> - Configuration settings and environment variables
-
-### Main
-
-- <span class="hljs-strong">**appoverview/architectureGenerator.js**</span> - Application entry point and main initialization
-- <span class="hljs-strong">**appoverview/onboardingGenerator.js**</span> - Application entry point and main initialization
-
-### Others
-
-- <span class="hljs-strong">**ai/aiEngine.js**</span> - Contains code for aiEngine module
-- <span class="hljs-strong">**commands/explain.js**</span> - Contains code for explain module
-- <span class="hljs-strong">**core/codeAnalyzer.js**</span> - Contains code for codeAnalyzer module
-- <span class="hljs-strong">**utils/constants.js**</span> - Contains code for constants module
-- <span class="hljs-strong">**utils/languageMap.js**</span> - Contains code for languageMap module
-- <span class="hljs-strong">**flowchart/flowchartGenerator.js**</span> - Contains code for flowchartGenerator module
-- <span class="hljs-strong">**output/html/htmlOutput.js**</span> - Contains code for htmlOutput module
-- <span class="hljs-strong">**output/html/htmlTemplate.js**</span> - Contains code for htmlTemplate module
-- <span class="hljs-strong">**output/html/_css.css**</span> - Contains code for _</span>css module
-<span class="hljs-bullet">-</span> <span class="hljs-strong">**output/html/<span class="hljs-emphasis">_flowchart.js** - Contains code for _</span>flowchart module
-- **</span>output/html/<span class="hljs-emphasis">_js.js** - Contains code for _</span>js module
-<span class="hljs-bullet">-</span> <span class="hljs-strong">**output/pdf/pdfOutput.js**</span> - Contains code for pdfOutput module
-
-
-
-<span class="hljs-section">## 🔄 Data Flow and Interactions</span>
-
-The following shows how different modules interact with each other:
-
-<span class="hljs-strong">**ai/aiEngine.js**</span> imports from:
-<span class="hljs-bullet">  -</span> @langchain/openai
-<span class="hljs-bullet">  -</span> @langchain/google-genai
-<span class="hljs-bullet">  -</span> @langchain/ollama
-<span class="hljs-bullet">  -</span> chalk
-<span class="hljs-bullet">  -</span> ../core/cachemanager
-<span class="hljs-bullet">  -</span> ./promptmanager
-
-<span class="hljs-strong">**ai/promptManager.js**</span> imports from:
-<span class="hljs-bullet">  -</span> fs-extra
-<span class="hljs-bullet">  -</span> path
-
-<span class="hljs-strong">**appoverview/architectureGenerator.js**</span> imports from:
-<span class="hljs-bullet">  -</span> path
-
-<span class="hljs-strong">**appoverview/onboardingGenerator.js**</span> imports from:
-<span class="hljs-bullet">  -</span> path
-
-<span class="hljs-strong">**commands/explain.js**</span> imports from:
-<span class="hljs-bullet">  -</span> path
-<span class="hljs-bullet">  -</span> fs
-<span class="hljs-bullet">  -</span> chalk
-<span class="hljs-bullet">  -</span> ../config/configmanager
-<span class="hljs-bullet">  -</span> ../core/codeanalyzer
-<span class="hljs-bullet">  -</span> ../ai/aiengine
-<span class="hljs-bullet">  -</span> ../output/html/htmloutput
-<span class="hljs-bullet">  -</span> ../output/pdf/pdfoutput
-<span class="hljs-bullet">  -</span> ../ai/promptmanager
-<span class="hljs-bullet">  -</span> ../flowchart/flowchartgenerator
-<span class="hljs-bullet">  -</span> ../appoverview/architecturegenerator
-<span class="hljs-bullet">  -</span> ../appoverview/onboardinggenerator
-<span class="hljs-bullet">  -</span> ../utils/constants
-
-<span class="hljs-strong">**core/cacheManager.js**</span> imports from:
-<span class="hljs-bullet">  -</span> fs-extra
-<span class="hljs-bullet">  -</span> path
-<span class="hljs-bullet">  -</span> crypto
-
-<span class="hljs-strong">**core/codeAnalyzer.js**</span> imports from:
-<span class="hljs-bullet">  -</span> fs-extra
-<span class="hljs-bullet">  -</span> path
-<span class="hljs-bullet">  -</span> globby
-<span class="hljs-bullet">  -</span> crypto
-<span class="hljs-bullet">  -</span> ../utils/languagemap
-
-<span class="hljs-strong">**config/configManager.js**</span> imports from:
-<span class="hljs-bullet">  -</span> path
-<span class="hljs-bullet">  -</span> fs-extra
-
-<span class="hljs-strong">**utils/utils.js**</span> imports from:
-<span class="hljs-bullet">  -</span> path
-<span class="hljs-bullet">  -</span> crypto
-
-<span class="hljs-strong">**flowchart/flowchartGenerator.js**</span> imports from:
-<span class="hljs-bullet">  -</span> path
-
-<span class="hljs-strong">**output/html/htmlOutput.js**</span> imports from:
-<span class="hljs-bullet">  -</span> fs
-<span class="hljs-bullet">  -</span> path
-<span class="hljs-bullet">  -</span> marked
-<span class="hljs-bullet">  -</span> highlight.js
-<span class="hljs-bullet">  -</span> ../../utils/utils
-<span class="hljs-bullet">  -</span> ./htmltemplate
-
-<span class="hljs-strong">**output/html/htmlTemplate.js**</span> imports from:
-<span class="hljs-bullet">  -</span> fs
-<span class="hljs-bullet">  -</span> path
-
-<span class="hljs-strong">**output/pdf/pdfOutput.js**</span> imports from:
-<span class="hljs-bullet">  -</span> path
-<span class="hljs-bullet">  -</span> puppeteer
-<span class="hljs-bullet">  -</span> marked
-
-
-
-<span class="hljs-section">## 🔧 Technology Stack</span>
-
-The project uses the following technologies:
-
-<span class="hljs-bullet">-</span> <span class="hljs-strong">**Programming Languages**</span>: javascript, css
-<span class="hljs-bullet">-</span> <span class="hljs-strong">**File Extensions**</span>: .js, .css
-
-
-
-<span class="hljs-section">## 📋 Key Modules</span>
-
-The following are key modules that form the backbone of the application:
-
-<span class="hljs-bullet">-</span> <span class="hljs-strong">**appoverview/architectureGenerator.js**</span> - Application entry point and main initialization
-<span class="hljs-bullet">-</span> <span class="hljs-strong">**appoverview/onboardingGenerator.js**</span> - Application entry point and main initialization
+</span>
                       </code></pre>
                   </div>
               </div>
@@ -978,189 +886,220 @@ The following are key modules that form the backbone of the application:
                     </button>
                 </div>
                 <div class="explanation-content">
-                    <h1>Project Architecture Overview</h1>
-<h2>🏗️ High-Level System Architecture</h2>
-<p>This document provides an overview of the system&#39;s architecture, including major components and their relationships.</p>
+                    <h1>Code Explain Project - Onboarding Guide for New Developers</h1>
+<p>Welcome to the Code Explain project! This guide will help you understand the project structure, technology stack, development workflow, and key concepts to get you up and running quickly.</p>
+<h2>🚀 Getting Started</h2>
+<h3>Project Overview and Purpose</h3>
+<p>The Code Explain project is designed to automatically generate explanations, flowcharts, and other documentation for code. It aims to help developers understand complex codebases more easily, improve code comprehension, and facilitate knowledge sharing. The project supports multiple output formats, including HTML and PDF, and utilizes AI models to generate insightful explanations.</p>
+<h3>Technology Stack and Key Dependencies</h3>
+<ul>
+<li><strong>Languages</strong>: JavaScript, CSS</li>
+<li><strong>Runtime Environment</strong>: Node.js</li>
+<li><strong>Key Dependencies</strong>:<ul>
+<li><code>fs-extra</code>: For file system operations.</li>
+<li>Other dependencies (implicitly present, require review of <code>package.json</code> which is not provided) related to AI model interaction (Gemini, OpenAI, etc.).</li>
+<li>Dependencies for generating flowcharts and PDFs.</li>
+</ul>
+</li>
+</ul>
+<h3>Development Environment Setup</h3>
+<ol>
+<li><strong>Install Node.js</strong>: Ensure you have Node.js installed.  It is recommended to use the latest LTS (Long Term Support) version.  Download from <a href="https://nodejs.org/">nodejs.org</a>.</li>
+<li><strong>Clone the Repository</strong>: Clone the project repository to your local machine.</li>
+</ol>
+bash
+    git clone <repository_url>
+    ```
+3.  **Install Dependencies**: Navigate to the project directory in your terminal and install the necessary dependencies using npm or yarn.
+    ```bash
+    npm install  # or yarn install
+    ```
+4.  **Configuration**: The project uses a `config.json` file within the `.codeexplain` directory for configuration. A default configuration is defined in `config/configManager.js`. You might need to create a `.codeexplain` directory in the root of the project and create/modify the `config.json` file based on your needs (e.g., set API keys, choose a different AI provider).
+    ```json
+    // Example config.json
+    {
+      "provider": "gemini",
+      "model": "gemini-2.5-flash",
+      "output": "html",
+      "mode": "explain",
+      "level": "beginner",
+      "maxTokens": 15000
+    }
+    ```
+5.  **API Keys**:  This is critically important. You likely need to obtain API keys for the AI provider (Gemini, OpenAI, etc.) you intend to use and configure them either as environment variables or directly in the `config.json` file (not recommended for security reasons).  Consult the documentation for the AI provider you choose.
+
+<h2>🏗️ Architecture Overview</h2>
+<h3>High-Level System Architecture</h3>
+<p>The Code Explain project follows a modular architecture. Here&#39;s a high-level overview of the main components and their interactions:</p>
+<ol>
+<li><strong>Input</strong>: The project takes code as input (typically a file or directory).</li>
+<li><strong>Code Analysis</strong>: The <code>codeAnalyzer</code> module analyzes the code to extract relevant information.</li>
+<li><strong>AI Engine</strong>: The <code>aiEngine</code> module interacts with an AI model (e.g., Gemini, OpenAI) using prompts managed by the <code>promptManager</code> to generate explanations.</li>
+<li><strong>Output Generation</strong>: The <code>htmlOutput</code> or <code>pdfOutput</code> module formats the explanations and other generated content (flowcharts) into the desired output format.</li>
+<li><strong>Configuration</strong>: The <code>configManager</code> module handles configuration settings and environment variables.</li>
+<li><strong>Caching</strong>: The <code>cacheManager</code> module provides caching mechanisms to store and retrieve previously generated explanations.</li>
+<li><strong>Commands</strong>: The <code>commands</code> directory contains modules that implement specific actions, such as the <code>explain</code> command.</li>
+<li><strong>Flowchart Generation</strong>: The <code>flowchartGenerator</code> module creates visual flowcharts from the code.</li>
+</ol>
+<h3>Key Components and Their Responsibilities</h3>
+<ul>
+<li><strong><code>ai/aiEngine.js</code></strong>: Responsible for interacting with the AI model. It sends prompts to the model and receives responses.</li>
+<li><strong><code>ai/promptManager.js</code></strong>: Manages the prompts sent to the AI model. It can customize prompts based on the desired output, level of detail, etc.</li>
+<li><strong><code>commands/explain.js</code></strong>: Implements the <code>explain</code> command, which orchestrates the code analysis, AI explanation generation, and output formatting.</li>
+<li><strong><code>core/cacheManager.js</code></strong>: Handles caching of AI responses to improve performance and reduce API costs.</li>
+<li><strong><code>core/codeAnalyzer.js</code></strong>: Analyzes the input code to extract information, such as functions, classes, and variables.</li>
+<li><strong><code>config/configManager.js</code></strong>: Loads and manages configuration settings, including API keys, model choices, and output options.</li>
+<li><strong><code>flowchart/flowchartGenerator.js</code></strong>: Generates flowcharts from the code using a suitable library or algorithm.</li>
+<li><strong><code>utils/constants.js</code></strong>: Defines constant values used throughout the project.</li>
+<li><strong><code>utils/languageMap.js</code></strong>: Maps file extensions to programming languages.</li>
+<li><strong><code>utils/utils.js</code></strong>: Provides utility functions used across different modules.</li>
+<li><strong><code>output/html/htmlOutput.js</code></strong>: Generates HTML output.</li>
+<li><strong><code>output/pdf/pdfOutput.js</code></strong>: Generates PDF output.</li>
+</ul>
+<h3>How Modules Interact with Each Other</h3>
+<ol>
+<li>The <code>explain</code> command (in <code>commands/explain.js</code>) is triggered.</li>
+<li>The <code>codeAnalyzer</code> module analyzes the input code.</li>
+<li>The <code>promptManager</code> module creates a prompt based on the configuration and code analysis results.</li>
+<li>The <code>aiEngine</code> module sends the prompt to the AI model and receives a response. The <code>cacheManager</code> might be used to retrieve a cached response.</li>
+<li>The <code>flowchartGenerator</code> may be used to generate a flowchart.</li>
+<li>The <code>htmlOutput</code> or <code>pdfOutput</code> module formats the explanation, flowchart (if any) and code into the desired output format.</li>
+<li>The output is saved to a file or displayed to the user.</li>
+</ol>
 <h2>📁 Project Structure</h2>
-<h3>ai</h3>
+<pre><code>code-explain/
+├── ai/
+│   ├── aiEngine.js
+│   └── promptManager.js
+├── commands/
+│   └── explain.js
+├── core/
+│   ├── cacheManager.js
+│   └── codeAnalyzer.js
+├── config/
+│   └── configManager.js
+├── flowchart/
+│   └── flowchartGenerator.js
+├── output/
+│   ├── html/
+│   │   ├── htmlOutput.js
+│   │   ├── htmlTemplate.js
+│   │   ├── _css.css
+│   │   ├── _flowchart.js
+│   │   └── _js.js
+│   └── pdf/
+│       └── pdfOutput.js
+├── utils/
+│   ├── constants.js
+│   ├── languageMap.js
+│   └── utils.js
+└── ... (other files and directories)
+</code></pre>
+<h3>Directory Organization</h3>
 <ul>
-<li><code>aiEngine.js</code> - Contains code for aiEngine module</li>
-<li><code>promptManager.js</code> - Contains code for promptManager module</li>
+<li><strong><code>ai/</code></strong>: Contains modules related to AI interaction.</li>
+<li><strong><code>commands/</code></strong>: Contains command-line command implementations.</li>
+<li><strong><code>core/</code></strong>: Contains core functionalities like code analysis and caching.</li>
+<li><strong><code>config/</code></strong>: Contains configuration management.</li>
+<li><strong><code>flowchart/</code></strong>: Contains flowchart generation logic.</li>
+<li><strong><code>output/</code></strong>: Contains modules for generating output in different formats (HTML, PDF).</li>
+<li><strong><code>utils/</code></strong>: Contains utility functions and constants.</li>
 </ul>
-<h3>appoverview</h3>
+<h3>Important Files and Their Purposes</h3>
 <ul>
-<li><code>architectureGenerator.js</code> - Application entry point and main initialization</li>
-<li><code>onboardingGenerator.js</code> - Application entry point and main initialization</li>
+<li><strong><code>ai/aiEngine.js</code></strong>: Handles communication with the AI model.</li>
+<li><strong><code>ai/promptManager.js</code></strong>: Constructs prompts for the AI model.</li>
+<li><strong><code>commands/explain.js</code></strong>: Orchestrates the explanation generation process.</li>
+<li><strong><code>core/cacheManager.js</code></strong>: Caches AI responses.</li>
+<li><strong><code>core/codeAnalyzer.js</code></strong>: Analyzes the input code.</li>
+<li><strong><code>config/configManager.js</code></strong>: Manages configuration settings.</li>
+<li><strong><code>flowchart/flowchartGenerator.js</code></strong>: Generates flowcharts from code.</li>
+<li><strong><code>output/html/htmlOutput.js</code></strong>: Generates HTML output.</li>
+<li><strong><code>output/pdf/pdfOutput.js</code></strong>: Generates PDF output.</li>
 </ul>
-<h3>commands</h3>
+<h3>Entry Points and Main Application Flow</h3>
+<p>The main entry point is likely a command-line interface (CLI) script (not shown in the provided file list). This CLI script uses the <code>commands/explain.js</code> module to initiate the explanation process. The flow involves:</p>
+<ol>
+<li>Parsing command-line arguments.</li>
+<li>Loading configuration settings.</li>
+<li>Analyzing the input code.</li>
+<li>Generating prompts for the AI model.</li>
+<li>Interacting with the AI model to generate explanations.</li>
+<li>Generating a flowchart.</li>
+<li>Formatting the output.</li>
+<li>Saving the output to a file or displaying it on the console.</li>
+</ol>
+<h2>🔧 Development Workflow</h2>
+<h3>How to Run the Project Locally</h3>
+<p>(Assuming there is a CLI entry point in <code>index.js</code> or similar)</p>
+<ol>
+<li><strong>Navigate to the Project Directory</strong>: Open your terminal and navigate to the project&#39;s root directory.</li>
+<li><strong>Run the CLI</strong>:  The exact command depends on how the CLI is set up. It might look something like this:<pre><code class="language-bash">node index.js explain &lt;path_to_code_file&gt; --output html
+</code></pre>
+Replace <code>&lt;path_to_code_file&gt;</code> with the path to the code file you want to explain. Adjust the command based on the available options (e.g., specifying the output format, level of detail).  Since the entry point is not provided, inspect the <code>package.json</code> for <code>bin</code> or <code>start</code> scripts.</li>
+</ol>
+<h3>Testing Procedures</h3>
+<p>Testing information is missing. Ideally, the project should have unit tests for individual modules and integration tests to verify the interaction between modules. Look for a <code>test/</code> directory and run the tests using <code>npm test</code> or <code>yarn test</code>.</p>
+<h3>Code Style and Conventions</h3>
 <ul>
-<li><code>explain.js</code> - Contains code for explain module</li>
+<li><strong>JavaScript</strong>: Follow a consistent code style, such as the Airbnb JavaScript Style Guide or Google JavaScript Style Guide. Use a linter (e.g., ESLint) to enforce the code style.</li>
+<li><strong>Naming Conventions</strong>: Use descriptive and meaningful names for variables, functions, and classes.</li>
+<li><strong>Comments</strong>: Add comments to explain complex logic and non-obvious code.</li>
+<li><strong>Error Handling</strong>: Implement proper error handling to prevent the application from crashing.</li>
 </ul>
-<h3>core</h3>
+<h3>Best Practices for the Codebase</h3>
 <ul>
-<li><code>cacheManager.js</code> - Contains code for cacheManager module</li>
-<li><code>codeAnalyzer.js</code> - Contains code for codeAnalyzer module</li>
+<li><strong>Modularity</strong>: Keep the code modular and well-organized.</li>
+<li><strong>Separation of Concerns</strong>: Separate different concerns into different modules.</li>
+<li><strong>Code Reuse</strong>: Reuse code whenever possible.</li>
+<li><strong>Testability</strong>: Write code that is easy to test.</li>
+<li><strong>Documentation</strong>: Keep the code well-documented.</li>
 </ul>
-<h3>config</h3>
+<h2>📖 Key Concepts</h2>
+<h3>Important Patterns and Architectural Decisions</h3>
 <ul>
-<li><code>configManager.js</code> - Configuration settings and environment variables</li>
+<li><strong>Modular Architecture</strong>: The project is divided into modules with well-defined responsibilities.</li>
+<li><strong>Configuration Management</strong>: The <code>configManager</code> module provides a centralized way to manage configuration settings.</li>
+<li><strong>AI Integration</strong>: The <code>aiEngine</code> module handles the integration with AI models.</li>
+<li><strong>Template Pattern:</strong> Likely the <code>htmlTemplate.js</code> and the <code>htmlOutput.js</code> implements a template pattern, where the <code>htmlOutput.js</code> fills the template in <code>htmlTemplate.js</code> with the generated explanations.</li>
 </ul>
-<h3>utils</h3>
+<h3>Domain-Specific Terminology</h3>
 <ul>
-<li><code>constants.js</code> - Contains code for constants module</li>
-<li><code>languageMap.js</code> - Contains code for languageMap module</li>
-<li><code>utils.js</code> - Provides utility functions and reusable code</li>
+<li><strong>AI Model</strong>: A machine learning model used to generate explanations.</li>
+<li><strong>Prompt</strong>: A text input given to the AI model to elicit a desired response.</li>
+<li><strong>Code Analysis</strong>: The process of examining code to extract information.</li>
+<li><strong>Flowchart</strong>: A visual representation of the code&#39;s control flow.</li>
 </ul>
-<h3>flowchart</h3>
+<h3>Common Workflows and Processes</h3>
 <ul>
-<li><code>flowchartGenerator.js</code> - Contains code for flowchartGenerator module</li>
+<li><strong>Generating Explanations</strong>: The process of analyzing code, generating prompts, interacting with the AI model, and formatting the output.</li>
+<li><strong>Adding New Commands</strong>: The process of creating a new module in the <code>commands/</code> directory and registering it with the CLI.</li>
+<li><strong>Supporting New Output Formats</strong>: The process of creating a new module in the <code>output/</code> directory and implementing the necessary formatting logic.</li>
 </ul>
-<h3>output/html</h3>
+<h2>💡 Tips for New Developers</h2>
+<h3>Areas to Focus on First</h3>
+<ol>
+<li><strong><code>config/configManager.js</code></strong>: Understand how configuration settings are loaded and used.</li>
+<li><strong><code>commands/explain.js</code></strong>: Trace the execution flow of the <code>explain</code> command.</li>
+<li><strong><code>ai/aiEngine.js</code> and <code>ai/promptManager.js</code></strong>: Learn how the project interacts with the AI model.</li>
+<li><strong><code>output/html/htmlOutput.js</code></strong>:  Understand how the final HTML output is structured and generated.</li>
+</ol>
+<h3>Common Pitfalls to Avoid</h3>
 <ul>
-<li><code>htmlOutput.js</code> - Contains code for htmlOutput module</li>
-<li><code>htmlTemplate.js</code> - Contains code for htmlTemplate module</li>
-<li><code>_css.css</code> - Contains code for _css module</li>
-<li><code>_flowchart.js</code> - Contains code for _flowchart module</li>
-<li><code>_js.js</code> - Contains code for _js module</li>
+<li><strong>Hardcoding API Keys</strong>: Avoid hardcoding API keys in the code. Use environment variables or the <code>config.json</code> file.</li>
+<li><strong>Ignoring Error Handling</strong>: Implement proper error handling to prevent unexpected crashes.</li>
+<li><strong>Not Following Code Style</strong>: Adhere to the project&#39;s code style and conventions.</li>
+<li><strong>Overlooking Caching</strong>:  Leverage the <code>cacheManager</code> to avoid unnecessary API calls.</li>
 </ul>
-<h3>output/pdf</h3>
+<h3>Where to Find Help and Documentation</h3>
 <ul>
-<li><code>pdfOutput.js</code> - Contains code for pdfOutput module</li>
+<li><strong>README.md</strong>: The project&#39;s README file contains essential information about the project.</li>
+<li><strong>Inline Code Comments</strong>: The code itself contains comments that explain the logic.</li>
+<li><strong>AI Model Documentation</strong>: Refer to the documentation for the AI model you are using (e.g., Gemini, OpenAI).</li>
+<li><strong>Other Developers</strong>: Ask your fellow developers for help.</li>
 </ul>
-<h2>🧩 Component Breakdown</h2>
-<h3>Services</h3>
-<ul>
-<li><strong>ai/promptManager.js</strong> - Contains code for promptManager module</li>
-<li><strong>core/cacheManager.js</strong> - Contains code for cacheManager module</li>
-</ul>
-<h3>Utilities</h3>
-<ul>
-<li><strong>utils/utils.js</strong> - Provides utility functions and reusable code</li>
-</ul>
-<h3>Configs</h3>
-<ul>
-<li><strong>config/configManager.js</strong> - Configuration settings and environment variables</li>
-</ul>
-<h3>Main</h3>
-<ul>
-<li><strong>appoverview/architectureGenerator.js</strong> - Application entry point and main initialization</li>
-<li><strong>appoverview/onboardingGenerator.js</strong> - Application entry point and main initialization</li>
-</ul>
-<h3>Others</h3>
-<ul>
-<li><strong>ai/aiEngine.js</strong> - Contains code for aiEngine module</li>
-<li><strong>commands/explain.js</strong> - Contains code for explain module</li>
-<li><strong>core/codeAnalyzer.js</strong> - Contains code for codeAnalyzer module</li>
-<li><strong>utils/constants.js</strong> - Contains code for constants module</li>
-<li><strong>utils/languageMap.js</strong> - Contains code for languageMap module</li>
-<li><strong>flowchart/flowchartGenerator.js</strong> - Contains code for flowchartGenerator module</li>
-<li><strong>output/html/htmlOutput.js</strong> - Contains code for htmlOutput module</li>
-<li><strong>output/html/htmlTemplate.js</strong> - Contains code for htmlTemplate module</li>
-<li><strong>output/html/_css.css</strong> - Contains code for _css module</li>
-<li><strong>output/html/_flowchart.js</strong> - Contains code for _flowchart module</li>
-<li><strong>output/html/_js.js</strong> - Contains code for _js module</li>
-<li><strong>output/pdf/pdfOutput.js</strong> - Contains code for pdfOutput module</li>
-</ul>
-<h2>🔄 Data Flow and Interactions</h2>
-<p>The following shows how different modules interact with each other:</p>
-<p><strong>ai/aiEngine.js</strong> imports from:</p>
-<ul>
-<li>@langchain/openai</li>
-<li>@langchain/google-genai</li>
-<li>@langchain/ollama</li>
-<li>chalk</li>
-<li>../core/cachemanager</li>
-<li>./promptmanager</li>
-</ul>
-<p><strong>ai/promptManager.js</strong> imports from:</p>
-<ul>
-<li>fs-extra</li>
-<li>path</li>
-</ul>
-<p><strong>appoverview/architectureGenerator.js</strong> imports from:</p>
-<ul>
-<li>path</li>
-</ul>
-<p><strong>appoverview/onboardingGenerator.js</strong> imports from:</p>
-<ul>
-<li>path</li>
-</ul>
-<p><strong>commands/explain.js</strong> imports from:</p>
-<ul>
-<li>path</li>
-<li>fs</li>
-<li>chalk</li>
-<li>../config/configmanager</li>
-<li>../core/codeanalyzer</li>
-<li>../ai/aiengine</li>
-<li>../output/html/htmloutput</li>
-<li>../output/pdf/pdfoutput</li>
-<li>../ai/promptmanager</li>
-<li>../flowchart/flowchartgenerator</li>
-<li>../appoverview/architecturegenerator</li>
-<li>../appoverview/onboardinggenerator</li>
-<li>../utils/constants</li>
-</ul>
-<p><strong>core/cacheManager.js</strong> imports from:</p>
-<ul>
-<li>fs-extra</li>
-<li>path</li>
-<li>crypto</li>
-</ul>
-<p><strong>core/codeAnalyzer.js</strong> imports from:</p>
-<ul>
-<li>fs-extra</li>
-<li>path</li>
-<li>globby</li>
-<li>crypto</li>
-<li>../utils/languagemap</li>
-</ul>
-<p><strong>config/configManager.js</strong> imports from:</p>
-<ul>
-<li>path</li>
-<li>fs-extra</li>
-</ul>
-<p><strong>utils/utils.js</strong> imports from:</p>
-<ul>
-<li>path</li>
-<li>crypto</li>
-</ul>
-<p><strong>flowchart/flowchartGenerator.js</strong> imports from:</p>
-<ul>
-<li>path</li>
-</ul>
-<p><strong>output/html/htmlOutput.js</strong> imports from:</p>
-<ul>
-<li>fs</li>
-<li>path</li>
-<li>marked</li>
-<li>highlight.js</li>
-<li>../../utils/utils</li>
-<li>./htmltemplate</li>
-</ul>
-<p><strong>output/html/htmlTemplate.js</strong> imports from:</p>
-<ul>
-<li>fs</li>
-<li>path</li>
-</ul>
-<p><strong>output/pdf/pdfOutput.js</strong> imports from:</p>
-<ul>
-<li>path</li>
-<li>puppeteer</li>
-<li>marked</li>
-</ul>
-<h2>🔧 Technology Stack</h2>
-<p>The project uses the following technologies:</p>
-<ul>
-<li><strong>Programming Languages</strong>: javascript, css</li>
-<li><strong>File Extensions</strong>: .js, .css</li>
-</ul>
-<h2>📋 Key Modules</h2>
-<p>The following are key modules that form the backbone of the application:</p>
-<ul>
-<li><strong>appoverview/architectureGenerator.js</strong> - Application entry point and main initialization</li>
-<li><strong>appoverview/onboardingGenerator.js</strong> - Application entry point and main initialization</li>
-</ul>
+<p>This guide provides a comprehensive overview of the Code Explain project. By following these steps and tips, you can quickly understand the project, set up your development environment, and start contributing to the codebase. Good luck!
+```</p>
 
                 </div>
             </div>

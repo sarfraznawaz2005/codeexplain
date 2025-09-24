@@ -1,3 +1,4 @@
+const path = require('path');
 const { ChatOpenAI } = require('@langchain/openai');
 const { ChatGoogleGenerativeAI } = require('@langchain/google-genai');
 const { ChatOllama } = require('@langchain/ollama');
@@ -166,6 +167,15 @@ class AIEngine {
       processedFiles: 0
     };
 
+    // Check if this is architecture or onboarding mode (codebase-level analysis)
+    if (this.config.mode === 'architecture' || this.config.mode === 'arch' || this.config.mode === 'onboarding') {
+      const result = await this.explainCodebase(analysis);
+      if (progressCallback) {
+        progressCallback('codebase-analysis', 1, 1, 100, result.cached, false);
+      }
+      return [result];
+    }
+
     if (Array.isArray(analysis)) {
       // Multiple files - process with progress tracking
       const results = [];
@@ -196,6 +206,195 @@ class AIEngine {
       }
       return result;
     }
+  }
+
+  async explainCodebase(analysisArray) {
+    // Create a single codebase analysis object
+    const codebaseSummary = this.buildCodebaseSummary(analysisArray);
+
+    const codebaseAnalysis = {
+      relativePath: this.config.mode === 'architecture' ? 'Project Architecture' : 'Developer Onboarding',
+      path: this.config.mode === 'architecture' ? 'project-architecture' : 'developer-onboarding',
+      language: this.config.mode,
+      content: codebaseSummary,
+      codebaseSummary: codebaseSummary
+    };
+
+    // Try to get cached explanation first (unless cache is disabled)
+    if (this.config.cache !== false) {
+      if (this.verbose) {
+        console.log(chalk.gray(`🔍 Checking cache for: ${codebaseAnalysis.relativePath}`));
+      }
+
+      const cachedExplanation = await this.cacheManager.getCachedExplanation(
+        codebaseAnalysis.path,
+        this.config
+      );
+
+      if (cachedExplanation) {
+        if (this.verbose) {
+          console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
+        }
+        // Track cached file usage
+        this.tokenUsage.cachedFiles++;
+        return {
+          ...codebaseAnalysis,
+          explanation: cachedExplanation,
+          cached: true
+        };
+      } else {
+        if (this.verbose) {
+          console.log(chalk.gray('📭 Cache miss - will generate new explanation'));
+        }
+      }
+    }
+
+    const prompt = await this.buildPrompt(codebaseAnalysis);
+
+    // Estimate input tokens (prompt)
+    const inputTokens = this.estimateTokens(prompt);
+    this.tokenUsage.totalInputTokens += inputTokens;
+    this.tokenUsage.processedFiles++;
+
+    // Verbose: Show prompt details
+    if (this.verbose) {
+      console.log(chalk.gray(`🔍 Processing: ${codebaseAnalysis.relativePath}`));
+      console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
+      console.log(chalk.gray('   ' + prompt.replace(/\n/g, '\n   ')));
+      console.log('');
+    }
+
+    try {
+      // Retry with exponential backoff using LangChain
+      const result = await this.retryWithBackoff(async () => {
+        return await this.modelInstance.invoke([
+          { role: 'system', content: 'You are a helpful assistant that provides detailed code analysis and documentation.' },
+          { role: 'user', content: prompt }
+        ]);
+      });
+
+      const response = result.content;
+
+      // Get token usage from metadata
+      const metadata = result.additional_kwargs?.response_metadata ||
+        result.additional_kwargs?.usage_metadata ||
+        result.lc_kwargs?.response_metadata;
+
+      // Update token tracking with actual usage if available
+      const outputTokens = this.estimateTokens(response, metadata);
+      this.tokenUsage.totalOutputTokens += outputTokens;
+      this.tokenUsage.totalTokens += inputTokens + outputTokens;
+
+      // Verbose: Show response details
+      if (this.verbose) {
+        console.log(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
+        console.log(chalk.gray('   ' + response.substring(0, 200) + (response.length > 200 ? '...' : '')));
+        console.log('');
+      }
+
+      // Cache the explanation (unless cache is disabled)
+      if (this.config.cache !== false) {
+        if (this.verbose) {
+          console.log(chalk.gray(`💾 Saving to cache: ${codebaseAnalysis.relativePath}`));
+        }
+        await this.cacheManager.setCachedExplanation(
+          codebaseAnalysis.path,
+          this.config,
+          response
+        );
+      }
+
+      return {
+        ...codebaseAnalysis,
+        explanation: response,
+        cached: false
+      };
+    } catch (error) {
+      // Ensure all errors, including those after all retries, are handled here
+      console.error(`Error generating ${this.config.mode} analysis:`, error && error.message ? error.message : error);
+      return {
+        ...codebaseAnalysis,
+        explanation: `Error generating ${this.config.mode} analysis: ${error && error.message ? error.message : error}`,
+        cached: false
+      };
+    }
+  }
+
+  buildCodebaseSummary(analysisArray) {
+    let summary = '# Codebase Summary\n\n';
+
+    // Group files by directory
+    const dirMap = new Map();
+    analysisArray.forEach(file => {
+      const dir = path.dirname(file.relativePath);
+      if (!dirMap.has(dir)) {
+        dirMap.set(dir, []);
+      }
+      dirMap.get(dir).push(file);
+    });
+
+    // Add project structure
+    summary += '## Project Structure\n\n';
+    for (const [dir, files] of dirMap) {
+      summary += `### ${dir === '.' ? 'Root Directory' : dir}\n\n`;
+      files.forEach(file => {
+        summary += `- **${path.basename(file.relativePath)}** (${file.language}): ${this.extractPurpose(file.content, file.relativePath, file.language)}\n`;
+      });
+      summary += '\n';
+    }
+
+    // Add technology stack
+    const languages = [...new Set(analysisArray.map(file => file.language))];
+    const extensions = [...new Set(analysisArray.map(file => path.extname(file.relativePath)))];
+    summary += '## Technology Stack\n\n';
+    summary += `- **Languages**: ${languages.join(', ')}\n`;
+    summary += `- **File Types**: ${extensions.join(', ')}\n\n`;
+
+    // Add key files content (limited to avoid token limits)
+    summary += '## Key Files Content\n\n';
+    const keyFiles = analysisArray.filter(file =>
+      file.relativePath.includes('package.json') ||
+      file.relativePath.includes('main') ||
+      file.relativePath.includes('index') ||
+      file.relativePath.includes('app') ||
+      file.relativePath.includes('config')
+    ).slice(0, 5); // Limit to 5 key files
+
+    keyFiles.forEach(file => {
+      summary += `### ${file.relativePath}\n\n`;
+      summary += `\`\`\`${file.language}\n${file.content.substring(0, 1000)}${file.content.length > 1000 ? '\n... (truncated)' : ''}\n\`\`\`\n\n`;
+    });
+
+    return summary;
+  }
+
+  extractPurpose(content, relativePath, language) {
+    const fileName = path.basename(relativePath, path.extname(relativePath));
+    const directory = path.dirname(relativePath);
+
+    // Extract purpose based on common patterns
+    if (content.includes('class ') || content.includes('function ') || content.includes('def ')) {
+      if (relativePath.includes('controller') || relativePath.includes('route') || relativePath.includes('handler')) {
+        return 'Handles HTTP requests and routes them to appropriate business logic';
+      } else if (relativePath.includes('service') || relativePath.includes('manager')) {
+        return 'Contains business logic and service operations';
+      } else if (relativePath.includes('model') || relativePath.includes('entity')) {
+        return 'Defines data structures and database models';
+      } else if (relativePath.includes('api') || relativePath.includes('client')) {
+        return 'Handles external API communications';
+      } else if (relativePath.includes('util') || relativePath.includes('helper')) {
+        return 'Provides utility functions and reusable code';
+      } else if (relativePath.includes('config') || relativePath.includes('setting')) {
+        return 'Configuration settings and environment variables';
+      } else if (relativePath.includes('test') || relativePath.includes('spec')) {
+        return 'Contains tests for other modules';
+      } else if (relativePath.includes('main') || relativePath.includes('index') || relativePath.includes('app')) {
+        return 'Application entry point and main initialization';
+      }
+    }
+
+    // If no specific pattern found, return a generic description
+    return `Contains code for ${fileName} module`;
   }
 
   async explainFile(fileAnalysis) {
@@ -315,12 +514,22 @@ class AIEngine {
     const promptTemplate = await this.promptManager.getPrompt(mode);
 
     // Render the prompt with variables
-    const prompt = await this.promptManager.renderPrompt(promptTemplate, {
+    let variables = {
       levelDescription: levelDescription,
       language: fileAnalysis.language,
       filePath: fileAnalysis.path,
       codeContent: fileAnalysis.content
-    });
+    };
+
+    // For architecture and onboarding modes, use codebaseSummary instead
+    if (mode === MODES.ARCHITECTURE || mode === 'onboarding') {
+      variables = {
+        levelDescription: levelDescription,
+        codebaseSummary: fileAnalysis.codebaseSummary || fileAnalysis.content
+      };
+    }
+
+    const prompt = await this.promptManager.renderPrompt(promptTemplate, variables);
 
     // Add instruction to always respond in markdown
     return `${prompt}\n\nIMPORTANT: Always respond in markdown format.`;

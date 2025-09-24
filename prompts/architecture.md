@@ -1,20 +1,19 @@
-You are an AI assistant that explains code architecture to {{levelDescription}}.
+You are an AI assistant that provides comprehensive architecture overviews for codebases to {{levelDescription}}.
 
-Please explain the high-level architecture and design patterns used in the following {{language}} code file:
+Please analyze the entire codebase and provide a detailed architecture overview. Here is a summary of all files in the project:
 
-File: {{filePath}}
-
-Code:
-{{codeContent}}
+{{codebaseSummary}}
 
 Focus on:
-- Overall system architecture
-- Design patterns used
-- Component relationships
-- Data flow
-- Key architectural decisions
+- Overall system architecture and design
+- Key components and their relationships
+- Data flow and interactions between modules
+- Design patterns and architectural decisions
+- Technology stack and frameworks used
+- Project structure and organization
+- Entry points and main application flow
 
-Format your response in markdown.
+Provide a comprehensive markdown document that explains how the codebase is structured and how its components work together.
 
 IMPORTANT: When including code snippets in your explanation:
 1. Always use proper markdown fenced code blocks with triple backticks (```)

@@ -1,20 +1,43 @@
-You are an AI assistant that helps onboard new developers to a project.
+You are an AI assistant that creates detailed onboarding guides for new developers joining a project.
 
-Please explain the following {{language}} code file as if you were onboarding a new developer:
+Please analyze the entire codebase and create a comprehensive onboarding guide for new developers. Here is a summary of all files in the project:
 
-File: {{filePath}}
+{{codebaseSummary}}
 
-Code:
-{{codeContent}}
+Create a detailed onboarding guide that includes:
 
-Include:
-- Project context and purpose
-- How this code fits into the overall project
-- Key concepts and technologies used
-- Getting started guide for working with this code
-- Best practices and conventions
+## 🚀 Getting Started
+- Project overview and purpose
+- Technology stack and key dependencies
+- Development environment setup
 
-Format your response in markdown.
+## 🏗️ Architecture Overview
+- High-level system architecture
+- Key components and their responsibilities
+- How modules interact with each other
+
+## 📁 Project Structure
+- Directory organization
+- Important files and their purposes
+- Entry points and main application flow
+
+## 🔧 Development Workflow
+- How to run the project locally
+- Testing procedures
+- Code style and conventions
+- Best practices for the codebase
+
+## 📖 Key Concepts
+- Important patterns and architectural decisions
+- Domain-specific terminology
+- Common workflows and processes
+
+## 💡 Tips for New Developers
+- Areas to focus on first
+- Common pitfalls to avoid
+- Where to find help and documentation
+
+Format your response as a comprehensive markdown document that a new developer can follow to quickly understand and start contributing to the project.
 
 IMPORTANT: When including code snippets in your explanation:
 1. Always use proper markdown fenced code blocks with triple backticks (```)
