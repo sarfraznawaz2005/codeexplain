@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Explanation: ai</title>
+    <!-- Critical CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/cupertino.min.css">
+    
+    <!-- Critical JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+    <style>
+    /* Sidebar styles */
+#sidebar a:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #0056b3;
+}
+
+#sidebar a.active {
+    background-color: #007bff;
+    color: white;
+}
+
+#sidebar .folder-toggle:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    color: #0056b3;
+}
+
+/* Sidebar list styling */
+#sidebar ul {
+    list-style: none;
+    line-height: 1.3;
+}
+
+#sidebar li {
+    list-style: none;
+}
+
+/* Main content typography and styling */
+.explanation-content {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #495057;
+}
+
+.explanation-content h1,
+.explanation-content h2,
+.explanation-content h3,
+.explanation-content h4,
+.explanation-content h5,
+.explanation-content h6 {
+    color: #212529;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+}
+
+.explanation-content h1 {
+    font-size: 1.75rem;
+}
+
+.explanation-content h2 {
+    font-size: 1.5rem;
+}
+
+.explanation-content h3 {
+    font-size: 1.25rem;
+}
+
+.explanation-content h4 {
+    font-size: 1.1rem;
+}
+
+.explanation-content h5 {
+    font-size: 1rem;
+}
+
+.explanation-content h6 {
+    font-size: 0.9rem;
+}
+
+.explanation-content p {
+    margin-bottom: 1rem;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+.explanation-content ul,
+.explanation-content ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+}
+
+.explanation-content li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+}
+
+.explanation-content li p {
+    margin-bottom: 0.5rem;
+}
+
+.explanation-content code {
+    background-color: #f8f9fa;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+    color: #d73a49;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+}
+
+.explanation-content pre {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+.explanation-content pre code {
+    background-color: transparent;
+    padding: 0;
+    color: inherit;
+    border: none;
+}
+
+/* Ensure highlight.js styles don't conflict */
+.explanation-content pre.hljs {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin: 1rem 0;
+    overflow-x: auto;
+    font-size: 0.875rem;
+    line-height: 1.5;
+}
+
+/* Code block styling */
+.code-container pre code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace !important;
+}
+
+/* Ensure highlight.js styles are applied to code container */
+.code-container pre code.hljs {
+    background: transparent;
+    color: inherit;
+}
+
+.explanation-content blockquote {
+    border-left: 4px solid #007bff;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: #6c757d;
+    font-style: italic;
+}
+
+.explanation-content table {
+    width: 100%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+}
+
+.explanation-content th,
+.explanation-content td {
+    padding: 0.75rem;
+    border: 1px solid #dee2e6;
+    text-align: left;
+}
+
+.explanation-content th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+.explanation-content strong {
+    font-weight: 600;
+    color: #212529;
+}
+
+.explanation-content em {
+    font-style: italic;
+    color: #495057;
+}
+
+/* Card improvements */
+.card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* File name hover cursor */
+.toggle-code:hover {
+    cursor: pointer;
+}
+
+/* Navigation arrows */
+#nav-arrows {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+#nav-arrows:hover {
+    opacity: 1;
+}
+
+/* Zoom controls */
+.btn-group .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-group .btn {
+    transition: all 0.2s ease;
+}
+
+.btn-group .btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Mermaid diagram controls */
+.mermaid-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    position: relative;
+    z-index: 10;
+    /* Ensure controls are above the diagram */
+    contain: layout style;
+    /* Isolate controls from diagram transforms */
+}
+
+.mermaid-controls .btn {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+    border-radius: 6px;
+}
+
+.zoom-level {
+    font-weight: 600;
+    color: #495057;
+    min-width: 60px;
+    text-align: center;
+}
+
+/* Responsive mermaid containers */
+.mermaid-diagram-container {
+    position: relative;
+    overflow: hidden;
+    /* Ensure diagram doesn't overflow container */
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    background: white;
+    min-height: 200px;
+    contain: layout;
+    /* Isolate layout calculations */
+}
+
+.mermaid {
+    display: block;
+    width: 100%;
+    min-height: 200px;
+    cursor: grab;
+    transition: transform 0.1s ease;
+    position: relative;
+    z-index: 1;
+    /* Ensure diagram is below controls */
+    contain: layout style paint;
+    /* Isolate diagram from controls */
+}
+
+.mermaid svg {
+    width: 100%;
+    height: auto;
+    min-height: 200px;
+}
+
+.mermaid.dragging {
+    cursor: grabbing;
+}
+
+.mermaid-zoomable {
+    transform-origin: center center;
+}
+
+/* Fullscreen mode */
+.mermaid-fullscreen {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: white !important;
+    z-index: 9999 !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
+
+.mermaid-fullscreen svg {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.fullscreen-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9998;
+    display: none;
+}
+
+.fullscreen-overlay.active {
+    display: block;
+}
+
+/* Responsive breakpoints for diagrams */
+@media (max-width: 768px) {
+    .mermaid-diagram-container {
+        min-height: 150px;
+    }
+
+    .mermaid svg {
+        min-height: 150px;
+    }
+
+    .mermaid-controls {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .mermaid-controls .btn {
+        padding: 4px 8px;
+        font-size: 0.75rem;
+    }
+}
+    </style>
+
+    <script>
+    (function () {
+    // Constants for configuration
+    const SIDEBAR_DEFAULT_WIDTH = 280;
+    const SIDEBAR_MIN_WIDTH = 250;
+    const SIDEBAR_MAX_WIDTH = 450;
+    const MOBILE_BREAKPOINT = 768;
+    const COPY_FEEDBACK_DURATION = 2000;
+
+    // Cache DOM elements and other state (assigned in DOMContentLoaded)
+    let cachedFileEntries;
+    let cachedSidebarLinks;
+
+    // Initialize syntax highlighting
+    document.addEventListener('DOMContentLoaded', function () {
+        // Configure marked to use highlight.js for code blocks (after marked is loaded)
+        const { Marked } = window.marked;
+        const { markedHighlight } = window.markedHighlight;
+
+        // Create Marked instance with the highlight plugin
+        const markedInstance = new Marked(
+            { gfm: true },
+            markedHighlight({
+                langPrefix: 'hljs language-',
+                emptyLangClass: 'hljs',
+                highlight(code, lang) {
+                    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                    return hljs.highlight(code, { language }).value;
+                }
+            })
+        );
+
+        // Apply syntax highlighting to code blocks in AI explanations
+        if (typeof hljs !== 'undefined') {
+            document.querySelectorAll('.explanation-content pre code').forEach((block) => {
+                if (!block.classList.contains('hljs')) {
+                    hljs.highlightElement(block);
+                }
+            });
+        }
+
+        // Cache DOM elements - convert NodeList to Array for better performance
+        cachedFileEntries = Array.from(document.querySelectorAll('.file-entry'));
+        cachedSidebarLinks = document.querySelectorAll('#sidebar a[href^=\"#file-\"]');
+        
+        // If no sidebar exists, set to empty NodeList to prevent errors
+        if (cachedSidebarLinks.length === 0) {
+            cachedSidebarLinks = [];
+        }
+
+        // Initialize layout
+        initializeLayout();
+
+        // Initial active item update
+        updateActiveSidebarItem();
+
+        // Update navigation arrows
+        updateNavigationArrows();
+
+        // Function to toggle folder icons
+        function toggleFolderIcon(folderToggle, force) {
+            const folderContents = folderToggle.nextElementSibling;
+            const folderIcon = folderToggle.querySelector('.folder-icon');
+            const isExpanded = force !== undefined ? force : !folderContents.classList.contains('d-none');
+
+            if (isExpanded) {
+                folderIcon.classList.remove('fa-chevron-right');
+                folderIcon.classList.add('fa-chevron-down');
+            } else {
+                folderIcon.classList.remove('fa-chevron-down');
+                folderIcon.classList.add('fa-chevron-right');
+            }
+        }
+
+        // Initialize folder icons for expanded folders
+        document.querySelectorAll('.folder-toggle').forEach(toggle => {
+            const folderContents = toggle.nextElementSibling;
+            if (folderContents && !folderContents.classList.contains('d-none')) {
+                toggleFolderIcon(toggle, true);
+            }
+        });
+
+        // Code folding
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.toggle-code')) {
+                const toggleElement = e.target.closest('.toggle-code');
+                const codeContainer = toggleElement.closest('.file-entry').querySelector('.code-container');
+                const icon = toggleElement.querySelector('i');
+
+                if (codeContainer.classList.contains('d-none')) {
+                    codeContainer.classList.remove('d-none');
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-down');
+                } else {
+                    codeContainer.classList.add('d-none');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-right');
+                }
+            }
+        });
+
+        // Copy explanation functionality
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.copy-explanation')) {
+                const button = e.target.closest('.copy-explanation');
+                const explanationContainer = button.closest('.file-entry').querySelector('.explanation-content');
+                const explanationText = explanationContainer.textContent.trim();
+
+                navigator.clipboard.writeText(explanationText).then(() => {
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                    }, COPY_FEEDBACK_DURATION);
+                });
+            }
+        });
+
+
+        // Sidebar navigation and folder toggle
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('a[href^="#file-"]')) {
+                e.preventDefault();
+                const targetId = e.target.closest('a').getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
+            // Folder toggle functionality
+            if (e.target.closest('.folder-toggle')) {
+                const folderToggle = e.target.closest('.folder-toggle');
+                const folderContents = folderToggle.nextElementSibling;
+                folderContents.classList.toggle('d-none');
+                toggleFolderIcon(folderToggle);
+            }
+        });
+
+        // Sidebar toggle functionality
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.querySelector('main');
+
+        if (sidebarToggle && sidebar && mainContent) {
+            sidebarToggle.addEventListener('click', () => {
+                const isCollapsed = sidebar.style.transform === 'translateX(-100%)';
+                if (window.innerWidth <= 768) {
+                    // Mobile: toggle between collapsed and expanded
+                    if (isCollapsed) {
+                        sidebar.style.transform = 'translateX(0)';
+                        sidebar.style.opacity = '1';
+                        sidebar.style.pointerEvents = 'auto';
+                        mainContent.style.marginLeft = '280px';
+                    } else {
+                        sidebar.style.transform = 'translateX(-100%)';
+                        sidebar.style.opacity = '0';
+                        sidebar.style.pointerEvents = 'none';
+                        mainContent.style.marginLeft = '0';
+                    }
+                }
+            });
+        }
+
+        // Sidebar drag resizing
+        const sidebarResizer = document.getElementById('sidebar-resizer');
+        let isResizing = false;
+        let startX = 0;
+        let startWidth = 0;
+        let animationFrameId = null;
+
+        if (sidebarResizer && sidebar && mainContent) {
+            sidebarResizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = sidebar.offsetWidth;
+                document.body.style.cursor = 'ew-resize';
+                document.body.style.userSelect = 'none';
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+
+                // Cancel any pending animation frame
+                if (animationFrameId !== null) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+
+                // Schedule update on next animation frame
+                animationFrameId = requestAnimationFrame(() => {
+                    const newWidth = startWidth + (e.clientX - startX);
+                    const clampedWidth = Math.max(SIDEBAR_MIN_WIDTH, Math.min(SIDEBAR_MAX_WIDTH, newWidth));
+
+                    sidebar.style.width = `${clampedWidth}px`;
+                    mainContent.style.marginLeft = `${clampedWidth}px`;
+                    mainContent.style.width = `calc(100% - ${clampedWidth}px)`;
+                    animationFrameId = null;
+                });
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
+
+        // Handle window resize using the shared layout function
+        window.addEventListener('resize', () => {
+            applyLayoutStyles(window.innerWidth <= MOBILE_BREAKPOINT);
+        });
+
+        // Navigation arrow event listeners
+        document.getElementById('prev-file').addEventListener('click', () => {
+            const currentFile = getCurrentVisibleFile();
+            const prevFile = getPreviousFile(currentFile);
+            if (prevFile) {
+                prevFile.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        document.getElementById('next-file').addEventListener('click', () => {
+            const currentFile = getCurrentVisibleFile();
+            const nextFile = getNextFile(currentFile);
+            if (nextFile) {
+                nextFile.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // Use requestAnimationFrame for smoother scroll performance
+        let isScrolling = false;
+        window.addEventListener('scroll', function () {
+            if (!isScrolling) {
+                window.requestAnimationFrame(function () {
+                    updateActiveSidebarItem();
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        });
+
+    });
+
+    // Shared function to apply layout styles based on screen size
+    function applyLayoutStyles(isMobile) {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const mainContent = document.querySelector('main');
+
+        // If sidebar doesn't exist (e.g., in flowchart mode), just return
+        if (!sidebar) {
+            // In flowchart mode, ensure main content takes full width
+            if (mainContent) {
+                mainContent.style.marginLeft = '0';
+                mainContent.style.width = '100%';
+            }
+            return;
+        }
+
+        if (isMobile) {
+            if (sidebarToggle) {
+                sidebarToggle.classList.remove('d-none');
+            }
+            if (sidebar.style.transform !== 'translateX(-100%)') {
+                sidebar.style.transform = 'translateX(-100%)';
+                sidebar.style.opacity = '0';
+                sidebar.style.pointerEvents = 'none';
+                if (mainContent) {
+                    mainContent.style.marginLeft = '0';
+                    mainContent.style.width = '100%';
+                }
+            }
+        } else {
+            if (sidebarToggle) {
+                sidebarToggle.classList.add('d-none');
+            }
+            sidebar.style.transform = 'translateX(0)';
+            sidebar.style.opacity = '1';
+            sidebar.style.pointerEvents = 'auto';
+            const currentWidth = sidebar.offsetWidth || SIDEBAR_DEFAULT_WIDTH;
+            if (mainContent) {
+                mainContent.style.marginLeft = `${currentWidth}px`;
+                mainContent.style.width = `calc(100% - ${currentWidth}px)`;
+            }
+        }
+    }
+
+    // Initialize layout on page load
+    function initializeLayout() {
+        applyLayoutStyles(window.innerWidth <= MOBILE_BREAKPOINT);
+    }
+
+    // Helper function to find the most visible element from a list of elements
+    function getMostVisibleElement(elements) {
+        let mostVisibleElement = null;
+        let maxVisibility = 0;
+
+        elements.forEach(element => {
+            const rect = element.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            // Calculate how much of the element is visible
+            const visibleTop = Math.max(0, rect.top);
+            const visibleBottom = Math.min(windowHeight, rect.bottom);
+            const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+            const visibility = visibleHeight / rect.height;
+
+            if (visibility > maxVisibility) {
+                maxVisibility = visibility;
+                mostVisibleElement = element;
+            }
+        });
+
+        return mostVisibleElement;
+    }
+
+    // Auto-sync sidebar with scroll position
+    function updateActiveSidebarItem() {
+        // Remove active class from all sidebar links if they exist
+        if (cachedSidebarLinks && cachedSidebarLinks.length > 0) {
+            cachedSidebarLinks.forEach(link => link.classList.remove('active'));
+
+            // Find which file entry is currently most visible
+            const mostVisibleEntry = getMostVisibleElement(cachedFileEntries);
+
+            // Highlight the corresponding sidebar item
+            if (mostVisibleEntry) {
+                const fileIndex = mostVisibleEntry.getAttribute('data-file-index');
+                const correspondingLink = document.querySelector('#sidebar a[href="#file-' + fileIndex + '"]');
+                if (correspondingLink) {
+                    correspondingLink.classList.add('active');
+                }
+            }
+        }
+    }
+
+    // Navigation arrow functionality
+    function getCurrentVisibleFile() {
+        return getMostVisibleElement(cachedFileEntries);
+    }
+
+    function getPreviousFile(currentFile) {
+        if (!currentFile) return null;
+        const currentIndex = cachedFileEntries.indexOf(currentFile);
+        return currentIndex > 0 ? cachedFileEntries[currentIndex - 1] : null;
+    }
+
+    function getNextFile(currentFile) {
+        if (!currentFile) return null;
+        const currentIndex = cachedFileEntries.indexOf(currentFile);
+        return currentIndex < cachedFileEntries.length - 1 ? cachedFileEntries[currentIndex + 1] : null;
+    }
+
+    // Show/hide navigation arrows based on file count
+    function updateNavigationArrows() {
+        const fileCount = cachedFileEntries.length;
+        const navArrows = document.getElementById('nav-arrows');
+        if (fileCount > 1) {
+            navArrows.classList.remove('d-none');
+        } else {
+            navArrows.classList.add('d-none');
+        }
+    }
+
+})();
+
+    
+    </script>    
+</head>
+    <body class="bg-light text-dark" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+    <div id="app" class="vh-100">
+        <!-- Header -->
+        <header class="bg-white shadow-sm position-fixed top-0 start-0 w-100 border-bottom" style="z-index: 1030; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.95);">
+            <div class="container-fluid py-3 px-4">
+                <div class="row align-items-center">
+                    <div class="col-auto d-flex align-items-center">
+                        <i class="fas fa-code text-primary me-3 fs-4"></i>
+                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">ai</span></h1>
+                    </div>
+                    <div class="col text-center d-none d-md-block">
+                        <small class="text-muted">AI-Powered Code Explanation</small>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+
+
+        
+        <!-- Sidebar Toggle Button (Mobile) -->
+        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar Navigation -->
+        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(0); opacity: 1; pointer-events: auto; transition: all 0.3s ease; z-index: 1000;">
+            <div class="position-absolute" style="top: 0; right: 0; width: 5px; height: 100%; cursor: ew-resize; background: rgba(0,0,0,0.1);" id="sidebar-resizer"></div>
+            <div class="p-3 border-bottom">
+                <h2 class="h6 fw-bold mb-0 text-muted d-flex align-items-center">
+                    <i class="fas fa-folder-tree me-2"></i>
+                    Project Files
+                </h2>
+            </div>
+            <div class="sidebar-content" style="height: calc(100% - 60px); overflow-y: auto;">
+                <ul class="list-unstyled p-2">
+                                    <li><a href="#file-0" class="d-block py-1 px-2 text-decoration-none rounded">aiEngine.js</a></li>
+                <li><a href="#file-1" class="d-block py-1 px-2 text-decoration-none rounded">promptManager.js</a></li>
+
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main style="margin-left: 280px; width: calc(100% - 280px); margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
+            <div class="container-fluid">
+                <!-- File Entries -->
+                <div id="file-entries" class="row g-4">
+                    
+<div class="file-entry col-12 mb-4" id="file-0" data-file-path="D:\MyDev\CodeExplain\src\ai\aiEngine.js" data-file-index="0">
+    <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
+        <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="0" style="font-size: 1.1rem;">
+                    <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
+                    <i class="fas fa-file-code me-2"></i>
+                    aiEngine.js
+                </h2>
+                <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
+                    javascript
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+              <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
+                  <div class="p-3">
+                      <pre class="mb-0"><code class="language-javascript" style="font-size: 0.9rem; line-height: 1.5;">
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">ChatOpenAI</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@langchain/openai&#x27;</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">ChatGoogleGenerativeAI</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@langchain/google-genai&#x27;</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">ChatOllama</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@langchain/ollama&#x27;</span>);
+<span class="hljs-keyword">const</span> chalk = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;chalk&#x27;</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">CacheManager</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../core/cacheManager&#x27;</span>);
+<span class="hljs-keyword">const</span> { <span class="hljs-title class_">PromptManager</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./promptManager&#x27;</span>);
+
+<span class="hljs-comment">// Constants</span>
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">PROVIDERS</span> = {
+  <span class="hljs-attr">GEMINI</span>: <span class="hljs-string">&#x27;gemini&#x27;</span>,
+  <span class="hljs-attr">OPENAI</span>: <span class="hljs-string">&#x27;openai&#x27;</span>,
+  <span class="hljs-attr">OLLAMA</span>: <span class="hljs-string">&#x27;ollama&#x27;</span>
+};
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">MODES</span> = {
+  <span class="hljs-attr">EXPLAIN</span>: <span class="hljs-string">&#x27;explain&#x27;</span>,
+  <span class="hljs-attr">ARCHITECTURE</span>: <span class="hljs-string">&#x27;architecture&#x27;</span>,
+  <span class="hljs-attr">ARCH</span>: <span class="hljs-string">&#x27;arch&#x27;</span>,
+  <span class="hljs-attr">LINE_BY_LINE</span>: <span class="hljs-string">&#x27;linebyline&#x27;</span>
+};
+
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">USER_LEVELS</span> = {
+  <span class="hljs-attr">EXPERT</span>: <span class="hljs-string">&#x27;expert&#x27;</span>,
+  <span class="hljs-attr">BEGINNER</span>: <span class="hljs-string">&#x27;beginner&#x27;</span>
+};
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">AIEngine</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">config</span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span> = config;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> = config.<span class="hljs-property">provider</span> ?? <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">GEMINI</span>;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> = config.<span class="hljs-property">model</span>; <span class="hljs-comment">// Allow model specification</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span> = config.<span class="hljs-property">apiKey</span>;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> = config.<span class="hljs-property">baseUrl</span>; <span class="hljs-comment">// For Ollama or custom endpoints</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span> = config.<span class="hljs-property">verbose</span> || <span class="hljs-literal">false</span>;
+
+    <span class="hljs-comment">// Initialize managers</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CacheManager</span>();
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PromptManager</span>();
+
+    <span class="hljs-comment">// Initialize managers immediately</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>();
+
+    <span class="hljs-comment">// Initialize token tracking</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span> = {
+      <span class="hljs-attr">totalInputTokens</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">totalOutputTokens</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">totalTokens</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">cachedFiles</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">processedFiles</span>: <span class="hljs-number">0</span>
+    };
+
+    <span class="hljs-comment">// Validate API key (not required for Ollama)</span>
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> !== <span class="hljs-string">&#x27;ollama&#x27;</span>) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;API key required for &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> + <span class="hljs-string">&#x27;. Please provide an API key via --apikey option or config file.&#x27;</span>);
+    }
+
+    <span class="hljs-comment">// Set up model based on provider</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setupModel</span>();
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span>.<span class="hljs-title function_">initialize</span>();
+    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span>.<span class="hljs-title function_">initialize</span>();
+  }
+
+  <span class="hljs-title function_">setupModel</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> === <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">GEMINI</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChatGoogleGenerativeAI</span>({
+        <span class="hljs-attr">apiKey</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span>,
+        <span class="hljs-attr">modelName</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> || <span class="hljs-string">&#x27;gemini-2.5-flash&#x27;</span>,
+        <span class="hljs-attr">maxOutputTokens</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">maxTokens</span> || <span class="hljs-number">15000</span>
+      });
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> === <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">OPENAI</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChatOpenAI</span>({
+        <span class="hljs-attr">openAIApiKey</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span>,
+        <span class="hljs-attr">modelName</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> || <span class="hljs-string">&#x27;gpt-4o&#x27;</span>,
+        <span class="hljs-attr">maxTokens</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">maxTokens</span> || <span class="hljs-number">15000</span>,
+        ...(<span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> &amp;&amp; { <span class="hljs-attr">configuration</span>: { <span class="hljs-attr">baseURL</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> } })
+      });
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> === <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">OLLAMA</span>) {
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChatOllama</span>({
+        <span class="hljs-attr">baseUrl</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> || <span class="hljs-string">&#x27;http://localhost:11434&#x27;</span>,
+        <span class="hljs-attr">model</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> || <span class="hljs-string">&#x27;llama2&#x27;</span>,
+        <span class="hljs-attr">maxTokens</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">maxTokens</span> || <span class="hljs-number">15000</span>
+      });
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">const</span> supportedProviders = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-variable constant_">PROVIDERS</span>).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;, &#x27;</span>);
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Unsupported AI provider: <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.provider}</span>. Supported providers are: <span class="hljs-subst">${supportedProviders}</span>`</span>);
+    }
+  }
+
+  <span class="hljs-comment">// Helper function for logging with consistent format</span>
+  <span class="hljs-title function_">_log</span>(<span class="hljs-params">level, message</span>) {
+    <span class="hljs-keyword">switch</span> (level) {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;error&#x27;</span>:
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(chalk.<span class="hljs-title function_">redBright</span>(<span class="hljs-string">`❌ Error: <span class="hljs-subst">${message}</span>`</span>));
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;warn&#x27;</span>:
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(chalk.<span class="hljs-title function_">yellowBright</span>(<span class="hljs-string">`⚠️ Warning: <span class="hljs-subst">${message}</span>`</span>));
+        <span class="hljs-keyword">break</span>;
+      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;info&#x27;</span>:
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span> &amp;&amp; <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`ℹ️ <span class="hljs-subst">${message}</span>`</span>));
+        <span class="hljs-keyword">break</span>;
+    }
+  }
+
+  <span class="hljs-comment">// Helper function for exponential backoff retry</span>
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">retryWithBackoff</span>(<span class="hljs-params">fn</span>) {
+    <span class="hljs-keyword">const</span> retries = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">retry</span>?.<span class="hljs-property">attempts</span> || <span class="hljs-number">3</span>;
+    <span class="hljs-keyword">let</span> delay = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">retry</span>?.<span class="hljs-property">delay</span> || <span class="hljs-number">1000</span>;
+    <span class="hljs-keyword">let</span> lastError;
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= retries; i++) {
+      <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-title function_">fn</span>();
+      } <span class="hljs-keyword">catch</span> (error) {
+        lastError = error;
+
+        <span class="hljs-comment">// If this was the last attempt, throw the error</span>
+        <span class="hljs-keyword">if</span> (i === retries) {
+          <span class="hljs-keyword">throw</span> error;
+        }
+
+        <span class="hljs-comment">// Log retry attempt</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_log</span>(<span class="hljs-string">&#x27;warn&#x27;</span>, <span class="hljs-string">`Attempt <span class="hljs-subst">${i + <span class="hljs-number">1</span>}</span> failed. Retrying in <span class="hljs-subst">${delay}</span>ms...`</span>);
+
+        <span class="hljs-comment">// Wait for the delay</span>
+        <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> <span class="hljs-built_in">setTimeout</span>(resolve, delay));
+
+        <span class="hljs-comment">// Exponential backoff: double the delay for next attempt</span>
+        delay *= <span class="hljs-number">2</span>;
+      }
+    }
+
+    <span class="hljs-keyword">throw</span> lastError;
+  }
+
+  <span class="hljs-comment">// Estimate tokens using LangChain response metadata if available, otherwise fallback to length-based estimate</span>
+  <span class="hljs-title function_">estimateTokens</span>(<span class="hljs-params">text, metadata</span>) {
+    <span class="hljs-keyword">if</span> (metadata &amp;&amp; <span class="hljs-keyword">typeof</span> metadata.<span class="hljs-property">completion_tokens</span> === <span class="hljs-string">&#x27;number&#x27;</span> &amp;&amp; <span class="hljs-keyword">typeof</span> metadata.<span class="hljs-property">prompt_tokens</span> === <span class="hljs-string">&#x27;number&#x27;</span>) {
+      <span class="hljs-comment">// If both prompt and completion tokens are available, return their sum</span>
+      <span class="hljs-keyword">return</span> metadata.<span class="hljs-property">prompt_tokens</span> + metadata.<span class="hljs-property">completion_tokens</span>
+    }
+    <span class="hljs-keyword">if</span> (metadata &amp;&amp; <span class="hljs-keyword">typeof</span> metadata.<span class="hljs-property">total_tokens</span> === <span class="hljs-string">&#x27;number&#x27;</span>) {
+      <span class="hljs-keyword">return</span> metadata.<span class="hljs-property">total_tokens</span>
+    }
+    <span class="hljs-keyword">if</span> (!text) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+    <span class="hljs-comment">// Fallback: rough estimate (1 token ≈ 4 chars)</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">ceil</span>(text.<span class="hljs-property">length</span> / <span class="hljs-number">4</span>)
+  }
+
+  <span class="hljs-comment">// Get usage summary</span>
+  <span class="hljs-title function_">getUsageSummary</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">return</span> {
+      ...<span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>
+    };
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">generateExplanations</span>(<span class="hljs-params">analysis, progressCallback = <span class="hljs-literal">null</span></span>) {
+    <span class="hljs-comment">// Reset token tracking</span>
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span> = {
+      <span class="hljs-attr">totalInputTokens</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">totalOutputTokens</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">totalTokens</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">cachedFiles</span>: <span class="hljs-number">0</span>,
+      <span class="hljs-attr">processedFiles</span>: <span class="hljs-number">0</span>
+    };
+
+    <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(analysis)) {
+      <span class="hljs-comment">// Multiple files - process with progress tracking</span>
+      <span class="hljs-keyword">const</span> results = [];
+      <span class="hljs-keyword">let</span> completed = <span class="hljs-number">0</span>;
+      <span class="hljs-keyword">const</span> total = analysis.<span class="hljs-property">length</span>;
+
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; analysis.<span class="hljs-property">length</span>; i++) {
+        <span class="hljs-keyword">const</span> file = analysis[i];
+
+        <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">explainFile</span>(file);
+
+        results.<span class="hljs-title function_">push</span>(result);
+        completed++;
+
+        <span class="hljs-comment">// Show progress when file is completed</span>
+        <span class="hljs-keyword">if</span> (progressCallback) {
+          <span class="hljs-keyword">const</span> progress = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">round</span>((completed / total) * <span class="hljs-number">100</span>);
+          <span class="hljs-title function_">progressCallback</span>(file.<span class="hljs-property">path</span> || <span class="hljs-string">`file-<span class="hljs-subst">${i}</span>`</span>, completed, total, progress, result.<span class="hljs-property">cached</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// isStarting = false</span>
+        }
+      }
+
+      <span class="hljs-keyword">return</span> results;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// Single file</span>
+      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">explainFile</span>(analysis);
+      <span class="hljs-keyword">if</span> (progressCallback) {
+        <span class="hljs-title function_">progressCallback</span>(analysis.<span class="hljs-property">path</span> || <span class="hljs-string">&#x27;single-file&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">100</span>, result.<span class="hljs-property">cached</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// Completed</span>
+      }
+      <span class="hljs-keyword">return</span> result;
+    }
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">explainFile</span>(<span class="hljs-params">fileAnalysis</span>) {
+    <span class="hljs-keyword">if</span> (!fileAnalysis) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+
+    <span class="hljs-comment">// Try to get cached explanation first (unless cache is disabled)</span>
+    <span class="hljs-keyword">if</span> (fileAnalysis.<span class="hljs-property">path</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">cache</span> !== <span class="hljs-literal">false</span>) {
+      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`🔍 Checking cache for: <span class="hljs-subst">${fileAnalysis.relativePath}</span>`</span>));
+      }
+
+      <span class="hljs-keyword">const</span> cachedExplanation = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span>.<span class="hljs-title function_">getCachedExplanation</span>(
+        fileAnalysis.<span class="hljs-property">path</span>,
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>
+      );
+
+      <span class="hljs-keyword">if</span> (cachedExplanation) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`📋 Cache hit! Using cached explanation (<span class="hljs-subst">${cachedExplanation.length}</span> chars)`</span>));
+        }
+        <span class="hljs-comment">// Track cached file usage</span>
+        <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">cachedFiles</span>++;
+        <span class="hljs-keyword">return</span> {
+          ...fileAnalysis,
+          <span class="hljs-attr">explanation</span>: cachedExplanation,
+          <span class="hljs-attr">cached</span>: <span class="hljs-literal">true</span>
+        };
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">&#x27;📭 Cache miss - will generate new explanation&#x27;</span>));
+        }
+      }
+    }
+
+    <span class="hljs-keyword">const</span> prompt = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildPrompt</span>(fileAnalysis);
+
+    <span class="hljs-comment">// Estimate input tokens (prompt)</span>
+    <span class="hljs-keyword">const</span> inputTokens = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">estimateTokens</span>(prompt);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">totalInputTokens</span> += inputTokens;
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">processedFiles</span>++;
+
+    <span class="hljs-comment">// Verbose: Show prompt details</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`🔍 Processing: <span class="hljs-subst">${fileAnalysis.relativePath}</span>`</span>));
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`📝 Prompt (<span class="hljs-subst">${prompt.length}</span> chars, ~<span class="hljs-subst">${inputTokens}</span> tokens):`</span>));
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">&#x27;   &#x27;</span> + prompt.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">&#x27;\n   &#x27;</span>)));
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+    }
+
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-comment">// Retry with exponential backoff using LangChain</span>
+      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">retryWithBackoff</span>(<span class="hljs-title function_">async</span> () =&gt; {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span>.<span class="hljs-title function_">invoke</span>([
+          { <span class="hljs-attr">role</span>: <span class="hljs-string">&#x27;system&#x27;</span>, <span class="hljs-attr">content</span>: <span class="hljs-string">&#x27;You are a helpful assistant that provides detailed code explanations.&#x27;</span> },
+          { <span class="hljs-attr">role</span>: <span class="hljs-string">&#x27;user&#x27;</span>, <span class="hljs-attr">content</span>: prompt }
+        ]);
+      });
+
+      <span class="hljs-keyword">const</span> response = result.<span class="hljs-property">content</span>;
+
+      <span class="hljs-comment">// Get token usage from metadata</span>
+      <span class="hljs-keyword">const</span> metadata = result.<span class="hljs-property">additional_kwargs</span>?.<span class="hljs-property">response_metadata</span> ||
+        result.<span class="hljs-property">additional_kwargs</span>?.<span class="hljs-property">usage_metadata</span> ||
+        result.<span class="hljs-property">lc_kwargs</span>?.<span class="hljs-property">response_metadata</span>;
+
+      <span class="hljs-comment">// Update token tracking with actual usage if available</span>
+      <span class="hljs-keyword">const</span> outputTokens = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">estimateTokens</span>(response, metadata);
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">totalOutputTokens</span> += outputTokens;
+      <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">totalTokens</span> += inputTokens + outputTokens;
+
+      <span class="hljs-comment">// Verbose: Show response details</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`✅ Response (<span class="hljs-subst">${response.length}</span> chars, ~<span class="hljs-subst">${outputTokens}</span> tokens):`</span>));
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">&#x27;   &#x27;</span> + response.<span class="hljs-title function_">substring</span>(<span class="hljs-number">0</span>, <span class="hljs-number">200</span>) + (response.<span class="hljs-property">length</span> &gt; <span class="hljs-number">200</span> ? <span class="hljs-string">&#x27;...&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>)));
+        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;&#x27;</span>);
+      }
+
+      <span class="hljs-comment">// Cache the explanation (unless cache is disabled)</span>
+      <span class="hljs-keyword">if</span> (fileAnalysis.<span class="hljs-property">path</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">cache</span> !== <span class="hljs-literal">false</span>) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
+          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`💾 Saving to cache: <span class="hljs-subst">${fileAnalysis.relativePath}</span>`</span>));
+        }
+        <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span>.<span class="hljs-title function_">setCachedExplanation</span>(
+          fileAnalysis.<span class="hljs-property">path</span>,
+          <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>,
+          response
+        );
+      }
+
+      <span class="hljs-keyword">return</span> {
+        ...fileAnalysis,
+        <span class="hljs-attr">explanation</span>: response,
+        <span class="hljs-attr">cached</span>: <span class="hljs-literal">false</span>
+      };
+    } <span class="hljs-keyword">catch</span> (error) {
+      <span class="hljs-comment">// Ensure all errors, including those after all retries, are handled here</span>
+      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">`Error explaining file <span class="hljs-subst">${fileAnalysis.path}</span>:`</span>, error &amp;&amp; error.<span class="hljs-property">message</span> ? error.<span class="hljs-property">message</span> : error);
+      <span class="hljs-keyword">return</span> {
+        ...fileAnalysis,
+        <span class="hljs-attr">explanation</span>: <span class="hljs-string">`Error generating explanation: <span class="hljs-subst">${error &amp;&amp; error.message ? error.message : error}</span>`</span>,
+        <span class="hljs-attr">cached</span>: <span class="hljs-literal">false</span>
+      };
+    }
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">buildPrompt</span>(<span class="hljs-params">fileAnalysis</span>) {
+    <span class="hljs-keyword">const</span> levelDescription = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">level</span> === <span class="hljs-variable constant_">USER_LEVELS</span>.<span class="hljs-property">EXPERT</span>
+      ? <span class="hljs-string">&#x27;an expert developer&#x27;</span>
+      : <span class="hljs-string">&#x27;a beginner developer&#x27;</span>;
+
+    <span class="hljs-comment">// Get the appropriate prompt template</span>
+    <span class="hljs-keyword">let</span> mode = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">mode</span> || <span class="hljs-variable constant_">MODES</span>.<span class="hljs-property">EXPLAIN</span>;
+    <span class="hljs-comment">// Handle architecture mode alias</span>
+    <span class="hljs-keyword">if</span> (mode === <span class="hljs-variable constant_">MODES</span>.<span class="hljs-property">ARCH</span>) {
+      mode = <span class="hljs-variable constant_">MODES</span>.<span class="hljs-property">ARCHITECTURE</span>;
+    }
+    <span class="hljs-keyword">const</span> promptTemplate = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span>.<span class="hljs-title function_">getPrompt</span>(mode);
+
+    <span class="hljs-comment">// Render the prompt with variables</span>
+    <span class="hljs-keyword">const</span> prompt = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span>.<span class="hljs-title function_">renderPrompt</span>(promptTemplate, {
+      <span class="hljs-attr">levelDescription</span>: levelDescription,
+      <span class="hljs-attr">language</span>: fileAnalysis.<span class="hljs-property">language</span>,
+      <span class="hljs-attr">filePath</span>: fileAnalysis.<span class="hljs-property">path</span>,
+      <span class="hljs-attr">codeContent</span>: fileAnalysis.<span class="hljs-property">content</span>
+    });
+
+    <span class="hljs-comment">// Add instruction to always respond in markdown</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${prompt}</span>\n\nIMPORTANT: Always respond in markdown format.`</span>;
+  }
+}
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { <span class="hljs-title class_">AIEngine</span> };
+                      </code></pre>
+                  </div>
+              </div>
+
+            <div class="p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="h6 text-muted mb-0 d-flex align-items-center">
+                        <i class="fas fa-brain me-2 text-primary"></i>
+                        AI Explanation
+                    </h3>
+                    <button class="btn btn-outline-primary btn-sm copy-explanation" data-file-index="0" title="Copy explanation">
+                        <i class="fas fa-copy me-1"></i> Copy
+                    </button>
+                </div>
+                <div class="explanation-content">
+                    <p>Okay, I will explain the provided JavaScript code file (<code>aiEngine.js</code>) in a beginner-friendly way. Here&#39;s a breakdown:</p>
+<h2>Explanation of <code>aiEngine.js</code></h2>
+<p>This file defines the <code>AIEngine</code> class, which is responsible for using AI models (like Gemini, OpenAI, or Ollama) to generate explanations for code. It takes code as input, sends it to an AI model, and returns an explanation of what the code does.  It also handles caching of responses to improve performance and reduce API costs.</p>
+<h3>1. Imports and Constants</h3>
+javascript
+const { ChatOpenAI } = require('@langchain/openai');
+const { ChatGoogleGenerativeAI } = require('@langchain/google-genai');
+const { ChatOllama } = require('@langchain/ollama');
+const chalk = require('chalk');
+const { CacheManager } = require('../core/cacheManager');
+const { PromptManager } = require('./promptManager');
+
+<p>// Constants
+const PROVIDERS = {
+  GEMINI: &#39;gemini&#39;,
+  OPENAI: &#39;openai&#39;,
+  OLLAMA: &#39;ollama&#39;
+};</p>
+<p>const MODES = {
+  EXPLAIN: &#39;explain&#39;,
+  ARCHITECTURE: &#39;architecture&#39;,
+  ARCH: &#39;arch&#39;,
+  LINE_BY_LINE: &#39;linebyline&#39;
+};</p>
+<p>const USER_LEVELS = {
+  EXPERT: &#39;expert&#39;,
+  BEGINNER: &#39;beginner&#39;
+};</p>
+<pre><code>
+*   **`require(...)`**: This imports external libraries or modules.
+    *   `@langchain/openai`, `@langchain/google-genai`, `@langchain/ollama`: These are Langchain libraries that provide interfaces to interact with OpenAI, Google Gemini, and Ollama AI models, respectively. Langchain helps structure interactions with Large Language Models (LLMs).
+    *   `chalk`:  A library for adding colors and styles to console output, making the logs more readable.
+    *   `../core/cacheManager`: Imports a custom `CacheManager` class (likely from a file in the `core` directory), which handles caching of code explanations to avoid redundant API calls.
+    *   `./promptManager`: Imports a custom `PromptManager` class (from the same directory), which is responsible for managing and building prompts that are sent to the AI model.  A prompt is the instruction and context you give the AI.
+
+*   **`PROVIDERS`**: Defines constants for the supported AI providers (Gemini, OpenAI, Ollama). This makes the code more readable and maintainable.  Using constants avoids &quot;magic strings&quot;.
+*   **`MODES`**: Defines constants for different explanation modes (e.g., &quot;explain&quot;, &quot;architecture&quot;, &quot;linebyline&quot;). These modes likely determine the type of explanation the AI will generate.  The `ARCH` mode is an alias for the `ARCHITECTURE` mode.
+*   **`USER_LEVELS`**: Defines constants for user levels (expert, beginner). This allows the AI to tailor its explanations to the user&#39;s level of understanding.
+
+### 2. `AIEngine` Class
+
+```javascript
+class AIEngine {
+  constructor(config) {
+    // ... (constructor code) ...
+  }
+
+  async init() {
+    // ...
+  }
+
+  setupModel() {
+    // ...
+  }
+
+  _log(level, message) {
+    // ...
+  }
+
+  async retryWithBackoff(fn) {
+    // ...
+  }
+
+  estimateTokens(text, metadata) {
+    // ...
+  }
+
+  getUsageSummary() {
+    // ...
+  }
+
+  async generateExplanations(analysis, progressCallback = null) {
+    // ...
+  }
+
+  async explainFile(fileAnalysis) {
+    // ...
+  }
+
+  async buildPrompt(fileAnalysis) {
+    // ...
+  }
+}
+
+module.exports = { AIEngine };
+</code></pre>
+<p>This defines the main class that orchestrates the code explanation process.  Let&#39;s break down its key parts:</p>
+<h4>2.1. <code>constructor(config)</code></h4>
+<pre><code class="language-javascript">constructor(config) {
+  this.config = config;
+  this.provider = config.provider ?? PROVIDERS.GEMINI;
+  this.model = config.model; // Allow model specification
+  this.apiKey = config.apiKey;
+  this.baseUrl = config.baseUrl; // For Ollama or custom endpoints
+  this.verbose = config.verbose || false;
+
+  // Initialize managers
+  this.cacheManager = new CacheManager();
+  this.promptManager = new PromptManager();
+
+  // Initialize managers immediately
+  this.init();
+
+  // Initialize token tracking
+  this.tokenUsage = {
+    totalInputTokens: 0,
+    totalOutputTokens: 0,
+    totalTokens: 0,
+    cachedFiles: 0,
+    processedFiles: 0
+  };
+
+  // Validate API key (not required for Ollama)
+  if (!this.apiKey &amp;&amp; this.provider !== &#39;ollama&#39;) {
+    throw new Error(&#39;API key required for &#39; + this.provider + &#39;. Please provide an API key via --apikey option or config file.&#39;);
+  }
+
+  // Set up model based on provider
+  this.setupModel();
+}
+</code></pre>
+<ul>
+<li>The constructor is called when you create a new <code>AIEngine</code> object (e.g., <code>const engine = new AIEngine(myConfig);</code>).</li>
+<li>It takes a <code>config</code> object as input, which contains settings like the AI provider to use, API keys, verbosity, and more.</li>
+<li><code>this.config = config;</code>: Stores the configuration for later use.</li>
+<li><code>this.provider = config.provider ?? PROVIDERS.GEMINI;</code>: Determines the AI provider. If <code>config.provider</code> is not provided, it defaults to <code>GEMINI</code>. The <code>??</code> is the nullish coalescing operator.</li>
+<li><code>this.model = config.model;</code>: Allows specifying a particular model for the provider.</li>
+<li><code>this.apiKey = config.apiKey;</code>: Stores the API key needed to access the AI provider.</li>
+<li><code>this.baseUrl = config.baseUrl;</code>: Stores the base URL, useful for Ollama or custom API endpoints.</li>
+<li><code>this.verbose = config.verbose || false;</code>:  Enables verbose logging (more detailed output) if <code>config.verbose</code> is true.  The <code>||</code> is the logical OR operator.</li>
+<li>It creates instances of <code>CacheManager</code> and <code>PromptManager</code> to handle caching and prompt generation.</li>
+<li>It initializes token usage tracking to keep track of the number of tokens used for API calls.  Tokens are units of text that AI models use.</li>
+<li>It validates that an API key is provided if the chosen provider requires one (i.e., not Ollama).</li>
+<li>Finally, it calls <code>this.setupModel()</code> to initialize the AI model instance based on the chosen provider.</li>
+</ul>
+<h4>2.2. <code>async init()</code></h4>
+<pre><code class="language-javascript">async init() {
+  await this.cacheManager.initialize();
+  await this.promptManager.initialize();
+}
+</code></pre>
+<ul>
+<li>This asynchronous method initializes the <code>CacheManager</code> and <code>PromptManager</code> instances. The <code>await</code> keyword ensures that these initializations complete before the <code>AIEngine</code> proceeds.</li>
+</ul>
+<h4>2.3. <code>setupModel()</code></h4>
+<pre><code class="language-javascript">setupModel() {
+  if (this.provider === PROVIDERS.GEMINI) {
+    this.modelInstance = new ChatGoogleGenerativeAI({
+      apiKey: this.apiKey,
+      modelName: this.model || &#39;gemini-2.5-flash&#39;,
+      maxOutputTokens: this.config.maxTokens || 15000
+    });
+  } else if (this.provider === PROVIDERS.OPENAI) {
+    this.modelInstance = new ChatOpenAI({
+      openAIApiKey: this.apiKey,
+      modelName: this.model || &#39;gpt-4o&#39;,
+      maxTokens: this.config.maxTokens || 15000,
+      ...(this.baseUrl &amp;&amp; { configuration: { baseURL: this.baseUrl } })
+    });
+  } else if (this.provider === PROVIDERS.OLLAMA) {
+    this.modelInstance = new ChatOllama({
+      baseUrl: this.baseUrl || &#39;http://localhost:11434&#39;,
+      model: this.model || &#39;llama2&#39;,
+      maxTokens: this.config.maxTokens || 15000
+    });
+  } else {
+    const supportedProviders = Object.values(PROVIDERS).join(&#39;, &#39;);
+    throw new Error(`Unsupported AI provider: ${this.provider}. Supported providers are: ${supportedProviders}`);
+  }
+}
+</code></pre>
+<ul>
+<li>This method creates an instance of the appropriate Langchain class (<code>ChatGoogleGenerativeAI</code>, <code>ChatOpenAI</code>, or <code>ChatOllama</code>) based on the configured <code>provider</code>.</li>
+<li>It passes the API key, model name, and other configuration options to the Langchain class constructor.</li>
+<li>It sets a default model if none is specified in the config.</li>
+<li>If an unsupported provider is specified, it throws an error.</li>
+</ul>
+<h4>2.4. <code>_log(level, message)</code></h4>
+<pre><code class="language-javascript">_log(level, message) {
+  switch (level) {
+    case &#39;error&#39;:
+      console.error(chalk.redBright(`❌ Error: ${message}`));
+      break;
+    case &#39;warn&#39;:
+      console.warn(chalk.yellowBright(`⚠️ Warning: ${message}`));
+      break;
+    case &#39;info&#39;:
+      this.verbose &amp;&amp; console.log(chalk.gray(`ℹ️ ${message}`));
+      break;
+  }
+}
+</code></pre>
+<ul>
+<li>A helper function for logging messages to the console with different colors based on the log level (error, warn, info).</li>
+<li>It uses the <code>chalk</code> library to add color to the output.</li>
+<li>Info logs are only displayed if <code>this.verbose</code> is true.</li>
+</ul>
+<h4>2.5. <code>async retryWithBackoff(fn)</code></h4>
+<pre><code class="language-javascript">async retryWithBackoff(fn) {
+  const retries = this.config.retry?.attempts || 3;
+  let delay = this.config.retry?.delay || 1000;
+  let lastError;
+
+  for (let i = 0; i &lt;= retries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      lastError = error;
+
+      // If this was the last attempt, throw the error
+      if (i === retries) {
+        throw error;
+      }
+
+      // Log retry attempt
+      this._log(&#39;warn&#39;, `Attempt ${i + 1} failed. Retrying in ${delay}ms...`);
+
+      // Wait for the delay
+      await new Promise(resolve =&gt; setTimeout(resolve, delay));
+
+      // Exponential backoff: double the delay for next attempt
+      delay *= 2;
+    }
+  }
+
+  throw lastError;
+}
+</code></pre>
+<ul>
+<li>Implements an exponential backoff retry mechanism.  This is a strategy to handle temporary failures when calling an API.</li>
+<li>It takes a function <code>fn</code> as input, which is the operation to be retried.</li>
+<li>It retries the function up to a maximum number of attempts (default is 3), with an increasing delay between retries.</li>
+<li>If the function fails after all retries, it throws the last error.</li>
+<li>This is useful for handling rate limits or temporary network issues when calling the AI provider&#39;s API.</li>
+</ul>
+<h4>2.6. <code>estimateTokens(text, metadata)</code></h4>
+<pre><code class="language-javascript">estimateTokens(text, metadata) {
+  if (metadata &amp;&amp; typeof metadata.completion_tokens === &#39;number&#39; &amp;&amp; typeof metadata.prompt_tokens === &#39;number&#39;) {
+    // If both prompt and completion tokens are available, return their sum
+    return metadata.prompt_tokens + metadata.completion_tokens
+  }
+  if (metadata &amp;&amp; typeof metadata.total_tokens === &#39;number&#39;) {
+    return metadata.total_tokens
+  }
+  if (!text) return 0
+  // Fallback: rough estimate (1 token ≈ 4 chars)
+  return Math.ceil(text.length / 4)
+}
+</code></pre>
+<ul>
+<li>Estimates the number of tokens in a given text.  Tokens are the basic units that language models process.</li>
+<li>It first tries to use metadata returned by the AI provider (if available) to get the exact number of tokens.</li>
+<li>If metadata is not available, it falls back to a rough estimate based on the length of the text (assuming 1 token is approximately 4 characters).</li>
+</ul>
+<h4>2.7. <code>getUsageSummary()</code></h4>
+<pre><code class="language-javascript">getUsageSummary() {
+  return {
+    ...this.tokenUsage
+  };
+}
+</code></pre>
+<ul>
+<li>Returns a summary of the token usage, including the total number of input tokens, output tokens, and cached files.</li>
+</ul>
+<h4>2.8. <code>async generateExplanations(analysis, progressCallback = null)</code></h4>
+<pre><code class="language-javascript">async generateExplanations(analysis, progressCallback = null) {
+  // Reset token tracking
+  this.tokenUsage = {
+    totalInputTokens: 0,
+    totalOutputTokens: 0,
+    totalTokens: 0,
+    cachedFiles: 0,
+    processedFiles: 0
+  };
+
+  if (Array.isArray(analysis)) {
+    // Multiple files - process with progress tracking
+    const results = [];
+    let completed = 0;
+    const total = analysis.length;
+
+    for (let i = 0; i &lt; analysis.length; i++) {
+      const file = analysis[i];
+
+      const result = await this.explainFile(file);
+
+      results.push(result);
+      completed++;
+
+      // Show progress when file is completed
+      if (progressCallback) {
+        const progress = Math.round((completed / total) * 100);
+        progressCallback(file.path || `file-${i}`, completed, total, progress, result.cached, false); // isStarting = false
+      }
+    }
+
+    return results;
+  } else {
+    // Single file
+    const result = await this.explainFile(analysis);
+    if (progressCallback) {
+      progressCallback(analysis.path || &#39;single-file&#39;, 1, 1, 100, result.cached, false); // Completed
+    }
+    return result;
+  }
+}
+</code></pre>
+<ul>
+<li>This is the main method for generating explanations for code.</li>
+<li>It takes an <code>analysis</code> object as input, which can be a single file analysis or an array of file analyses.  The analysis object contains information about the code, such as its content, language, and file path.</li>
+<li>It resets the token usage tracking at the beginning.</li>
+<li>If <code>analysis</code> is an array, it processes each file analysis in the array, calling <code>this.explainFile()</code> for each one.</li>
+<li>It uses a <code>progressCallback</code> to report the progress of the explanation generation, especially when processing multiple files.</li>
+<li>If <code>analysis</code> is a single file analysis, it calls <code>this.explainFile()</code> to generate an explanation for that file.</li>
+</ul>
+<h4>2.9. <code>async explainFile(fileAnalysis)</code></h4>
+<pre><code class="language-javascript">async explainFile(fileAnalysis) {
+  if (!fileAnalysis) return null;
+
+  // Try to get cached explanation first (unless cache is disabled)
+  if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
+    if (this.verbose) {
+      console.log(chalk.gray(`🔍 Checking cache for: ${fileAnalysis.relativePath}`));
+    }
+
+    const cachedExplanation = await this.cacheManager.getCachedExplanation(
+      fileAnalysis.path,
+      this.config
+    );
+
+    if (cachedExplanation) {
+      if (this.verbose) {
+        console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
+      }
+      // Track cached file usage
+      this.tokenUsage.cachedFiles++;
+      return {
+        ...fileAnalysis,
+        explanation: cachedExplanation,
+        cached: true
+      };
+    } else {
+      if (this.verbose) {
+        console.log(chalk.gray(&#39;📭 Cache miss - will generate new explanation&#39;));
+      }
+    }
+  }
+
+  const prompt = await this.buildPrompt(fileAnalysis);
+
+  // Estimate input tokens (prompt)
+  const inputTokens = this.estimateTokens(prompt);
+  this.tokenUsage.totalInputTokens += inputTokens;
+  this.tokenUsage.processedFiles++;
+
+  // Verbose: Show prompt details
+  if (this.verbose) {
+    console.log(chalk.gray(`🔍 Processing: ${fileAnalysis.relativePath}`));
+    console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
+    console.log(chalk.gray(&#39;   &#39; + prompt.replace(/\n/g, &#39;\n   &#39;)));
+    console.log(&#39;&#39;);
+  }
+
+  try {
+    // Retry with exponential backoff using LangChain
+    const result = await this.retryWithBackoff(async () =&gt; {
+      return await this.modelInstance.invoke([
+        { role: &#39;system&#39;, content: &#39;You are a helpful assistant that provides detailed code explanations.&#39; },
+        { role: &#39;user&#39;, content: prompt }
+      ]);
+    });
+
+    const response = result.content;
+
+    // Get token usage from metadata
+    const metadata = result.additional_kwargs?.response_metadata ||
+      result.additional_kwargs?.usage_metadata ||
+      result.lc_kwargs?.response_metadata;
+
+    // Update token tracking with actual usage if available
+    const outputTokens = this.estimateTokens(response, metadata);
+    this.tokenUsage.totalOutputTokens += outputTokens;
+    this.tokenUsage.totalTokens += inputTokens + outputTokens;
+
+    // Verbose: Show response details
+    if (this.verbose) {
+      console.log(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
+      console.log(chalk.gray(&#39;   &#39; + response.substring(0, 200) + (response.length &gt; 200 ? &#39;...&#39; : &#39;&#39;)));
+      console.log(&#39;&#39;);
+    }
+
+    // Cache the explanation (unless cache is disabled)
+    if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
+      if (this.verbose) {
+        console.log(chalk.gray(`💾 Saving to cache: ${fileAnalysis.relativePath}`));
+      }
+      await this.cacheManager.setCachedExplanation(
+        fileAnalysis.path,
+        this.config,
+        response
+      );
+    }
+
+    return {
+      ...fileAnalysis,
+      explanation: response,
+      cached: false
+    };
+  } catch (error) {
+    // Ensure all errors, including those after all retries, are handled here
+    console.error(`Error explaining file ${fileAnalysis.path}:`, error &amp;&amp; error.message ? error.message : error);
+    return {
+      ...fileAnalysis,
+      explanation: `Error generating explanation: ${error &amp;&amp; error.message ? error.message : error}`,
+      cached: false
+    };
+  }
+}
+</code></pre>
+<ul>
+<li>This method generates an explanation for a single file analysis.</li>
+<li>First, it checks the cache to see if an explanation already exists for the file (if caching is enabled).</li>
+<li>If a cached explanation is found, it returns the cached explanation.</li>
+<li>If a cached explanation is not found, it builds a prompt using <code>this.buildPrompt()</code>. The prompt includes the code to be explained and instructions for the AI.</li>
+<li>It estimates the number of tokens in the prompt.</li>
+<li>It sends the prompt to the AI model using <code>this.modelInstance.invoke()</code>.  The <code>retryWithBackoff</code> function is used to handle potential errors during the API call.  The invoke method takes an array of messages, where each message has a <code>role</code> (system or user) and <code>content</code>.</li>
+<li>It gets the response from the AI model.</li>
+<li>It estimates the number of tokens in the response.</li>
+<li>It caches the explanation (if caching is enabled).</li>
+<li>It returns an object containing the file analysis, the explanation, and a flag indicating whether the explanation was retrieved from the cache.</li>
+<li>It includes comprehensive error handling, ensuring that any errors encountered during the process are caught and logged, and a suitable error message is returned.</li>
+</ul>
+<h4>2.10. <code>async buildPrompt(fileAnalysis)</code></h4>
+<pre><code class="language-javascript">async buildPrompt(fileAnalysis) {
+  const levelDescription = this.config.level === USER_LEVELS.EXPERT
+    ? &#39;an expert developer&#39;
+    : &#39;a beginner developer&#39;;
+
+  // Get the appropriate prompt template
+  let mode = this.config.mode || MODES.EXPLAIN;
+  // Handle architecture mode alias
+  if (mode === MODES.ARCH) {
+    mode = MODES.ARCHITECTURE;
+  }
+  const promptTemplate = await this.promptManager.getPrompt(mode);
+
+  // Render the prompt with variables
+  const prompt = await this.promptManager.renderPrompt(promptTemplate, {
+    levelDescription: levelDescription,
+    language: fileAnalysis.language,
+    filePath: fileAnalysis.path,
+    codeContent: fileAnalysis.content
+  });
+
+  // Add instruction to always respond in markdown
+  return `${prompt}\n\nIMPORTANT: Always respond in markdown format.`;
+}
+</code></pre>
+<ul>
+<li>This method builds the prompt that is sent to the AI model.  The prompt provides context and instructions to the AI, guiding it to generate the desired explanation.</li>
+<li>It determines the appropriate level description (expert or beginner) based on the configuration.</li>
+<li>It gets the appropriate prompt template from the <code>PromptManager</code> based on the configured <code>mode</code>.</li>
+<li>It renders the prompt template using the <code>PromptManager</code>, passing in variables such as the level description, language, file path, and code content.</li>
+<li>It adds an instruction to the prompt to always respond in markdown format.</li>
+</ul>
+<h3>3. <code>module.exports</code></h3>
+<pre><code class="language-javascript">module.exports = { AIEngine };
+</code></pre>
+<ul>
+<li>This line exports the <code>AIEngine</code> class so that it can be used in other files.</li>
+</ul>
+<h3>Summary</h3>
+<p>In essence, <code>aiEngine.js</code> is a core component responsible for:</p>
+<ol>
+<li><strong>Abstraction:</strong> Hiding the complexity of interacting with different AI providers (Gemini, OpenAI, Ollama) behind a single, consistent interface.</li>
+<li><strong>Prompt Engineering:</strong>  Creating effective prompts to guide the AI model to generate the desired code explanations.</li>
+<li><strong>Caching:</strong>  Storing and retrieving code explanations to improve performance and reduce API costs.</li>
+<li><strong>Error Handling:</strong>  Implementing robust error handling and retry mechanisms to ensure that the code explanation process is reliable.</li>
+<li><strong>Configuration:</strong> Centralizing the management of configuration settings.</li>
+</ol>
+<p>This file is a crucial part of a larger system that helps developers understand code more easily by leveraging the power of AI.</p>
+<pre><code>
+</code></pre>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+<div class="file-entry col-12 mb-4" id="file-1" data-file-path="D:\MyDev\CodeExplain\src\ai\promptManager.js" data-file-index="1">
+    <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
+        <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="1" style="font-size: 1.1rem;">
+                    <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
+                    <i class="fas fa-file-code me-2"></i>
+                    promptManager.js
+                </h2>
+                <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
+                    javascript
+                </span>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+              <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
+                  <div class="p-3">
+                      <pre class="mb-0"><code class="language-javascript" style="font-size: 0.9rem; line-height: 1.5;">
+<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs-extra&#x27;</span>);
+<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
+
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">PromptManager</span> {
+  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span> = path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&#x27;..&#x27;</span>, <span class="hljs-string">&#x27;..&#x27;</span>, <span class="hljs-string">&#x27;prompts&#x27;</span>);
+    <span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span> = path.<span class="hljs-title function_">join</span>(process.<span class="hljs-title function_">cwd</span>(), <span class="hljs-string">&#x27;.codeexplain&#x27;</span>, <span class="hljs-string">&#x27;prompts&#x27;</span>);
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">initialize</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-comment">// Ensure user prompts directory exists</span>
+    <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">ensureDir</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span>);
+
+    <span class="hljs-comment">// Copy default prompts to user directory if they don&#x27;t exist</span>
+    <span class="hljs-keyword">const</span> defaultPrompts = <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">readdir</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span>);
+    <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
+      defaultPrompts.<span class="hljs-title function_">map</span>(<span class="hljs-title function_">async</span> (promptEntry) =&gt; {
+        <span class="hljs-keyword">const</span> defaultPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span>, promptEntry);
+        <span class="hljs-keyword">const</span> userPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span>, promptEntry);
+
+        <span class="hljs-comment">// Check if it&#x27;s a file before copying</span>
+        <span class="hljs-keyword">const</span> stat = <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">stat</span>(defaultPromptPath);
+        <span class="hljs-keyword">if</span> (stat.<span class="hljs-title function_">isFile</span>()) {
+          <span class="hljs-comment">// Only copy if user doesn&#x27;t have a custom version</span>
+          <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">pathExists</span>(userPromptPath))) {
+            <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">copy</span>(defaultPromptPath, userPromptPath);
+          }
+        }
+      })
+    );
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">getPrompt</span>(<span class="hljs-params">mode</span>) {
+    <span class="hljs-comment">// First check if user has a custom prompt</span>
+    <span class="hljs-keyword">const</span> userPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span>, <span class="hljs-string">`<span class="hljs-subst">${mode}</span>.md`</span>);
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">pathExists</span>(userPromptPath)) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">readFile</span>(userPromptPath, <span class="hljs-string">&#x27;utf8&#x27;</span>);
+    }
+
+    <span class="hljs-comment">// Fall back to default prompt</span>
+    <span class="hljs-keyword">const</span> defaultPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span>, <span class="hljs-string">`<span class="hljs-subst">${mode}</span>.md`</span>);
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">pathExists</span>(defaultPromptPath)) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">readFile</span>(defaultPromptPath, <span class="hljs-string">&#x27;utf8&#x27;</span>);
+    }
+
+    <span class="hljs-comment">// Log warning about missing prompt files</span>
+    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`Prompt for mode &#x27;<span class="hljs-subst">${mode}</span>&#x27; not found in user or default directories. Using generic fallback prompt.`</span>);
+
+    <span class="hljs-comment">// If no prompt found, return a basic template</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`You are an AI assistant that explains code.
+    
+Please explain the following {{language}} code file:
+
+File: {{filePath}}
+
+Code:
+{{codeContent}}
+
+Please provide a clear explanation in markdown format.`</span>;
+  }
+
+  <span class="hljs-keyword">async</span> <span class="hljs-title function_">renderPrompt</span>(<span class="hljs-params">template, variables</span>) {
+    <span class="hljs-keyword">let</span> prompt = template;
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [key, value] <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(variables)) {
+      prompt = prompt.<span class="hljs-title function_">replace</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-string">`{{<span class="hljs-subst">${key}</span>}}`</span>, <span class="hljs-string">&#x27;g&#x27;</span>), value);
+    }
+    <span class="hljs-keyword">return</span> prompt;
+  }
+}
+
+<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { <span class="hljs-title class_">PromptManager</span> };
+                      </code></pre>
+                  </div>
+              </div>
+
+            <div class="p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="h6 text-muted mb-0 d-flex align-items-center">
+                        <i class="fas fa-brain me-2 text-primary"></i>
+                        AI Explanation
+                    </h3>
+                    <button class="btn btn-outline-primary btn-sm copy-explanation" data-file-index="1" title="Copy explanation">
+                        <i class="fas fa-copy me-1"></i> Copy
+                    </button>
+                </div>
+                <div class="explanation-content">
+                    <p>Okay, I will explain the javascript code file <code>D:\MyDev\CodeExplain\src\ai\promptManager.js</code> to you. This file is responsible for managing prompts used by the AI assistant to explain code. It handles loading default prompts, allowing users to customize them, and rendering prompts with specific file content.</p>
+<p>Here&#39;s a breakdown:</p>
+<pre><code class="language-javascript">const fs = require(&#39;fs-extra&#39;);
+const path = require(&#39;path&#39;);
+</code></pre>
+<ul>
+<li><strong><code>fs-extra</code></strong>: This line imports the <code>fs-extra</code> module. <code>fs-extra</code> is a Node.js library that extends the built-in <code>fs</code> (filesystem) module with extra features, especially for working with directories and files more easily (e.g., creating directories recursively, copying files).</li>
+<li><strong><code>path</code></strong>: This line imports the <code>path</code> module, which provides utilities for working with file and directory paths in a platform-independent way.</li>
+</ul>
+<pre><code class="language-javascript">class PromptManager {
+  constructor() {
+    this.promptsDir = path.join(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;prompts&#39;);
+    this.userPromptsDir = path.join(process.cwd(), &#39;.codeexplain&#39;, &#39;prompts&#39;);
+  }
+</code></pre>
+<ul>
+<li><strong><code>PromptManager</code> Class</strong>: This defines a class named <code>PromptManager</code>.  Classes are a way to organize code into reusable blueprints for creating objects.  This class is responsible for managing the prompts.</li>
+<li><strong><code>constructor()</code></strong>:  This is the constructor method of the class. It&#39;s called when a new instance of the <code>PromptManager</code> class is created (e.g., <code>const manager = new PromptManager();</code>).<ul>
+<li><strong><code>this.promptsDir</code></strong>: This line sets the <code>promptsDir</code> property of the <code>PromptManager</code> instance. It uses <code>path.join</code> to construct an absolute path to the directory where the default prompt files are stored. Let&#39;s break down the path:<ul>
+<li><code>__dirname</code>: This is a special variable in Node.js that always holds the directory name of the current module (the directory containing this <code>promptManager.js</code> file).</li>
+<li><code>&#39;..&#39;, &#39;..&#39;</code> : moves up two directories from the current directory (from <code>src/ai</code> to <code>src</code> and then to the root directory, <code>CodeExplain</code>).</li>
+<li><code>&#39;prompts&#39;</code>:  Appends the &#39;prompts&#39; directory to the path, resulting in the path to the directory where the default prompt files reside.</li>
+</ul>
+</li>
+<li><strong><code>this.userPromptsDir</code></strong>: This line sets the <code>userPromptsDir</code> property. It constructs a path to a directory where user-specific (customized) prompt files will be stored.<ul>
+<li><code>process.cwd()</code>:  This returns the current working directory of the Node.js process. In most cases, this will be the root directory of your project.</li>
+<li><code>&#39;.codeexplain&#39;, &#39;prompts&#39;</code>: This appends <code>.codeexplain/prompts</code> to the current working directory, creating a hidden directory <code>.codeexplain</code> at the project root, which contains a <code>prompts</code> directory for user-specific prompts.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-javascript">  async initialize() {
+    // Ensure user prompts directory exists
+    await fs.ensureDir(this.userPromptsDir);
+
+    // Copy default prompts to user directory if they don&#39;t exist
+    const defaultPrompts = await fs.readdir(this.promptsDir);
+    await Promise.all(
+      defaultPrompts.map(async (promptEntry) =&gt; {
+        const defaultPromptPath = path.join(this.promptsDir, promptEntry);
+        const userPromptPath = path.join(this.userPromptsDir, promptEntry);
+
+        // Check if it&#39;s a file before copying
+        const stat = await fs.stat(defaultPromptPath);
+        if (stat.isFile()) {
+          // Only copy if user doesn&#39;t have a custom version
+          if (!(await fs.pathExists(userPromptPath))) {
+            await fs.copy(defaultPromptPath, userPromptPath);
+          }
+        }
+      })
+    );
+  }
+</code></pre>
+<ul>
+<li><strong><code>async initialize()</code></strong>: This is an asynchronous method designed to set up the prompt environment.  <code>async</code> means it can use <code>await</code> inside.<ul>
+<li><strong><code>await fs.ensureDir(this.userPromptsDir)</code></strong>: This line uses <code>fs-extra</code>&#39;s <code>ensureDir</code> function to ensure that the user prompt directory (<code>this.userPromptsDir</code>) exists. If the directory doesn&#39;t exist, it will be created (including any necessary parent directories).  <code>await</code> makes the code wait until the directory creation is complete before moving on.</li>
+<li><strong><code>const defaultPrompts = await fs.readdir(this.promptsDir)</code></strong>: This line reads the contents of the default prompts directory (<code>this.promptsDir</code>) using <code>fs.readdir</code>.  <code>fs.readdir</code> returns an array of filenames (or directory names) found in that directory. The <code>await</code> keyword means the code will pause here until the directory reading is complete and the <code>defaultPrompts</code> array is populated.</li>
+<li><strong><code>await Promise.all(...)</code></strong>: This part handles copying the default prompt files to the user&#39;s prompt directory if the user doesn&#39;t already have them.  <code>Promise.all</code> is used to run multiple asynchronous operations in parallel and wait for all of them to complete.<ul>
+<li><strong><code>defaultPrompts.map(async (promptEntry) =&gt; { ... })</code></strong>: This part iterates through each entry (filename) in the <code>defaultPrompts</code> array. For each <code>promptEntry</code>:<ul>
+<li><strong><code>const defaultPromptPath = path.join(this.promptsDir, promptEntry)</code></strong>: Creates the full path to the default prompt file.</li>
+<li><strong><code>const userPromptPath = path.join(this.userPromptsDir, promptEntry)</code></strong>: Creates the full path to where the prompt file should be in the user&#39;s prompt directory.</li>
+<li><strong><code>const stat = await fs.stat(defaultPromptPath)</code></strong>: Gets file stats for the default prompt path.</li>
+<li><strong><code>if (stat.isFile()) { ... }</code></strong>: Checks if the entry is a file (not a directory).  This is important to avoid trying to copy directories.</li>
+<li><strong><code>if (!(await fs.pathExists(userPromptPath))) { ... }</code></strong>: This line checks if the corresponding prompt file <em>already exists</em> in the user&#39;s prompt directory using <code>fs.pathExists</code>. The <code>!</code> negates the result, so the code inside the <code>if</code> block only executes if the file <em>does not</em> exist.</li>
+<li><strong><code>await fs.copy(defaultPromptPath, userPromptPath)</code></strong>: If the file doesn&#39;t exist in the user&#39;s directory, this line copies the default prompt file to the user&#39;s prompt directory using <code>fs.copy</code>.</li>
+</ul>
+</li>
+<li>The <code>Promise.all</code> ensures that all copy operations are completed before the <code>initialize</code> function finishes.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-javascript">  async getPrompt(mode) {
+    // First check if user has a custom prompt
+    const userPromptPath = path.join(this.userPromptsDir, `${mode}.md`);
+    if (await fs.pathExists(userPromptPath)) {
+      return await fs.readFile(userPromptPath, &#39;utf8&#39;);
+    }
+
+    // Fall back to default prompt
+    const defaultPromptPath = path.join(this.promptsDir, `${mode}.md`);
+    if (await fs.pathExists(defaultPromptPath)) {
+      return await fs.readFile(defaultPromptPath, &#39;utf8&#39;);
+    }
+
+    // Log warning about missing prompt files
+    console.warn(`Prompt for mode &#39;${mode}&#39; not found in user or default directories. Using generic fallback prompt.`);
+
+    // If no prompt found, return a basic template
+    return `You are an AI assistant that explains code.
+    
+Please explain the following {{language}} code file:
+
+File: {{filePath}}
+
+Code:
+{{codeContent}}
+
+Please provide a clear explanation in markdown format.`;
+  }
+</code></pre>
+<ul>
+<li><strong><code>async getPrompt(mode)</code></strong>: This asynchronous method retrieves a prompt based on the given <code>mode</code>. The <code>mode</code> argument likely represents the type of code explanation being requested (e.g., &quot;javascript&quot;, &quot;python&quot;, etc.).<ul>
+<li><strong><code>const userPromptPath = path.join(this.userPromptsDir, </code>${mode}.md<code>)</code></strong>: Constructs the path to the user-specific prompt file for the given <code>mode</code>. It assumes prompt files are named like &quot;javascript.md&quot;, &quot;python.md&quot;, etc., and are stored in the user&#39;s prompt directory.</li>
+<li><strong><code>if (await fs.pathExists(userPromptPath)) { ... }</code></strong>: Checks if the user has a custom prompt file for the given <code>mode</code>.<ul>
+<li><strong><code>return await fs.readFile(userPromptPath, &#39;utf8&#39;)</code></strong>: If the user has a custom prompt, it reads the content of the file using <code>fs.readFile</code> (with UTF-8 encoding) and returns the prompt text.</li>
+</ul>
+</li>
+<li>**<code>const defaultPromptPath = path.join(this.promptsDir, </code>${mode}.md&quot;)<code>**: If no user-specific prompt is found, this line constructs the path to the default prompt file for the given </code>mode`.</li>
+<li><strong><code>if (await fs.pathExists(defaultPromptPath)) { ... }</code></strong>: Checks if a default prompt file exists for the given <code>mode</code>.<ul>
+<li><strong><code>return await fs.readFile(defaultPromptPath, &#39;utf8&#39;)</code></strong>: If the default prompt exists, it reads the file content and returns it.</li>
+</ul>
+</li>
+<li><strong><code>console.warn(...)</code></strong>: If <em>neither</em> a user-specific <em>nor</em> a default prompt is found, this line logs a warning message to the console. This is helpful for debugging and letting the user know that something might be misconfigured.</li>
+<li><strong><code>return \</code>...``</strong>: If no prompt file is found, this line returns a hardcoded, basic fallback prompt. This ensures that the AI assistant always has <em>some</em> prompt to use, even if it&#39;s not ideal. The prompt includes placeholders like <code>{{language}}</code>, <code>{{filePath}}</code>, and <code>{{codeContent}}</code> which will be replaced later.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-javascript">  async renderPrompt(template, variables) {
+    let prompt = template;
+    for (const [key, value] of Object.entries(variables)) {
+      prompt = prompt.replace(new RegExp(`{{${key}}}`, &#39;g&#39;), value);
+    }
+    return prompt;
+  }
+</code></pre>
+<ul>
+<li><strong><code>async renderPrompt(template, variables)</code></strong>: This asynchronous method takes a prompt template (a string with placeholders) and a <code>variables</code> object (containing key-value pairs) and replaces the placeholders in the template with the corresponding values.<ul>
+<li><strong><code>let prompt = template</code></strong>:  Creates a copy of the input <code>template</code> to avoid modifying the original.</li>
+<li><strong><code>for (const [key, value] of Object.entries(variables)) { ... }</code></strong>: This loop iterates through the <code>variables</code> object. <code>Object.entries(variables)</code> returns an array of <code>[key, value]</code> pairs. The <code>for...of</code> loop destructures each pair into the <code>key</code> and <code>value</code> variables.</li>
+<li><strong><code>prompt = prompt.replace(new RegExp(\</code>{{${key}}}`, &#39;g&#39;), value)`</strong>: This is the core of the template rendering.<ul>
+<li><strong><code>new RegExp(\</code>{{${key}}}`, &#39;g&#39;)`</strong>:  Creates a regular expression to find all occurrences of the placeholder in the template.<ul>
+<li><code> `{{\${key}}}</code>:  This creates the placeholder string using template literals.  It&#39;s important to escape the curly braces <code>{</code> and <code>}</code> because they have special meaning in regular expressions. The <code>${key}</code> injects the actual key name (e.g., &quot;language&quot;, &quot;filePath&quot;).</li>
+<li><code>&#39;g&#39;</code>:  This flag tells the regular expression to find <em>all</em> occurrences of the placeholder in the string, not just the first one.</li>
+</ul>
+</li>
+<li><strong><code>prompt.replace(...)</code></strong>: This replaces all occurrences of the placeholder with the corresponding <code>value</code>.</li>
+</ul>
+</li>
+<li><strong><code>return prompt</code></strong>: Returns the rendered prompt string with all the placeholders replaced by their values.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-javascript">module.exports = { PromptManager };
+</code></pre>
+<ul>
+<li><strong><code>module.exports = { PromptManager }</code></strong>: This line exports the <code>PromptManager</code> class, making it available for use in other modules or files within the Node.js project.  Other files can now <code>require</code> this file and use the <code>PromptManager</code> class.</li>
+</ul>
+<p><strong>In summary:</strong></p>
+<p>The <code>PromptManager</code> class is designed to:</p>
+<ol>
+<li><strong>Manage prompt files</strong>: It knows where the default prompt files are located and where user-customized prompts should be stored.</li>
+<li><strong>Initialize the prompt environment</strong>: It ensures that the user&#39;s prompt directory exists and copies default prompts to the user&#39;s directory if they don&#39;t already have them.</li>
+<li><strong>Retrieve prompts</strong>: Given a <code>mode</code> (e.g., the programming language), it tries to find a user-specific prompt, then a default prompt, and finally falls back to a generic prompt.</li>
+<li><strong>Render prompts</strong>: It takes a prompt template and a set of variables and replaces the placeholders in the template with the actual values, creating a complete and ready-to-use prompt for the AI assistant.</li>
+</ol>
+<p>This code is well-structured and uses best practices like asynchronous operations, error handling (the warning message), and clear separation of concerns. It provides a flexible and robust way to manage prompts for an AI code explanation tool.</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+                </div>
+            </div>
+        </main>
+
+        <!-- Navigation Arrows -->
+        <div id="nav-arrows" class="position-fixed d-none d-flex flex-column" style="bottom: 20px; right: 20px; z-index: 1040; gap: 8px;">
+            <button id="prev-file" class="btn btn-primary btn-sm" title="Previous file">
+                <i class="fas fa-chevron-up"></i>
+            </button>
+            <button id="next-file" class="btn btn-primary btn-sm" title="Next file">
+                <i class="fas fa-chevron-down"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Non-critical scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script>
+    <!-- Load common programming languages for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/typescript.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/csharp.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/ruby.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/rust.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/php.min.js" defer></script>
+     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.0/marked.min.js" defer></script>
+     <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.1.0/lib/index.umd.js" defer></script>
+     <script src="https://cdn.jsdelivr.net/npm/mermaid@11.0.0/dist/mermaid.min.js" defer></script>

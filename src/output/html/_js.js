@@ -40,7 +40,12 @@
 
         // Cache DOM elements - convert NodeList to Array for better performance
         cachedFileEntries = Array.from(document.querySelectorAll('.file-entry'));
-        cachedSidebarLinks = document.querySelectorAll('#sidebar a[href^="#file-"]');
+        cachedSidebarLinks = document.querySelectorAll('#sidebar a[href^=\"#file-\"]');
+        
+        // If no sidebar exists, set to empty NodeList to prevent errors
+        if (cachedSidebarLinks.length === 0) {
+            cachedSidebarLinks = [];
+        }
 
         // Initialize layout
         initializeLayout();
@@ -136,23 +141,25 @@
         const sidebar = document.getElementById('sidebar');
         const mainContent = document.querySelector('main');
 
-        sidebarToggle.addEventListener('click', () => {
-            const isCollapsed = sidebar.style.transform === 'translateX(-100%)';
-            if (window.innerWidth <= 768) {
-                // Mobile: toggle between collapsed and expanded
-                if (isCollapsed) {
-                    sidebar.style.transform = 'translateX(0)';
-                    sidebar.style.opacity = '1';
-                    sidebar.style.pointerEvents = 'auto';
-                    mainContent.style.marginLeft = '280px';
-                } else {
-                    sidebar.style.transform = 'translateX(-100%)';
-                    sidebar.style.opacity = '0';
-                    sidebar.style.pointerEvents = 'none';
-                    mainContent.style.marginLeft = '0';
+        if (sidebarToggle && sidebar && mainContent) {
+            sidebarToggle.addEventListener('click', () => {
+                const isCollapsed = sidebar.style.transform === 'translateX(-100%)';
+                if (window.innerWidth <= 768) {
+                    // Mobile: toggle between collapsed and expanded
+                    if (isCollapsed) {
+                        sidebar.style.transform = 'translateX(0)';
+                        sidebar.style.opacity = '1';
+                        sidebar.style.pointerEvents = 'auto';
+                        mainContent.style.marginLeft = '280px';
+                    } else {
+                        sidebar.style.transform = 'translateX(-100%)';
+                        sidebar.style.opacity = '0';
+                        sidebar.style.pointerEvents = 'none';
+                        mainContent.style.marginLeft = '0';
+                    }
                 }
-            }
-        });
+            });
+        }
 
         // Sidebar drag resizing
         const sidebarResizer = document.getElementById('sidebar-resizer');
@@ -161,41 +168,43 @@
         let startWidth = 0;
         let animationFrameId = null;
 
-        sidebarResizer.addEventListener('mousedown', (e) => {
-            isResizing = true;
-            startX = e.clientX;
-            startWidth = sidebar.offsetWidth;
-            document.body.style.cursor = 'ew-resize';
-            document.body.style.userSelect = 'none';
-        });
-
-        document.addEventListener('mousemove', (e) => {
-            if (!isResizing) return;
-
-            // Cancel any pending animation frame
-            if (animationFrameId !== null) {
-                cancelAnimationFrame(animationFrameId);
-            }
-
-            // Schedule update on next animation frame
-            animationFrameId = requestAnimationFrame(() => {
-                const newWidth = startWidth + (e.clientX - startX);
-                const clampedWidth = Math.max(SIDEBAR_MIN_WIDTH, Math.min(SIDEBAR_MAX_WIDTH, newWidth));
-
-                sidebar.style.width = `${clampedWidth}px`;
-                mainContent.style.marginLeft = `${clampedWidth}px`;
-                mainContent.style.width = `calc(100% - ${clampedWidth}px)`;
-                animationFrameId = null;
+        if (sidebarResizer && sidebar && mainContent) {
+            sidebarResizer.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = sidebar.offsetWidth;
+                document.body.style.cursor = 'ew-resize';
+                document.body.style.userSelect = 'none';
             });
-        });
 
-        document.addEventListener('mouseup', () => {
-            if (isResizing) {
-                isResizing = false;
-                document.body.style.cursor = '';
-                document.body.style.userSelect = '';
-            }
-        });
+            document.addEventListener('mousemove', (e) => {
+                if (!isResizing) return;
+
+                // Cancel any pending animation frame
+                if (animationFrameId !== null) {
+                    cancelAnimationFrame(animationFrameId);
+                }
+
+                // Schedule update on next animation frame
+                animationFrameId = requestAnimationFrame(() => {
+                    const newWidth = startWidth + (e.clientX - startX);
+                    const clampedWidth = Math.max(SIDEBAR_MIN_WIDTH, Math.min(SIDEBAR_MAX_WIDTH, newWidth));
+
+                    sidebar.style.width = `${clampedWidth}px`;
+                    mainContent.style.marginLeft = `${clampedWidth}px`;
+                    mainContent.style.width = `calc(100% - ${clampedWidth}px)`;
+                    animationFrameId = null;
+                });
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isResizing) {
+                    isResizing = false;
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                }
+            });
+        }
 
         // Handle window resize using the shared layout function
         window.addEventListener('resize', () => {
@@ -239,23 +248,41 @@
         const sidebarToggle = document.getElementById('sidebar-toggle');
         const mainContent = document.querySelector('main');
 
+        // If sidebar doesn't exist (e.g., in flowchart mode), just return
+        if (!sidebar) {
+            // In flowchart mode, ensure main content takes full width
+            if (mainContent) {
+                mainContent.style.marginLeft = '0';
+                mainContent.style.width = '100%';
+            }
+            return;
+        }
+
         if (isMobile) {
-            sidebarToggle.classList.remove('d-none');
+            if (sidebarToggle) {
+                sidebarToggle.classList.remove('d-none');
+            }
             if (sidebar.style.transform !== 'translateX(-100%)') {
                 sidebar.style.transform = 'translateX(-100%)';
                 sidebar.style.opacity = '0';
                 sidebar.style.pointerEvents = 'none';
-                mainContent.style.marginLeft = '0';
-                mainContent.style.width = '100%';
+                if (mainContent) {
+                    mainContent.style.marginLeft = '0';
+                    mainContent.style.width = '100%';
+                }
             }
         } else {
-            sidebarToggle.classList.add('d-none');
+            if (sidebarToggle) {
+                sidebarToggle.classList.add('d-none');
+            }
             sidebar.style.transform = 'translateX(0)';
             sidebar.style.opacity = '1';
             sidebar.style.pointerEvents = 'auto';
             const currentWidth = sidebar.offsetWidth || SIDEBAR_DEFAULT_WIDTH;
-            mainContent.style.marginLeft = `${currentWidth}px`;
-            mainContent.style.width = `calc(100% - ${currentWidth}px)`;
+            if (mainContent) {
+                mainContent.style.marginLeft = `${currentWidth}px`;
+                mainContent.style.width = `calc(100% - ${currentWidth}px)`;
+            }
         }
     }
 
@@ -290,18 +317,20 @@
 
     // Auto-sync sidebar with scroll position
     function updateActiveSidebarItem() {
-        // Remove active class from all sidebar links
-        cachedSidebarLinks.forEach(link => link.classList.remove('active'));
+        // Remove active class from all sidebar links if they exist
+        if (cachedSidebarLinks && cachedSidebarLinks.length > 0) {
+            cachedSidebarLinks.forEach(link => link.classList.remove('active'));
 
-        // Find which file entry is currently most visible
-        const mostVisibleEntry = getMostVisibleElement(cachedFileEntries);
+            // Find which file entry is currently most visible
+            const mostVisibleEntry = getMostVisibleElement(cachedFileEntries);
 
-        // Highlight the corresponding sidebar item
-        if (mostVisibleEntry) {
-            const fileIndex = mostVisibleEntry.getAttribute('data-file-index');
-            const correspondingLink = document.querySelector('#sidebar a[href="#file-' + fileIndex + '"]');
-            if (correspondingLink) {
-                correspondingLink.classList.add('active');
+            // Highlight the corresponding sidebar item
+            if (mostVisibleEntry) {
+                const fileIndex = mostVisibleEntry.getAttribute('data-file-index');
+                const correspondingLink = document.querySelector('#sidebar a[href="#file-' + fileIndex + '"]');
+                if (correspondingLink) {
+                    correspondingLink.classList.add('active');
+                }
             }
         }
     }

@@ -72,13 +72,14 @@ function createHTMLTemplate(config, title, sidebarItems, fileEntries, assets) {
         </header>
 
 
+        ${config.mode === 'flowchart' ? '' : `
         <!-- Sidebar Toggle Button (Mobile) -->
-        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030;" title="Toggle Sidebar">
+        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">
             <i class="fas fa-bars"></i>
         </button>
 
         <!-- Sidebar Navigation -->
-        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(-100%); opacity: 0; pointer-events: none; transition: all 0.3s ease; z-index: 1000;">
+        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(0); opacity: 1; pointer-events: auto; transition: all 0.3s ease; z-index: 1000;">
             <div class="position-absolute" style="top: 0; right: 0; width: 5px; height: 100%; cursor: ew-resize; background: rgba(0,0,0,0.1);" id="sidebar-resizer"></div>
             <div class="p-3 border-bottom">
                 <h2 class="h6 fw-bold mb-0 text-muted d-flex align-items-center">
@@ -91,10 +92,10 @@ function createHTMLTemplate(config, title, sidebarItems, fileEntries, assets) {
                     ${sidebarItems}
                 </ul>
             </div>
-        </aside>
+        </aside>`}
 
         <!-- Main Content -->
-        <main style="margin-left: 280px; margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; width: calc(100% - 280px); min-height: calc(100vh - 96px);">
+        <main style="${config.mode === 'flowchart' ? 'margin-left: 0px; width: 100%;' : 'margin-left: 280px; width: calc(100% - 280px);'} margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
             <div class="container-fluid">
                 <!-- File Entries -->
                 <div id="file-entries" class="row g-4">
