@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Explanation: src</title>
+    <title>Code Explanation: utils</title>
     <!-- Critical CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -739,7 +739,7 @@
                 <div class="row align-items-center">
                     <div class="col-auto d-flex align-items-center">
                         <i class="fas fa-code text-primary me-3 fs-4"></i>
-                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">src</span></h1>
+                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">utils</span></h1>
                     </div>
                     <div class="col text-center d-none d-md-block">
                         <small class="text-muted">AI-Powered Code Explanation</small>
@@ -758,17 +758,17 @@
                 <!-- File Entries -->
                 <div id="file-entries" class="row g-4">
                     
-<div class="file-entry col-12 mb-4" id="file-0" data-file-path="developer-onboarding" data-file-index="0">
+<div class="file-entry col-12 mb-4" id="file-0" data-file-path="project-architecture" data-file-index="0">
     <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
         <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="0" style="font-size: 1.1rem;">
                     <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
                     <i class="fas fa-file-code me-2"></i>
-                    Developer Onboarding
+                    Project Architecture
                 </h2>
                 <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    arch
+                    architecture
                 </span>
             </div>
         </div>
@@ -776,101 +776,31 @@
         <div class="card-body p-0">
               <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
                   <div class="p-3">
-                      <pre class="mb-0"><code class="language-arch" style="font-size: 0.9rem; line-height: 1.5;">
-<span class="hljs-comment"># Codebase Summary</span>
+                      <pre class="mb-0"><code class="language-architecture" style="font-size: 0.9rem; line-height: 1.5;">
+# Codebase Summary
 
-<span class="hljs-comment">## Project Structure</span>
+## Project Structure
 
-<span class="hljs-comment">### ai</span>
+### Root Directory
 
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**aiEngine.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">aiEngine</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**promptManager.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">promptManager</span> <span class="hljs-string">module</span>
+- **constants.js** (javascript): Error generating explanation: [GoogleGenerativeAI Error]: Error fetching <span class="hljs-keyword">from</span> https:<span class="hljs-comment">//generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.</span>
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: <span class="hljs-number">200</span>
+Please retry <span class="hljs-keyword">in</span> <span class="hljs-number">17.799318162</span>s. [{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.QuotaFailure&quot;</span>,<span class="hljs-string">&quot;violations&quot;</span>:[{<span class="hljs-string">&quot;quotaMetric&quot;</span>:<span class="hljs-string">&quot;generativelanguage.googleapis.com/generate_content_free_tier_requests&quot;</span>,<span class="hljs-string">&quot;quotaId&quot;</span>:<span class="hljs-string">&quot;GenerateRequestsPerDayPerProjectPerModel-FreeTier&quot;</span>,<span class="hljs-string">&quot;quotaDimensions&quot;</span>:{<span class="hljs-string">&quot;location&quot;</span>:<span class="hljs-string">&quot;global&quot;</span>,<span class="hljs-string">&quot;model&quot;</span>:<span class="hljs-string">&quot;gemini-2.0-flash&quot;</span>},<span class="hljs-string">&quot;quotaValue&quot;</span>:<span class="hljs-string">&quot;200&quot;</span>}]},{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.Help&quot;</span>,<span class="hljs-string">&quot;links&quot;</span>:[{<span class="hljs-string">&quot;description&quot;</span>:<span class="hljs-string">&quot;Learn more about Gemini API quotas&quot;</span>,<span class="hljs-string">&quot;url&quot;</span>:<span class="hljs-string">&quot;https://ai.google.dev/gemini-api/docs/rate-limits&quot;</span>}]},{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.RetryInfo&quot;</span>,<span class="hljs-string">&quot;retryDelay&quot;</span>:<span class="hljs-string">&quot;17s&quot;</span>}]
+- **languageMap.js** (javascript): Error generating explanation: [GoogleGenerativeAI Error]: Error fetching <span class="hljs-keyword">from</span> https:<span class="hljs-comment">//generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.</span>
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: <span class="hljs-number">200</span>
+Please retry <span class="hljs-keyword">in</span> <span class="hljs-number">35.92273977</span>s. [{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.QuotaFailure&quot;</span>,<span class="hljs-string">&quot;violations&quot;</span>:[{<span class="hljs-string">&quot;quotaMetric&quot;</span>:<span class="hljs-string">&quot;generativelanguage.googleapis.com/generate_content_free_tier_requests&quot;</span>,<span class="hljs-string">&quot;quotaId&quot;</span>:<span class="hljs-string">&quot;GenerateRequestsPerDayPerProjectPerModel-FreeTier&quot;</span>,<span class="hljs-string">&quot;quotaDimensions&quot;</span>:{<span class="hljs-string">&quot;location&quot;</span>:<span class="hljs-string">&quot;global&quot;</span>,<span class="hljs-string">&quot;model&quot;</span>:<span class="hljs-string">&quot;gemini-2.0-flash&quot;</span>},<span class="hljs-string">&quot;quotaValue&quot;</span>:<span class="hljs-string">&quot;200&quot;</span>}]},{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.Help&quot;</span>,<span class="hljs-string">&quot;links&quot;</span>:[{<span class="hljs-string">&quot;description&quot;</span>:<span class="hljs-string">&quot;Learn more about Gemini API quotas&quot;</span>,<span class="hljs-string">&quot;url&quot;</span>:<span class="hljs-string">&quot;https://ai.google.dev/gemini-api/docs/rate-limits&quot;</span>}]},{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.RetryInfo&quot;</span>,<span class="hljs-string">&quot;retryDelay&quot;</span>:<span class="hljs-string">&quot;35s&quot;</span>}]
+- **utils.js** (javascript): Error generating explanation: [GoogleGenerativeAI Error]: Error fetching <span class="hljs-keyword">from</span> https:<span class="hljs-comment">//generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits.</span>
+* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: <span class="hljs-number">200</span>
+Please retry <span class="hljs-keyword">in</span> <span class="hljs-number">16.952773209</span>s. [{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.QuotaFailure&quot;</span>,<span class="hljs-string">&quot;violations&quot;</span>:[{<span class="hljs-string">&quot;quotaMetric&quot;</span>:<span class="hljs-string">&quot;generativelanguage.googleapis.com/generate_content_free_tier_requests&quot;</span>,<span class="hljs-string">&quot;quotaId&quot;</span>:<span class="hljs-string">&quot;GenerateRequestsPerDayPerProjectPerModel-FreeTier&quot;</span>,<span class="hljs-string">&quot;quotaDimensions&quot;</span>:{<span class="hljs-string">&quot;model&quot;</span>:<span class="hljs-string">&quot;gemini-2.0-flash&quot;</span>,<span class="hljs-string">&quot;location&quot;</span>:<span class="hljs-string">&quot;global&quot;</span>},<span class="hljs-string">&quot;quotaValue&quot;</span>:<span class="hljs-string">&quot;200&quot;</span>}]},{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.Help&quot;</span>,<span class="hljs-string">&quot;links&quot;</span>:[{<span class="hljs-string">&quot;description&quot;</span>:<span class="hljs-string">&quot;Learn more about Gemini API quotas&quot;</span>,<span class="hljs-string">&quot;url&quot;</span>:<span class="hljs-string">&quot;https://ai.google.dev/gemini-api/docs/rate-limits&quot;</span>}]},{<span class="hljs-string">&quot;@type&quot;</span>:<span class="hljs-string">&quot;type.googleapis.com/google.rpc.RetryInfo&quot;</span>,<span class="hljs-string">&quot;retryDelay&quot;</span>:<span class="hljs-string">&quot;16s&quot;</span>}]
 
-<span class="hljs-comment">### commands</span>
+## Technology Stack
 
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**explain.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">explain</span> <span class="hljs-string">module</span>
+- **Languages**: javascript
+- **File Types**: .js
 
-<span class="hljs-comment">### core</span>
+## Key Files Content
 
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**cacheManager.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">cacheManager</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**codeAnalyzer.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">codeAnalyzer</span> <span class="hljs-string">module</span>
 
-<span class="hljs-comment">### config</span>
-
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**configManager.js** (javascript):</span> <span class="hljs-string">Configuration</span> <span class="hljs-string">settings</span> <span class="hljs-string">and</span> <span class="hljs-string">environment</span> <span class="hljs-string">variables</span>
-
-<span class="hljs-comment">### flowchart</span>
-
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**flowchartGenerator.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">flowchartGenerator</span> <span class="hljs-string">module</span>
-
-<span class="hljs-comment">### utils</span>
-
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**constants.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">constants</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**languageMap.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">languageMap</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**utils.js** (javascript):</span> <span class="hljs-string">Provides</span> <span class="hljs-string">utility</span> <span class="hljs-string">functions</span> <span class="hljs-string">and</span> <span class="hljs-string">reusable</span> <span class="hljs-string">code</span>
-
-<span class="hljs-comment">### output/html</span>
-
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**htmlOutput.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">htmlOutput</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**htmlTemplate.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">htmlTemplate</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**_css.css** (css):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">_css</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**_flowchart.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">_flowchart</span> <span class="hljs-string">module</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**_js.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">_js</span> <span class="hljs-string">module</span>
-
-<span class="hljs-comment">### output/pdf</span>
-
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**pdfOutput.js** (javascript):</span> <span class="hljs-string">Contains</span> <span class="hljs-string">code</span> <span class="hljs-string">for</span> <span class="hljs-string">pdfOutput</span> <span class="hljs-string">module</span>
-
-<span class="hljs-comment">## Technology Stack</span>
-
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**Languages**:</span> <span class="hljs-string">javascript,</span> <span class="hljs-string">css</span>
-<span class="hljs-bullet">-</span> <span class="hljs-attr">**File Types**:</span> <span class="hljs-string">.js,</span> <span class="hljs-string">.css</span>
-
-<span class="hljs-comment">## Key Files Content</span>
-
-<span class="hljs-comment">### config/configManager.js</span>
-
-<span class="hljs-string">```javascript</span>
-<span class="hljs-string">const</span> <span class="hljs-string">path</span> <span class="hljs-string">=</span> <span class="hljs-string">require(&#x27;path&#x27;);</span>
-<span class="hljs-string">const</span> <span class="hljs-string">fs</span> <span class="hljs-string">=</span> <span class="hljs-string">require(&#x27;fs-extra&#x27;);</span>
-
-<span class="hljs-string">//</span> <span class="hljs-string">Configuration</span> <span class="hljs-string">constants</span>
-<span class="hljs-string">const</span> <span class="hljs-string">CONFIG_DEFAULTS</span> <span class="hljs-string">=</span> {
-  <span class="hljs-attr">GEMINI_MODEL:</span> <span class="hljs-string">&#x27;gemini-2.5-flash&#x27;</span>,
-  <span class="hljs-attr">OPENAI_MODEL:</span> <span class="hljs-string">&#x27;gpt-4o&#x27;</span>,
-  <span class="hljs-attr">RETRY_ATTEMPTS:</span> <span class="hljs-number">3</span>,
-  <span class="hljs-attr">RETRY_DELAY:</span> <span class="hljs-number">1000</span>,
-  <span class="hljs-attr">JSON_INDENT_SPACES:</span> <span class="hljs-number">2</span>
-}<span class="hljs-string">;</span>
-
-<span class="hljs-string">const</span> <span class="hljs-string">CONFIG_DIR_NAME</span> <span class="hljs-string">=</span> <span class="hljs-string">&#x27;.codeexplain&#x27;</span><span class="hljs-string">;</span>
-<span class="hljs-string">const</span> <span class="hljs-string">CONFIG_FILE_NAME</span> <span class="hljs-string">=</span> <span class="hljs-string">&#x27;config.json&#x27;</span><span class="hljs-string">;</span>
-
-<span class="hljs-string">class</span> <span class="hljs-string">ConfigManager</span> {
-  <span class="hljs-comment">#codeExplainDir;</span>
-
-  <span class="hljs-string">constructor(configPath)</span> {
-    <span class="hljs-string">this.configPath</span> <span class="hljs-string">=</span> <span class="hljs-string">configPath;</span>
-    <span class="hljs-string">this.#codeExplainDir</span> <span class="hljs-string">=</span> <span class="hljs-string">path.join(process.cwd()</span>, <span class="hljs-string">CONFIG_DIR_NAME);</span>
-    <span class="hljs-string">this.defaultConfig</span> <span class="hljs-string">=</span> {
-      <span class="hljs-attr">provider:</span> <span class="hljs-string">&#x27;gemini&#x27;</span>,
-      <span class="hljs-attr">model:</span> <span class="hljs-string">&#x27;gemini-2.5-flash&#x27;</span>,
-      <span class="hljs-attr">output:</span> <span class="hljs-string">&#x27;html&#x27;</span>,
-      <span class="hljs-attr">mode:</span> <span class="hljs-string">&#x27;explain&#x27;</span>,
-      <span class="hljs-attr">level:</span> <span class="hljs-string">&#x27;beginner&#x27;</span>,
-      <span class="hljs-attr">maxTokens:</span> <span class="hljs-number">15000</span>,
-      <span class="hljs-attr">baseUrl:</span> <span class="hljs-literal">null</span>, <span class="hljs-string">//</span> <span class="hljs-string">For</span> <span class="hljs-string">Ollama</span> <span class="hljs-string">or</span> <span class="hljs-string">custom</span> <span class="hljs-string">OpenAI</span> <span class="hljs-string">endpoints</span>
-      <span class="hljs-attr">retry:</span> {
-        <span class="hljs-attr">attempts:</span> <span class="hljs-string">CONFIG_DEFAULTS.RETRY_ATTEMPTS</span>,
-        <span class="hljs-attr">delay:</span> <span class="hljs-string">CONFIG_DEFAULTS.RETRY_DELAY</span>
-      },
-      <span class="hljs-attr">codeExtensions:</span> [
-        <span class="hljs-string">//</span> <span class="hljs-string">Web</span> <span class="hljs-string">Development</span>
-        <span class="hljs-string">&#x27;.js&#x27;</span>, <span class="hljs-string">&#x27;.jsx&#x27;</span>, <span class="hljs-string">&#x27;.ts&#x27;</span>, <span class="hljs-string">&#x27;.tsx&#x27;</span>, <span class="hljs-string">&#x27;.vue&#x27;</span>, <span class="hljs-string">&#x27;.svel
-... (truncated)
-```
-
-</span>
                       </code></pre>
                   </div>
               </div>
@@ -886,238 +816,11 @@
                     </button>
                 </div>
                 <div class="explanation-content">
-                    <h1>Codebase Architecture Overview</h1>
-<p>This document provides a comprehensive architectural overview of the codebase, targeting beginner developers. It outlines the key components, their relationships, data flow, design patterns, and technology stack.</p>
-<h2>1. Overall System Architecture and Design</h2>
-<p>The codebase is designed to analyze and explain code, generate flowcharts, and output the results in various formats (HTML, PDF). It leverages AI models (Gemini, OpenAI) to provide explanations at different levels of detail. The system is structured into modules that handle specific tasks, such as AI interaction, code analysis, output generation, and configuration management.</p>
-<h2>2. Key Components and Their Relationships</h2>
-<p>The project comprises several key modules, each responsible for a specific aspect of the application&#39;s functionality.  Here&#39;s a breakdown of each and their inter-relationships:</p>
+                    <p>Error generating architecture analysis: [GoogleGenerativeAI Error]: Error fetching from <a href="https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent">https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent</a>: [429 Too Many Requests] You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: <a href="https://ai.google.dev/gemini-api/docs/rate-limits">https://ai.google.dev/gemini-api/docs/rate-limits</a>.</p>
 <ul>
-<li><p><strong><code>ai</code></strong>: This directory contains modules related to interacting with AI models.</p>
-<ul>
-<li><strong><code>aiEngine.js</code></strong>:  This is likely the core module responsible for communicating with the AI models (Gemini or OpenAI). It handles sending prompts and receiving responses.  It&#39;s the interface between the core logic and the chosen AI provider.</li>
-<li><strong><code>promptManager.js</code></strong>:  This module manages the prompts sent to the AI engine. It likely constructs prompts based on the input code and desired explanation level.  It may also handle prompt formatting and optimization for specific AI models.</li>
+<li>Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 200
+Please retry in 19.233835136s. [{&quot;@type&quot;:&quot;type.googleapis.com/google.rpc.QuotaFailure&quot;,&quot;violations&quot;:[{&quot;quotaMetric&quot;:&quot;generativelanguage.googleapis.com/generate_content_free_tier_requests&quot;,&quot;quotaId&quot;:&quot;GenerateRequestsPerDayPerProjectPerModel-FreeTier&quot;,&quot;quotaDimensions&quot;:{&quot;location&quot;:&quot;global&quot;,&quot;model&quot;:&quot;gemini-2.0-flash&quot;},&quot;quotaValue&quot;:&quot;200&quot;}]},{&quot;@type&quot;:&quot;type.googleapis.com/google.rpc.Help&quot;,&quot;links&quot;:[{&quot;description&quot;:&quot;Learn more about Gemini API quotas&quot;,&quot;url&quot;:&quot;<a href="https://ai.google.dev/gemini-api/docs/rate-limits%22%7D%5D%7D,%7B%22@type%22:%22type.googleapis.com/google.rpc.RetryInfo%22,%22retryDelay%22:%2219s%22%7D%5D">https://ai.google.dev/gemini-api/docs/rate-limits&quot;}]},{&quot;@type&quot;:&quot;type.googleapis.com/google.rpc.RetryInfo&quot;,&quot;retryDelay&quot;:&quot;19s&quot;}]</a></li>
 </ul>
-</li>
-<li><p><strong><code>commands</code></strong>: This directory contains command-line interface (CLI) command definitions.</p>
-<ul>
-<li><strong><code>explain.js</code></strong>:  This module likely defines the <code>explain</code> command. It handles parsing command-line arguments, orchestrating the code analysis and explanation process, and outputting the results. This serves as an entrypoint for the program.</li>
-</ul>
-</li>
-<li><p><strong><code>core</code></strong>: This directory contains the core logic of the application.</p>
-<ul>
-<li><strong><code>cacheManager.js</code></strong>: This module handles caching of AI responses to improve performance and reduce API calls.</li>
-<li><strong><code>codeAnalyzer.js</code></strong>: This module analyzes the input code to extract relevant information, such as syntax, structure, and dependencies.  It serves as an abstraction that allows the AI to focus on the important parts of the code instead of raw text.</li>
-</ul>
-</li>
-<li><p><strong><code>config</code></strong>:</p>
-<ul>
-<li><strong><code>configManager.js</code></strong>: This module manages the application&#39;s configuration settings, including API keys, model choices, and output formats. It reads configuration from a file (<code>config.json</code>) and provides access to configuration values. This is crucial for customizing the application&#39;s behavior.</li>
-</ul>
-</li>
-<li><p><strong><code>flowchart</code></strong>:</p>
-<ul>
-<li><strong><code>flowchartGenerator.js</code></strong>: This module generates flowcharts from the analyzed code.</li>
-</ul>
-</li>
-<li><p><strong><code>utils</code></strong>: This directory contains utility functions and constants.</p>
-<ul>
-<li><strong><code>constants.js</code></strong>: Defines constants used throughout the application, such as default values and error messages.</li>
-<li><strong><code>languageMap.js</code></strong>:  Maps file extensions to programming languages, enabling language-specific analysis and highlighting.</li>
-<li><strong><code>utils.js</code></strong>: Provides reusable utility functions, such as file reading, string manipulation, and error handling.</li>
-</ul>
-</li>
-<li><p><strong><code>output</code></strong>: This directory contains modules for generating output in different formats.</p>
-<ul>
-<li><strong><code>output/html</code></strong>:<ul>
-<li><strong><code>htmlOutput.js</code></strong>: This module generates HTML output from the analyzed code and AI explanations.</li>
-<li><strong><code>htmlTemplate.js</code></strong>: Provides the HTML template used to structure the output.</li>
-<li><strong><code>_css.css</code></strong>: Contains CSS styles for the HTML output.</li>
-<li><strong><code>_flowchart.js</code></strong>: Contains JavaScript code related to flowchart visualization in the HTML output.</li>
-<li><strong><code>_js.js</code></strong>: Contains JavaScript code for interactive elements in the HTML output.</li>
-</ul>
-</li>
-<li><strong><code>output/pdf</code></strong>:<ul>
-<li><strong><code>pdfOutput.js</code></strong>: This module generates PDF output from the analyzed code and AI explanations.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p><strong>Relationship Diagram (Conceptual):</strong></p>
-
-<p>[CLI] (explain.js) --&gt; [Configuration] (configManager.js)
-[CLI] --&gt; [Code Analysis] (codeAnalyzer.js)
-[CLI] --&gt; [AI Engine] (aiEngine.js)
-[CLI] --&gt; [Flowchart] (flowchartGenerator.js)
-[Code Analysis] --&gt; [Language Map] (languageMap.js)
-[AI Engine] --&gt; [Prompt Manager] (promptManager.js)
-[AI Engine] --&gt; [Cache Manager] (cacheManager.js)
-[CLI] --&gt; [Output] (htmlOutput.js, pdfOutput.js)</p>
-<pre><code>
-## 3. Data Flow and Interactions Between Modules
-
-1.  **Input:** The `explain.js` command receives the input code file as an argument.
-2.  **Configuration:** `explain.js` uses `configManager.js` to load configuration settings, such as the AI model to use and the output format.
-3.  **Code Analysis:** `codeAnalyzer.js` analyzes the input code to extract relevant information (e.g., syntax, structure).
-4.  **Prompt Generation:** `promptManager.js` constructs a prompt based on the analyzed code and the user&#39;s desired explanation level.
-5.  **AI Interaction:** `aiEngine.js` sends the prompt to the configured AI model (Gemini or OpenAI) and retrieves the response.  `cacheManager.js` is used to check if the prompt has been processed before, and either retrieves the explanation or caches a newly generated one.
-6.  **Flowchart Generation:** `flowchartGenerator.js` creates a flowchart representation of the code&#39;s logic.
-7.  **Output Generation:** Based on the configured output format (`html` or `pdf`), either `htmlOutput.js` or `pdfOutput.js` generates the output document, incorporating the code, AI explanation, and flowchart.  `htmlOutput.js` uses `htmlTemplate.js` for the HTML structure and styling from `_css.css` and interactive components handled by `_js.js` and potentially `_flowchart.js`.
-8.  **Output:** The generated document is saved to a file or displayed to the user.
-
-## 4. Design Patterns and Architectural Decisions
-
-*   **Modular Design:** The codebase is divided into modules with clear responsibilities, promoting code reusability and maintainability.
-*   **Configuration Management:** The `configManager.js` module centralizes configuration settings, making it easy to customize the application&#39;s behavior.
-*   **Abstraction:** The `aiEngine.js` module provides an abstraction layer for interacting with different AI models, allowing the application to switch between models without significant code changes.
-*   **Caching:** The `cacheManager.js` module implements caching to improve performance and reduce API calls.
-*   **Template Pattern:** `htmlOutput.js` and `htmlTemplate.js` use a template pattern to generate HTML output, separating the structure of the output from the data.
-
-## 5. Technology Stack and Frameworks Used
-
-*   **JavaScript:** The primary programming language.
-*   **CSS:** Used for styling the HTML output.
-*   **Node.js:**  Implied usage since `require` is used and Javascript files are present.
-
-## 6. Project Structure and Organization
-
-The project follows a clear directory structure that separates different concerns:
-
-*   `ai`: AI interaction logic.
-*   `commands`: CLI command definitions.
-*   `core`: Core application logic.
-*   `config`: Configuration management.
-*   `flowchart`: Flowchart generation.
-*   `utils`: Utility functions and constants.
-*   `output`: Output generation in different formats.
-
-## 7. Entry Points and Main Application Flow
-
-The main entry point of the application is likely the `explain.js` file within the `commands` directory. This is where the command-line arguments are parsed, and the core logic of the application is invoked. The overall application flow can be summarized as follows:
-
-1.  User executes the `explain` command with the input code file.
-2.  `explain.js` parses the command-line arguments and loads the configuration using `configManager.js`.
-3.  `explain.js` invokes `codeAnalyzer.js` to analyze the input code.
-4.  `explain.js` uses the analyzed code to generate a prompt using `promptManager.js`.
-5.  `explain.js` sends the prompt to the AI engine via `aiEngine.js` and caches results via `cacheManager.js`.
-6.  `explain.js` invokes `flowchartGenerator.js` to create a flowchart.
-7.  `explain.js` uses either `htmlOutput.js` or `pdfOutput.js` to generate the output document, based on the configuration.
-8.  The generated document is saved to a file or displayed to the user.
-
-## 8. Code Examples
-
-Here are some code snippets to illustrate key aspects of the codebase:
-
-**Example: Configuration Loading (config/configManager.js)**
-
-```javascript
-const path = require(&#39;path&#39;);
-const fs = require(&#39;fs-extra&#39;);
-
-const CONFIG_DEFAULTS = {
-  GEMINI_MODEL: &#39;gemini-2.5-flash&#39;,
-  OPENAI_MODEL: &#39;gpt-4o&#39;,
-  RETRY_ATTEMPTS: 3,
-  RETRY_DELAY: 1000,
-  JSON_INDENT_SPACES: 2
-};
-
-const CONFIG_DIR_NAME = &#39;.codeexplain&#39;;
-const CONFIG_FILE_NAME = &#39;config.json&#39;;
-
-class ConfigManager {
-  #codeExplainDir;
-
-  constructor(configPath) {
-    this.configPath = configPath;
-    this.#codeExplainDir = path.join(process.cwd(), CONFIG_DIR_NAME);
-    this.defaultConfig = {
-      provider: &#39;gemini&#39;,
-      model: &#39;gemini-2.5-flash&#39;,
-      output: &#39;html&#39;,
-      mode: &#39;explain&#39;,
-      level: &#39;beginner&#39;,
-      maxTokens: 15000,
-      baseUrl: null, // For Ollama or custom OpenAI endpoints
-      retry: {
-        attempts: CONFIG_DEFAULTS.RETRY_ATTEMPTS,
-        delay: CONFIG_DEFAULTS.RETRY_DELAY
-      },
-      codeExtensions: [
-        // Web Development
-        &#39;.js&#39;, &#39;.jsx&#39;, &#39;.ts&#39;, &#39;.tsx&#39;, &#39;.vue&#39;, &#39;.svelte&#39;, &#39;.html&#39;, &#39;.css&#39;, &#39;.scss&#39;, &#39;.php&#39;,
-        // Backend Development
-        &#39;.py&#39;, &#39;.java&#39;, &#39;.c&#39;, &#39;.cpp&#39;, &#39;.go&#39;, &#39;.rs&#39;, &#39;.sh&#39;, &#39;.kt&#39;, &#39;.rb&#39;, &#39;.m&#39;, &#39;.swift&#39;, &#39;.cs&#39;,
-        // Data Science and ML
-        &#39;.r&#39;, &#39;.ipynb&#39;,
-        // DevOps and Infrastructure
-        &#39;.yml&#39;, &#39;.yaml&#39;, &#39;.dockerfile&#39;, &#39;.tf&#39;, &#39;.toml&#39;,
-        // Databases
-        &#39;.sql&#39;,
-      ]
-    };
-  }
-
-  async initialize() {
-    await fs.ensureDir(this.#codeExplainDir);
-    const configFilePath = path.join(this.#codeExplainDir, CONFIG_FILE_NAME);
-
-    if (!fs.existsSync(configFilePath)) {
-      await fs.writeJson(configFilePath, this.defaultConfig, { spaces: CONFIG_DEFAULTS.JSON_INDENT_SPACES });
-      console.log(`Default configuration created at ${configFilePath}`);
-    }
-
-    this.config = await fs.readJson(configFilePath);
-  }
-
-  getConfig() {
-    return this.config;
-  }
-}
-
-module.exports = ConfigManager;
-</code></pre>
-<p>This code snippet shows how the <code>ConfigManager</code> class loads configuration settings from a file and provides access to those settings.</p>
-<p><strong>Example: AI Engine (ai/aiEngine.js)</strong></p>
-<pre><code class="language-javascript">// Assumed structure - actual implementation would differ significantly
-class AiEngine {
-  constructor(config) {
-    this.config = config;
-  }
-
-  async generateExplanation(prompt) {
-    let response;
-    if (this.config.provider === &#39;gemini&#39;) {
-      // Code to interact with Gemini API
-      response = await this.callGeminiAPI(prompt);
-    } else if (this.config.provider === &#39;openai&#39;) {
-      // Code to interact with OpenAI API
-      response = await this.callOpenAIAPI(prompt);
-    } else {
-      throw new Error(`Unsupported AI provider: ${this.config.provider}`);
-    }
-    return response;
-  }
-
-  async callGeminiAPI(prompt) {
-    // Replace with actual Gemini API call
-    console.log(&quot;Calling Gemini API with prompt:&quot;, prompt);
-    return &quot;Gemini Explanation&quot;; // Mock response
-  }
-
-  async callOpenAIAPI(prompt) {
-    // Replace with actual OpenAI API call
-    console.log(&quot;Calling OpenAI API with prompt:&quot;, prompt);
-    return &quot;OpenAI Explanation&quot;; // Mock response
-  }
-}
-
-module.exports = AiEngine;
-</code></pre>
-<p>This simplified example demonstrates the basic structure of the <code>aiEngine.js</code> module, which handles communication with AI models.</p>
-<p>This architecture overview provides a solid foundation for understanding the codebase and its components. As a beginner developer, you can use this information to navigate the project, understand the relationships between modules, and contribute effectively.
-```</p>
 
                 </div>
             </div>

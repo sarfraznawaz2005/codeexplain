@@ -18,7 +18,8 @@ const MODES = {
   EXPLAIN: 'explain',
   ARCHITECTURE: 'architecture',
   ARCH: 'arch',
-  LINE_BY_LINE: 'linebyline'
+  LINE_BY_LINE: 'linebyline',
+  SUMMARY: 'summary'
 };
 
 const USER_LEVELS = {
@@ -170,10 +171,7 @@ class AIEngine {
 
     // Check if this is architecture or onboarding mode (codebase-level analysis)
     if (this.config.mode === 'architecture' || this.config.mode === 'arch' || this.config.mode === 'onboarding') {
-      const result = await this.explainCodebase(analysis);
-      if (progressCallback) {
-        progressCallback('codebase-analysis', 1, 1, 100, result.cached, false);
-      }
+      const result = await this.explainCodebaseWithAISummaries(analysis, progressCallback);
       return [result];
     }
 
@@ -206,6 +204,157 @@ class AIEngine {
         progressCallback(analysis.path || 'single-file', 1, 1, 100, result.cached, false); // Completed
       }
       return result;
+    }
+  }
+
+  async explainCodebaseWithAISummaries(analysisArray, progressCallback) {
+    // First, generate AI summaries for each file
+    const fileSummaries = [];
+    let completed = 0;
+    const total = analysisArray.length;
+
+    for (let i = 0; i < analysisArray.length; i++) {
+      const file = analysisArray[i];
+
+      // Temporarily set mode to summary to get file summaries
+      const originalMode = this.config.mode;
+      this.config.mode = MODES.SUMMARY;
+
+      const summaryResult = await this.explainFile(file);
+      fileSummaries.push({
+        relativePath: file.relativePath,
+        language: file.language,
+        summary: summaryResult.explanation
+      });
+
+      // Restore original mode
+      this.config.mode = originalMode;
+
+  completed++;
+  console.log(`DEBUG: About to call progressCallback for ${file.relativePath}, completed=${completed}/${total}`);
+  if (progressCallback) {
+    const progress = Math.round((completed / total) * 100);
+    progressCallback(file.path || `file-${i}`, completed, total, progress, summaryResult.cached, false);
+  }
+    }
+
+      // Now generate the final architecture/onboarding analysis using the AI summaries
+      const result = await this.explainCodebaseFromSummaries(fileSummaries, analysisArray);
+      if (progressCallback) {
+        progressCallback('Final analysis', total, total, 100, result.cached, false);
+      }
+      return result;
+  }
+
+  async explainCodebaseFromSummaries(fileSummaries, analysisArray) {
+    // Create a single codebase analysis object
+    const codebaseSummary = this.buildCodebaseSummary(analysisArray, fileSummaries);
+
+    const codebaseAnalysis = {
+      relativePath: this.config.mode === 'architecture' ? 'Project Architecture' : 'Developer Onboarding',
+      path: this.config.mode === 'architecture' ? 'project-architecture' : 'developer-onboarding',
+      language: this.config.mode,
+      content: codebaseSummary,
+      codebaseSummary: codebaseSummary
+    };
+
+    // Try to get cached explanation first (unless cache is disabled)
+    if (this.config.cache !== false) {
+      if (this.verbose) {
+        console.log(chalk.gray(`🔍 Checking cache for: ${codebaseAnalysis.relativePath}`));
+      }
+
+      const cachedExplanation = await this.cacheManager.getCachedExplanation(
+        codebaseAnalysis.path,
+        this.config
+      );
+
+      if (cachedExplanation) {
+        if (this.verbose) {
+          console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
+        }
+        // Track cached file usage
+        this.tokenUsage.cachedFiles++;
+        return {
+          ...codebaseAnalysis,
+          explanation: cachedExplanation,
+          cached: true
+        };
+      } else {
+        if (this.verbose) {
+          console.log(chalk.gray('📭 Cache miss - will generate new explanation'));
+        }
+      }
+    }
+
+    const prompt = await this.buildPrompt(codebaseAnalysis);
+
+    // Estimate input tokens (prompt)
+    const inputTokens = this.estimateTokens(prompt);
+    this.tokenUsage.totalInputTokens += inputTokens;
+    this.tokenUsage.processedFiles++;
+
+    // Verbose: Show prompt details
+    if (this.verbose) {
+      console.log(chalk.gray(`🔍 Processing: ${codebaseAnalysis.relativePath}`));
+      console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
+      console.log(chalk.gray('   ' + prompt.replace(/\n/g, '\n   ')));
+      console.log('');
+    }
+
+    try {
+      // Retry with exponential backoff using LangChain
+      const result = await this.retryWithBackoff(async () => {
+        return await this.modelInstance.invoke([
+          { role: 'system', content: 'You are a helpful assistant that provides detailed code analysis and documentation.' },
+          { role: 'user', content: prompt }
+        ]);
+      });
+
+      const response = result.content;
+
+      // Get token usage from metadata
+      const metadata = result.additional_kwargs?.response_metadata ||
+        result.additional_kwargs?.usage_metadata ||
+        result.lc_kwargs?.response_metadata;
+
+      // Update token tracking with actual usage if available
+      const outputTokens = this.estimateTokens(response, metadata);
+      this.tokenUsage.totalOutputTokens += outputTokens;
+      this.tokenUsage.totalTokens += inputTokens + outputTokens;
+
+      // Verbose: Show response details
+      if (this.verbose) {
+        console.log(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
+        console.log(chalk.gray('   ' + response.substring(0, 200) + (response.length > 200 ? '...' : '')));
+        console.log('');
+      }
+
+      // Cache the explanation (unless cache is disabled)
+      if (this.config.cache !== false) {
+        if (this.verbose) {
+          console.log(chalk.gray(`💾 Saving to cache: ${codebaseAnalysis.relativePath}`));
+        }
+        await this.cacheManager.setCachedExplanation(
+          codebaseAnalysis.path,
+          this.config,
+          response
+        );
+      }
+
+      return {
+        ...codebaseAnalysis,
+        explanation: response,
+        cached: false
+      };
+    } catch (error) {
+      // Ensure all errors, including those after all retries, are handled here
+      console.error(`Error generating ${this.config.mode} analysis:`, error && error.message ? error.message : error);
+      return {
+        ...codebaseAnalysis,
+        explanation: `Error generating ${this.config.mode} analysis: ${error && error.message ? error.message : error}`,
+        cached: false
+      };
     }
   }
 
@@ -321,7 +470,7 @@ class AIEngine {
     }
   }
 
-  buildCodebaseSummary(analysisArray) {
+  buildCodebaseSummary(analysisArray, fileSummaries = null) {
     let summary = '# Codebase Summary\n\n';
 
     // Group files by directory
@@ -339,7 +488,8 @@ class AIEngine {
     for (const [dir, files] of dirMap) {
       summary += `### ${dir === '.' ? 'Root Directory' : dir}\n\n`;
       files.forEach(file => {
-        summary += `- **${path.basename(file.relativePath)}** (${file.language}): ${this.extractPurpose(file.content, file.relativePath, file.language)}\n`;
+        const fileSummary = fileSummaries ? fileSummaries.find(s => s.relativePath === file.relativePath)?.summary : this.extractPurpose(file.content, file.relativePath, file.language);
+        summary += `- **${path.basename(file.relativePath)}** (${file.language}): ${fileSummary || this.extractPurpose(file.content, file.relativePath, file.language)}\n`;
       });
       summary += '\n';
     }

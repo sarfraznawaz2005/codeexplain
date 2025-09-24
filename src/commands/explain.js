@@ -160,29 +160,9 @@ async function explain(paths, options) {
     } else if (effectiveMode === 'architecture') {
       console.log(chalk.yellow('🏗️ Generating architecture overview...'));
       const aiEngine = new AIEngine(finalConfig);
-      explanations = await aiEngine.generateExplanations(allAnalysis);
-      console.log(chalk.green('✅ Architecture overview generation completed!'));
-    } else if (finalConfig.mode === MODE_ONBOARDING) {
-      console.log(chalk.yellow('👨‍💻 Generating onboarding guide...'));
-      const aiEngine = new AIEngine(finalConfig);
-      explanations = await aiEngine.generateExplanations(allAnalysis);
-      console.log(chalk.green('✅ Onboarding guide generation completed!'));
-    } else {
-      // Generate AI explanations with progress tracking for normal modes
-      const aiEngine = new AIEngine(finalConfig);
-      console.log(chalk.yellow('🤖 Generating AI explanations...'));
-
-      // Verbose: Show AI engine details
-      if (options.verbose) {
-        console.log(chalk.gray(`   AI Provider: ${finalConfig.provider}`));
-        console.log(chalk.gray(`   Model: ${finalConfig.model}`));
-        console.log(chalk.gray(`   Max Tokens: ${finalConfig.maxTokens}`));
-        console.log(chalk.gray(`   Retry Attempts: ${finalConfig.retry?.attempts || 3}`));
-        console.log('');
-      }
-
-       let fileCounter = 0;
-       explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
+      let fileCounter = 0;
+      explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
+        console.log(`DEBUG: Progress callback called with ${filePath}, ${completed}/${total}, ${progress}%, cached=${cached}, isStarting=${isStarting}`);
         // Convert to relative path from the scanned folder
         let displayPath = filePath;
         if (pathArray.length === 1) {
@@ -200,7 +180,71 @@ async function explain(paths, options) {
           const formattedProgress = progress.toString().padStart(2, '0');
           const progressText = chalk.cyan(`[${formattedProgress}%] ${cacheIndicator}`);
           const paddedCounter = fileCounter.toString().padStart(2, '0');
-          process.stdout.write(`${paddedCounter} - ${progressText}${displayPath}\n`);
+          console.log(`${paddedCounter} - ${progressText}${displayPath}`);
+        }
+      });
+      console.log(chalk.green('✅ Architecture overview generation completed!'));
+    } else if (finalConfig.mode === MODE_ONBOARDING) {
+      console.log(chalk.yellow('👨‍💻 Generating onboarding guide...'));
+      const aiEngine = new AIEngine(finalConfig);
+      let fileCounter = 0;
+      explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
+        console.log(`DEBUG: Progress callback called with ${filePath}, ${completed}/${total}, ${progress}%, cached=${cached}, isStarting=${isStarting}`);
+        // Convert to relative path from the scanned folder
+        let displayPath = filePath;
+        if (pathArray.length === 1) {
+          const relativePath = path.relative(pathArray[0], filePath);
+          displayPath = relativePath || path.basename(filePath); // Use basename if relative is empty
+        } else {
+          // For multiple paths, show relative to the common base or just filename
+          displayPath = path.basename(filePath);
+        }
+
+        // Only show completion status to avoid duplicate entries
+        if (!isStarting) {
+          fileCounter++;
+          const cacheIndicator = cached ? chalk.gray('[CACHE] ') : '';
+          const formattedProgress = progress.toString().padStart(2, '0');
+          const progressText = chalk.cyan(`[${formattedProgress}%] ${cacheIndicator}`);
+          const paddedCounter = fileCounter.toString().padStart(2, '0');
+          console.log(`${paddedCounter} - ${progressText}${displayPath}`);
+        }
+      });
+      console.log(chalk.green('✅ Onboarding guide generation completed!'));
+    } else {
+      // Generate AI explanations with progress tracking for normal modes
+      const aiEngine = new AIEngine(finalConfig);
+      console.log(chalk.yellow('🤖 Generating AI explanations...'));
+
+      // Verbose: Show AI engine details
+      if (options.verbose) {
+        console.log(chalk.gray(`   AI Provider: ${finalConfig.provider}`));
+        console.log(chalk.gray(`   Model: ${finalConfig.model}`));
+        console.log(chalk.gray(`   Max Tokens: ${finalConfig.maxTokens}`));
+        console.log(chalk.gray(`   Retry Attempts: ${finalConfig.retry?.attempts || 3}`));
+        console.log('');
+      }
+
+       let fileCounter = 0;
+      explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
+        // Convert to relative path from the scanned folder
+        let displayPath = filePath;
+        if (pathArray.length === 1) {
+          const relativePath = path.relative(pathArray[0], filePath);
+          displayPath = relativePath || path.basename(filePath); // Use basename if relative is empty
+        } else {
+          // For multiple paths, show relative to the common base or just filename
+          displayPath = path.basename(filePath);
+        }
+
+        // Only show completion status to avoid duplicate entries
+        if (!isStarting) {
+          fileCounter++;
+          const cacheIndicator = cached ? chalk.gray('[CACHE] ') : '';
+          const formattedProgress = progress.toString().padStart(2, '0');
+          const progressText = chalk.cyan(`[${formattedProgress}%] ${cacheIndicator}`);
+          const paddedCounter = fileCounter.toString().padStart(2, '0');
+          console.log(`${paddedCounter} - ${progressText}${displayPath}`);
         }
       });
 
