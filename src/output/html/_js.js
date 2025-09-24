@@ -248,9 +248,9 @@
         const sidebarToggle = document.getElementById('sidebar-toggle');
         const mainContent = document.querySelector('main');
 
-        // If sidebar doesn't exist (e.g., in flowchart mode), just return
+        // If sidebar doesn't exist (e.g., in flowchart, architecture, or onboarding mode), just return
         if (!sidebar) {
-            // In flowchart mode, ensure main content takes full width
+            // In special modes, ensure main content takes full width
             if (mainContent) {
                 mainContent.style.marginLeft = '0';
                 mainContent.style.width = '100%';

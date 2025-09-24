@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Explanation: ai</title>
+    <title>Code Explanation: src\</title>
     <!-- Critical CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -600,9 +600,9 @@
         const sidebarToggle = document.getElementById('sidebar-toggle');
         const mainContent = document.querySelector('main');
 
-        // If sidebar doesn't exist (e.g., in flowchart mode), just return
+        // If sidebar doesn't exist (e.g., in flowchart, architecture, or onboarding mode), just return
         if (!sidebar) {
-            // In flowchart mode, ensure main content takes full width
+            // In special modes, ensure main content takes full width
             if (mainContent) {
                 mainContent.style.marginLeft = '0';
                 mainContent.style.width = '100%';
@@ -728,7 +728,7 @@
                 <div class="row align-items-center">
                     <div class="col-auto d-flex align-items-center">
                         <i class="fas fa-code text-primary me-3 fs-4"></i>
-                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">ai</span></h1>
+                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">src\</span></h1>
                     </div>
                     <div class="col text-center d-none d-md-block">
                         <small class="text-muted">AI-Powered Code Explanation</small>
@@ -756,8 +756,7 @@
             </div>
             <div class="sidebar-content" style="height: calc(100% - 60px); overflow-y: auto;">
                 <ul class="list-unstyled p-2">
-                                    <li><a href="#file-0" class="d-block py-1 px-2 text-decoration-none rounded">aiEngine.js</a></li>
-                <li><a href="#file-1" class="d-block py-1 px-2 text-decoration-none rounded">promptManager.js</a></li>
+                                    <li><a href="#file-0" class="d-block py-1 px-2 text-decoration-none rounded">project-architecture</a></li>
 
                 </ul>
             </div>
@@ -769,17 +768,17 @@
                 <!-- File Entries -->
                 <div id="file-entries" class="row g-4">
                     
-<div class="file-entry col-12 mb-4" id="file-0" data-file-path="D:\MyDev\CodeExplain\src\ai\aiEngine.js" data-file-index="0">
+<div class="file-entry col-12 mb-4" id="file-0" data-file-path="project-architecture" data-file-index="0">
     <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
         <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="0" style="font-size: 1.1rem;">
                     <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
                     <i class="fas fa-file-code me-2"></i>
-                    aiEngine.js
+                    Project Architecture
                 </h2>
                 <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    javascript
+                    architecture
                 </span>
             </div>
         </div>
@@ -787,337 +786,193 @@
         <div class="card-body p-0">
               <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
                   <div class="p-3">
-                      <pre class="mb-0"><code class="language-javascript" style="font-size: 0.9rem; line-height: 1.5;">
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">ChatOpenAI</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@langchain/openai&#x27;</span>);
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">ChatGoogleGenerativeAI</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@langchain/google-genai&#x27;</span>);
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">ChatOllama</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@langchain/ollama&#x27;</span>);
-<span class="hljs-keyword">const</span> chalk = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;chalk&#x27;</span>);
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">CacheManager</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;../core/cacheManager&#x27;</span>);
-<span class="hljs-keyword">const</span> { <span class="hljs-title class_">PromptManager</span> } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;./promptManager&#x27;</span>);
+                      <pre class="mb-0"><code class="language-architecture" style="font-size: 0.9rem; line-height: 1.5;">
+<span class="hljs-section"># Project Architecture Overview</span>
 
-<span class="hljs-comment">// Constants</span>
-<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">PROVIDERS</span> = {
-  <span class="hljs-attr">GEMINI</span>: <span class="hljs-string">&#x27;gemini&#x27;</span>,
-  <span class="hljs-attr">OPENAI</span>: <span class="hljs-string">&#x27;openai&#x27;</span>,
-  <span class="hljs-attr">OLLAMA</span>: <span class="hljs-string">&#x27;ollama&#x27;</span>
-};
+<span class="hljs-section">## 🏗️ High-Level System Architecture</span>
 
-<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">MODES</span> = {
-  <span class="hljs-attr">EXPLAIN</span>: <span class="hljs-string">&#x27;explain&#x27;</span>,
-  <span class="hljs-attr">ARCHITECTURE</span>: <span class="hljs-string">&#x27;architecture&#x27;</span>,
-  <span class="hljs-attr">ARCH</span>: <span class="hljs-string">&#x27;arch&#x27;</span>,
-  <span class="hljs-attr">LINE_BY_LINE</span>: <span class="hljs-string">&#x27;linebyline&#x27;</span>
-};
+This document provides an overview of the system&#x27;s architecture, including major components and their relationships.
 
-<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">USER_LEVELS</span> = {
-  <span class="hljs-attr">EXPERT</span>: <span class="hljs-string">&#x27;expert&#x27;</span>,
-  <span class="hljs-attr">BEGINNER</span>: <span class="hljs-string">&#x27;beginner&#x27;</span>
-};
+<span class="hljs-section">## 📁 Project Structure</span>
 
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">AIEngine</span> {
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params">config</span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span> = config;
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> = config.<span class="hljs-property">provider</span> ?? <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">GEMINI</span>;
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> = config.<span class="hljs-property">model</span>; <span class="hljs-comment">// Allow model specification</span>
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span> = config.<span class="hljs-property">apiKey</span>;
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> = config.<span class="hljs-property">baseUrl</span>; <span class="hljs-comment">// For Ollama or custom endpoints</span>
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span> = config.<span class="hljs-property">verbose</span> || <span class="hljs-literal">false</span>;
+<span class="hljs-section">### ai</span>
 
-    <span class="hljs-comment">// Initialize managers</span>
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CacheManager</span>();
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PromptManager</span>();
+<span class="hljs-bullet">-</span> <span class="hljs-code">`aiEngine.js`</span> - Contains code for aiEngine module
+<span class="hljs-bullet">-</span> <span class="hljs-code">`promptManager.js`</span> - Contains code for promptManager module
 
-    <span class="hljs-comment">// Initialize managers immediately</span>
-    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">init</span>();
+<span class="hljs-section">### appoverview</span>
 
-    <span class="hljs-comment">// Initialize token tracking</span>
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span> = {
-      <span class="hljs-attr">totalInputTokens</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">totalOutputTokens</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">totalTokens</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">cachedFiles</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">processedFiles</span>: <span class="hljs-number">0</span>
-    };
+<span class="hljs-bullet">-</span> <span class="hljs-code">`architectureGenerator.js`</span> - Application entry point and main initialization
+<span class="hljs-bullet">-</span> <span class="hljs-code">`onboardingGenerator.js`</span> - Application entry point and main initialization
 
-    <span class="hljs-comment">// Validate API key (not required for Ollama)</span>
-    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> !== <span class="hljs-string">&#x27;ollama&#x27;</span>) {
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">&#x27;API key required for &#x27;</span> + <span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> + <span class="hljs-string">&#x27;. Please provide an API key via --apikey option or config file.&#x27;</span>);
-    }
+<span class="hljs-section">### commands</span>
 
-    <span class="hljs-comment">// Set up model based on provider</span>
-    <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">setupModel</span>();
-  }
+<span class="hljs-bullet">-</span> <span class="hljs-code">`explain.js`</span> - Contains code for explain module
 
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">init</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span>.<span class="hljs-title function_">initialize</span>();
-    <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span>.<span class="hljs-title function_">initialize</span>();
-  }
+<span class="hljs-section">### core</span>
 
-  <span class="hljs-title function_">setupModel</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> === <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">GEMINI</span>) {
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChatGoogleGenerativeAI</span>({
-        <span class="hljs-attr">apiKey</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span>,
-        <span class="hljs-attr">modelName</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> || <span class="hljs-string">&#x27;gemini-2.5-flash&#x27;</span>,
-        <span class="hljs-attr">maxOutputTokens</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">maxTokens</span> || <span class="hljs-number">15000</span>
-      });
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> === <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">OPENAI</span>) {
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChatOpenAI</span>({
-        <span class="hljs-attr">openAIApiKey</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">apiKey</span>,
-        <span class="hljs-attr">modelName</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> || <span class="hljs-string">&#x27;gpt-4o&#x27;</span>,
-        <span class="hljs-attr">maxTokens</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">maxTokens</span> || <span class="hljs-number">15000</span>,
-        ...(<span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> &amp;&amp; { <span class="hljs-attr">configuration</span>: { <span class="hljs-attr">baseURL</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> } })
-      });
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">provider</span> === <span class="hljs-variable constant_">PROVIDERS</span>.<span class="hljs-property">OLLAMA</span>) {
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ChatOllama</span>({
-        <span class="hljs-attr">baseUrl</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">baseUrl</span> || <span class="hljs-string">&#x27;http://localhost:11434&#x27;</span>,
-        <span class="hljs-attr">model</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">model</span> || <span class="hljs-string">&#x27;llama2&#x27;</span>,
-        <span class="hljs-attr">maxTokens</span>: <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">maxTokens</span> || <span class="hljs-number">15000</span>
-      });
-    } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">const</span> supportedProviders = <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">values</span>(<span class="hljs-variable constant_">PROVIDERS</span>).<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;, &#x27;</span>);
-      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Error</span>(<span class="hljs-string">`Unsupported AI provider: <span class="hljs-subst">${<span class="hljs-variable language_">this</span>.provider}</span>. Supported providers are: <span class="hljs-subst">${supportedProviders}</span>`</span>);
-    }
-  }
+<span class="hljs-bullet">-</span> <span class="hljs-code">`cacheManager.js`</span> - Contains code for cacheManager module
+<span class="hljs-bullet">-</span> <span class="hljs-code">`codeAnalyzer.js`</span> - Contains code for codeAnalyzer module
 
-  <span class="hljs-comment">// Helper function for logging with consistent format</span>
-  <span class="hljs-title function_">_log</span>(<span class="hljs-params">level, message</span>) {
-    <span class="hljs-keyword">switch</span> (level) {
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;error&#x27;</span>:
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(chalk.<span class="hljs-title function_">redBright</span>(<span class="hljs-string">`❌ Error: <span class="hljs-subst">${message}</span>`</span>));
-        <span class="hljs-keyword">break</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;warn&#x27;</span>:
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(chalk.<span class="hljs-title function_">yellowBright</span>(<span class="hljs-string">`⚠️ Warning: <span class="hljs-subst">${message}</span>`</span>));
-        <span class="hljs-keyword">break</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;info&#x27;</span>:
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span> &amp;&amp; <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`ℹ️ <span class="hljs-subst">${message}</span>`</span>));
-        <span class="hljs-keyword">break</span>;
-    }
-  }
+<span class="hljs-section">### config</span>
 
-  <span class="hljs-comment">// Helper function for exponential backoff retry</span>
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">retryWithBackoff</span>(<span class="hljs-params">fn</span>) {
-    <span class="hljs-keyword">const</span> retries = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">retry</span>?.<span class="hljs-property">attempts</span> || <span class="hljs-number">3</span>;
-    <span class="hljs-keyword">let</span> delay = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">retry</span>?.<span class="hljs-property">delay</span> || <span class="hljs-number">1000</span>;
-    <span class="hljs-keyword">let</span> lastError;
+<span class="hljs-bullet">-</span> <span class="hljs-code">`configManager.js`</span> - Configuration settings and environment variables
 
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt;= retries; i++) {
-      <span class="hljs-keyword">try</span> {
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-title function_">fn</span>();
-      } <span class="hljs-keyword">catch</span> (error) {
-        lastError = error;
+<span class="hljs-section">### utils</span>
 
-        <span class="hljs-comment">// If this was the last attempt, throw the error</span>
-        <span class="hljs-keyword">if</span> (i === retries) {
-          <span class="hljs-keyword">throw</span> error;
-        }
+<span class="hljs-bullet">-</span> <span class="hljs-code">`constants.js`</span> - Contains code for constants module
+<span class="hljs-bullet">-</span> <span class="hljs-code">`languageMap.js`</span> - Contains code for languageMap module
+<span class="hljs-bullet">-</span> <span class="hljs-code">`utils.js`</span> - Provides utility functions and reusable code
 
-        <span class="hljs-comment">// Log retry attempt</span>
-        <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">_log</span>(<span class="hljs-string">&#x27;warn&#x27;</span>, <span class="hljs-string">`Attempt <span class="hljs-subst">${i + <span class="hljs-number">1</span>}</span> failed. Retrying in <span class="hljs-subst">${delay}</span>ms...`</span>);
+<span class="hljs-section">### flowchart</span>
 
-        <span class="hljs-comment">// Wait for the delay</span>
-        <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> <span class="hljs-built_in">setTimeout</span>(resolve, delay));
+<span class="hljs-bullet">-</span> <span class="hljs-code">`flowchartGenerator.js`</span> - Contains code for flowchartGenerator module
 
-        <span class="hljs-comment">// Exponential backoff: double the delay for next attempt</span>
-        delay *= <span class="hljs-number">2</span>;
-      }
-    }
+<span class="hljs-section">### output/html</span>
 
-    <span class="hljs-keyword">throw</span> lastError;
-  }
+<span class="hljs-bullet">-</span> <span class="hljs-code">`htmlOutput.js`</span> - Contains code for htmlOutput module
+<span class="hljs-bullet">-</span> <span class="hljs-code">`htmlTemplate.js`</span> - Contains code for htmlTemplate module
+<span class="hljs-bullet">-</span> <span class="hljs-code">`_css.css`</span> - Contains code for <span class="hljs-emphasis">_css module
+- `_</span>flowchart.js` - Contains code for <span class="hljs-emphasis">_flowchart module
+- `_</span>js.js` - Contains code for <span class="hljs-emphasis">_js module
 
-  <span class="hljs-comment">// Estimate tokens using LangChain response metadata if available, otherwise fallback to length-based estimate</span>
-  <span class="hljs-title function_">estimateTokens</span>(<span class="hljs-params">text, metadata</span>) {
-    <span class="hljs-keyword">if</span> (metadata &amp;&amp; <span class="hljs-keyword">typeof</span> metadata.<span class="hljs-property">completion_tokens</span> === <span class="hljs-string">&#x27;number&#x27;</span> &amp;&amp; <span class="hljs-keyword">typeof</span> metadata.<span class="hljs-property">prompt_tokens</span> === <span class="hljs-string">&#x27;number&#x27;</span>) {
-      <span class="hljs-comment">// If both prompt and completion tokens are available, return their sum</span>
-      <span class="hljs-keyword">return</span> metadata.<span class="hljs-property">prompt_tokens</span> + metadata.<span class="hljs-property">completion_tokens</span>
-    }
-    <span class="hljs-keyword">if</span> (metadata &amp;&amp; <span class="hljs-keyword">typeof</span> metadata.<span class="hljs-property">total_tokens</span> === <span class="hljs-string">&#x27;number&#x27;</span>) {
-      <span class="hljs-keyword">return</span> metadata.<span class="hljs-property">total_tokens</span>
-    }
-    <span class="hljs-keyword">if</span> (!text) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
-    <span class="hljs-comment">// Fallback: rough estimate (1 token ≈ 4 chars)</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">ceil</span>(text.<span class="hljs-property">length</span> / <span class="hljs-number">4</span>)
-  }
+### output/pdf
 
-  <span class="hljs-comment">// Get usage summary</span>
-  <span class="hljs-title function_">getUsageSummary</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-keyword">return</span> {
-      ...<span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>
-    };
-  }
+- `pdfOutput.js` - Contains code for pdfOutput module
 
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">generateExplanations</span>(<span class="hljs-params">analysis, progressCallback = <span class="hljs-literal">null</span></span>) {
-    <span class="hljs-comment">// Reset token tracking</span>
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span> = {
-      <span class="hljs-attr">totalInputTokens</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">totalOutputTokens</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">totalTokens</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">cachedFiles</span>: <span class="hljs-number">0</span>,
-      <span class="hljs-attr">processedFiles</span>: <span class="hljs-number">0</span>
-    };
 
-    <span class="hljs-keyword">if</span> (<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(analysis)) {
-      <span class="hljs-comment">// Multiple files - process with progress tracking</span>
-      <span class="hljs-keyword">const</span> results = [];
-      <span class="hljs-keyword">let</span> completed = <span class="hljs-number">0</span>;
-      <span class="hljs-keyword">const</span> total = analysis.<span class="hljs-property">length</span>;
 
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; analysis.<span class="hljs-property">length</span>; i++) {
-        <span class="hljs-keyword">const</span> file = analysis[i];
+## 🧩 Component Breakdown
 
-        <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">explainFile</span>(file);
+### Services
 
-        results.<span class="hljs-title function_">push</span>(result);
-        completed++;
+- <span class="hljs-strong">**ai/promptManager.js**</span> - Contains code for promptManager module
+- <span class="hljs-strong">**core/cacheManager.js**</span> - Contains code for cacheManager module
 
-        <span class="hljs-comment">// Show progress when file is completed</span>
-        <span class="hljs-keyword">if</span> (progressCallback) {
-          <span class="hljs-keyword">const</span> progress = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">round</span>((completed / total) * <span class="hljs-number">100</span>);
-          <span class="hljs-title function_">progressCallback</span>(file.<span class="hljs-property">path</span> || <span class="hljs-string">`file-<span class="hljs-subst">${i}</span>`</span>, completed, total, progress, result.<span class="hljs-property">cached</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// isStarting = false</span>
-        }
-      }
+### Utilities
 
-      <span class="hljs-keyword">return</span> results;
-    } <span class="hljs-keyword">else</span> {
-      <span class="hljs-comment">// Single file</span>
-      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">explainFile</span>(analysis);
-      <span class="hljs-keyword">if</span> (progressCallback) {
-        <span class="hljs-title function_">progressCallback</span>(analysis.<span class="hljs-property">path</span> || <span class="hljs-string">&#x27;single-file&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">100</span>, result.<span class="hljs-property">cached</span>, <span class="hljs-literal">false</span>); <span class="hljs-comment">// Completed</span>
-      }
-      <span class="hljs-keyword">return</span> result;
-    }
-  }
+- <span class="hljs-strong">**utils/utils.js**</span> - Provides utility functions and reusable code
 
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">explainFile</span>(<span class="hljs-params">fileAnalysis</span>) {
-    <span class="hljs-keyword">if</span> (!fileAnalysis) <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+### Configs
 
-    <span class="hljs-comment">// Try to get cached explanation first (unless cache is disabled)</span>
-    <span class="hljs-keyword">if</span> (fileAnalysis.<span class="hljs-property">path</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">cache</span> !== <span class="hljs-literal">false</span>) {
-      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`🔍 Checking cache for: <span class="hljs-subst">${fileAnalysis.relativePath}</span>`</span>));
-      }
+- <span class="hljs-strong">**config/configManager.js**</span> - Configuration settings and environment variables
 
-      <span class="hljs-keyword">const</span> cachedExplanation = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span>.<span class="hljs-title function_">getCachedExplanation</span>(
-        fileAnalysis.<span class="hljs-property">path</span>,
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>
-      );
+### Main
 
-      <span class="hljs-keyword">if</span> (cachedExplanation) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
-          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`📋 Cache hit! Using cached explanation (<span class="hljs-subst">${cachedExplanation.length}</span> chars)`</span>));
-        }
-        <span class="hljs-comment">// Track cached file usage</span>
-        <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">cachedFiles</span>++;
-        <span class="hljs-keyword">return</span> {
-          ...fileAnalysis,
-          <span class="hljs-attr">explanation</span>: cachedExplanation,
-          <span class="hljs-attr">cached</span>: <span class="hljs-literal">true</span>
-        };
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
-          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">&#x27;📭 Cache miss - will generate new explanation&#x27;</span>));
-        }
-      }
-    }
+- <span class="hljs-strong">**appoverview/architectureGenerator.js**</span> - Application entry point and main initialization
+- <span class="hljs-strong">**appoverview/onboardingGenerator.js**</span> - Application entry point and main initialization
 
-    <span class="hljs-keyword">const</span> prompt = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">buildPrompt</span>(fileAnalysis);
+### Others
 
-    <span class="hljs-comment">// Estimate input tokens (prompt)</span>
-    <span class="hljs-keyword">const</span> inputTokens = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">estimateTokens</span>(prompt);
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">totalInputTokens</span> += inputTokens;
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">processedFiles</span>++;
+- <span class="hljs-strong">**ai/aiEngine.js**</span> - Contains code for aiEngine module
+- <span class="hljs-strong">**commands/explain.js**</span> - Contains code for explain module
+- <span class="hljs-strong">**core/codeAnalyzer.js**</span> - Contains code for codeAnalyzer module
+- <span class="hljs-strong">**utils/constants.js**</span> - Contains code for constants module
+- <span class="hljs-strong">**utils/languageMap.js**</span> - Contains code for languageMap module
+- <span class="hljs-strong">**flowchart/flowchartGenerator.js**</span> - Contains code for flowchartGenerator module
+- <span class="hljs-strong">**output/html/htmlOutput.js**</span> - Contains code for htmlOutput module
+- <span class="hljs-strong">**output/html/htmlTemplate.js**</span> - Contains code for htmlTemplate module
+- <span class="hljs-strong">**output/html/_css.css**</span> - Contains code for _</span>css module
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**output/html/<span class="hljs-emphasis">_flowchart.js** - Contains code for _</span>flowchart module
+- **</span>output/html/<span class="hljs-emphasis">_js.js** - Contains code for _</span>js module
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**output/pdf/pdfOutput.js**</span> - Contains code for pdfOutput module
 
-    <span class="hljs-comment">// Verbose: Show prompt details</span>
-    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`🔍 Processing: <span class="hljs-subst">${fileAnalysis.relativePath}</span>`</span>));
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`📝 Prompt (<span class="hljs-subst">${prompt.length}</span> chars, ~<span class="hljs-subst">${inputTokens}</span> tokens):`</span>));
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">&#x27;   &#x27;</span> + prompt.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">&#x27;\n   &#x27;</span>)));
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;&#x27;</span>);
-    }
 
-    <span class="hljs-keyword">try</span> {
-      <span class="hljs-comment">// Retry with exponential backoff using LangChain</span>
-      <span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">retryWithBackoff</span>(<span class="hljs-title function_">async</span> () =&gt; {
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">modelInstance</span>.<span class="hljs-title function_">invoke</span>([
-          { <span class="hljs-attr">role</span>: <span class="hljs-string">&#x27;system&#x27;</span>, <span class="hljs-attr">content</span>: <span class="hljs-string">&#x27;You are a helpful assistant that provides detailed code explanations.&#x27;</span> },
-          { <span class="hljs-attr">role</span>: <span class="hljs-string">&#x27;user&#x27;</span>, <span class="hljs-attr">content</span>: prompt }
-        ]);
-      });
 
-      <span class="hljs-keyword">const</span> response = result.<span class="hljs-property">content</span>;
+<span class="hljs-section">## 🔄 Data Flow and Interactions</span>
 
-      <span class="hljs-comment">// Get token usage from metadata</span>
-      <span class="hljs-keyword">const</span> metadata = result.<span class="hljs-property">additional_kwargs</span>?.<span class="hljs-property">response_metadata</span> ||
-        result.<span class="hljs-property">additional_kwargs</span>?.<span class="hljs-property">usage_metadata</span> ||
-        result.<span class="hljs-property">lc_kwargs</span>?.<span class="hljs-property">response_metadata</span>;
+The following shows how different modules interact with each other:
 
-      <span class="hljs-comment">// Update token tracking with actual usage if available</span>
-      <span class="hljs-keyword">const</span> outputTokens = <span class="hljs-variable language_">this</span>.<span class="hljs-title function_">estimateTokens</span>(response, metadata);
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">totalOutputTokens</span> += outputTokens;
-      <span class="hljs-variable language_">this</span>.<span class="hljs-property">tokenUsage</span>.<span class="hljs-property">totalTokens</span> += inputTokens + outputTokens;
+<span class="hljs-strong">**ai/aiEngine.js**</span> imports from:
+<span class="hljs-bullet">  -</span> @langchain/openai
+<span class="hljs-bullet">  -</span> @langchain/google-genai
+<span class="hljs-bullet">  -</span> @langchain/ollama
+<span class="hljs-bullet">  -</span> chalk
+<span class="hljs-bullet">  -</span> ../core/cachemanager
+<span class="hljs-bullet">  -</span> ./promptmanager
 
-      <span class="hljs-comment">// Verbose: Show response details</span>
-      <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`✅ Response (<span class="hljs-subst">${response.length}</span> chars, ~<span class="hljs-subst">${outputTokens}</span> tokens):`</span>));
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">&#x27;   &#x27;</span> + response.<span class="hljs-title function_">substring</span>(<span class="hljs-number">0</span>, <span class="hljs-number">200</span>) + (response.<span class="hljs-property">length</span> &gt; <span class="hljs-number">200</span> ? <span class="hljs-string">&#x27;...&#x27;</span> : <span class="hljs-string">&#x27;&#x27;</span>)));
-        <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;&#x27;</span>);
-      }
+<span class="hljs-strong">**ai/promptManager.js**</span> imports from:
+<span class="hljs-bullet">  -</span> fs-extra
+<span class="hljs-bullet">  -</span> path
 
-      <span class="hljs-comment">// Cache the explanation (unless cache is disabled)</span>
-      <span class="hljs-keyword">if</span> (fileAnalysis.<span class="hljs-property">path</span> &amp;&amp; <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">cache</span> !== <span class="hljs-literal">false</span>) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.<span class="hljs-property">verbose</span>) {
-          <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(chalk.<span class="hljs-title function_">gray</span>(<span class="hljs-string">`💾 Saving to cache: <span class="hljs-subst">${fileAnalysis.relativePath}</span>`</span>));
-        }
-        <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">cacheManager</span>.<span class="hljs-title function_">setCachedExplanation</span>(
-          fileAnalysis.<span class="hljs-property">path</span>,
-          <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>,
-          response
-        );
-      }
+<span class="hljs-strong">**appoverview/architectureGenerator.js**</span> imports from:
+<span class="hljs-bullet">  -</span> path
 
-      <span class="hljs-keyword">return</span> {
-        ...fileAnalysis,
-        <span class="hljs-attr">explanation</span>: response,
-        <span class="hljs-attr">cached</span>: <span class="hljs-literal">false</span>
-      };
-    } <span class="hljs-keyword">catch</span> (error) {
-      <span class="hljs-comment">// Ensure all errors, including those after all retries, are handled here</span>
-      <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">error</span>(<span class="hljs-string">`Error explaining file <span class="hljs-subst">${fileAnalysis.path}</span>:`</span>, error &amp;&amp; error.<span class="hljs-property">message</span> ? error.<span class="hljs-property">message</span> : error);
-      <span class="hljs-keyword">return</span> {
-        ...fileAnalysis,
-        <span class="hljs-attr">explanation</span>: <span class="hljs-string">`Error generating explanation: <span class="hljs-subst">${error &amp;&amp; error.message ? error.message : error}</span>`</span>,
-        <span class="hljs-attr">cached</span>: <span class="hljs-literal">false</span>
-      };
-    }
-  }
+<span class="hljs-strong">**appoverview/onboardingGenerator.js**</span> imports from:
+<span class="hljs-bullet">  -</span> path
 
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">buildPrompt</span>(<span class="hljs-params">fileAnalysis</span>) {
-    <span class="hljs-keyword">const</span> levelDescription = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">level</span> === <span class="hljs-variable constant_">USER_LEVELS</span>.<span class="hljs-property">EXPERT</span>
-      ? <span class="hljs-string">&#x27;an expert developer&#x27;</span>
-      : <span class="hljs-string">&#x27;a beginner developer&#x27;</span>;
+<span class="hljs-strong">**commands/explain.js**</span> imports from:
+<span class="hljs-bullet">  -</span> path
+<span class="hljs-bullet">  -</span> fs
+<span class="hljs-bullet">  -</span> chalk
+<span class="hljs-bullet">  -</span> ../config/configmanager
+<span class="hljs-bullet">  -</span> ../core/codeanalyzer
+<span class="hljs-bullet">  -</span> ../ai/aiengine
+<span class="hljs-bullet">  -</span> ../output/html/htmloutput
+<span class="hljs-bullet">  -</span> ../output/pdf/pdfoutput
+<span class="hljs-bullet">  -</span> ../ai/promptmanager
+<span class="hljs-bullet">  -</span> ../flowchart/flowchartgenerator
+<span class="hljs-bullet">  -</span> ../appoverview/architecturegenerator
+<span class="hljs-bullet">  -</span> ../appoverview/onboardinggenerator
+<span class="hljs-bullet">  -</span> ../utils/constants
 
-    <span class="hljs-comment">// Get the appropriate prompt template</span>
-    <span class="hljs-keyword">let</span> mode = <span class="hljs-variable language_">this</span>.<span class="hljs-property">config</span>.<span class="hljs-property">mode</span> || <span class="hljs-variable constant_">MODES</span>.<span class="hljs-property">EXPLAIN</span>;
-    <span class="hljs-comment">// Handle architecture mode alias</span>
-    <span class="hljs-keyword">if</span> (mode === <span class="hljs-variable constant_">MODES</span>.<span class="hljs-property">ARCH</span>) {
-      mode = <span class="hljs-variable constant_">MODES</span>.<span class="hljs-property">ARCHITECTURE</span>;
-    }
-    <span class="hljs-keyword">const</span> promptTemplate = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span>.<span class="hljs-title function_">getPrompt</span>(mode);
+<span class="hljs-strong">**core/cacheManager.js**</span> imports from:
+<span class="hljs-bullet">  -</span> fs-extra
+<span class="hljs-bullet">  -</span> path
+<span class="hljs-bullet">  -</span> crypto
 
-    <span class="hljs-comment">// Render the prompt with variables</span>
-    <span class="hljs-keyword">const</span> prompt = <span class="hljs-keyword">await</span> <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptManager</span>.<span class="hljs-title function_">renderPrompt</span>(promptTemplate, {
-      <span class="hljs-attr">levelDescription</span>: levelDescription,
-      <span class="hljs-attr">language</span>: fileAnalysis.<span class="hljs-property">language</span>,
-      <span class="hljs-attr">filePath</span>: fileAnalysis.<span class="hljs-property">path</span>,
-      <span class="hljs-attr">codeContent</span>: fileAnalysis.<span class="hljs-property">content</span>
-    });
+<span class="hljs-strong">**core/codeAnalyzer.js**</span> imports from:
+<span class="hljs-bullet">  -</span> fs-extra
+<span class="hljs-bullet">  -</span> path
+<span class="hljs-bullet">  -</span> globby
+<span class="hljs-bullet">  -</span> crypto
+<span class="hljs-bullet">  -</span> ../utils/languagemap
 
-    <span class="hljs-comment">// Add instruction to always respond in markdown</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`<span class="hljs-subst">${prompt}</span>\n\nIMPORTANT: Always respond in markdown format.`</span>;
-  }
-}
+<span class="hljs-strong">**config/configManager.js**</span> imports from:
+<span class="hljs-bullet">  -</span> path
+<span class="hljs-bullet">  -</span> fs-extra
 
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { <span class="hljs-title class_">AIEngine</span> };
+<span class="hljs-strong">**utils/utils.js**</span> imports from:
+<span class="hljs-bullet">  -</span> path
+<span class="hljs-bullet">  -</span> crypto
+
+<span class="hljs-strong">**flowchart/flowchartGenerator.js**</span> imports from:
+<span class="hljs-bullet">  -</span> path
+
+<span class="hljs-strong">**output/html/htmlOutput.js**</span> imports from:
+<span class="hljs-bullet">  -</span> fs
+<span class="hljs-bullet">  -</span> path
+<span class="hljs-bullet">  -</span> marked
+<span class="hljs-bullet">  -</span> highlight.js
+<span class="hljs-bullet">  -</span> ../../utils/utils
+<span class="hljs-bullet">  -</span> ./htmltemplate
+
+<span class="hljs-strong">**output/html/htmlTemplate.js**</span> imports from:
+<span class="hljs-bullet">  -</span> fs
+<span class="hljs-bullet">  -</span> path
+
+<span class="hljs-strong">**output/pdf/pdfOutput.js**</span> imports from:
+<span class="hljs-bullet">  -</span> path
+<span class="hljs-bullet">  -</span> puppeteer
+<span class="hljs-bullet">  -</span> marked
+
+
+
+<span class="hljs-section">## 🔧 Technology Stack</span>
+
+The project uses the following technologies:
+
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**Programming Languages**</span>: javascript, css
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**File Extensions**</span>: .js, .css
+
+
+
+<span class="hljs-section">## 📋 Key Modules</span>
+
+The following are key modules that form the backbone of the application:
+
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**appoverview/architectureGenerator.js**</span> - Application entry point and main initialization
+<span class="hljs-bullet">-</span> <span class="hljs-strong">**appoverview/onboardingGenerator.js**</span> - Application entry point and main initialization
                       </code></pre>
                   </div>
               </div>
@@ -1133,865 +988,189 @@
                     </button>
                 </div>
                 <div class="explanation-content">
-                    <p>Okay, I&#39;ll explain the JavaScript code in <code>aiEngine.js</code> for you like you&#39;re a beginner developer.  Here&#39;s a breakdown in markdown format:</p>
-<h2>Explanation of <code>aiEngine.js</code></h2>
-<p>This file, <code>aiEngine.js</code>, is the core of an AI-powered code explanation tool. It uses large language models (LLMs) from different providers (like Google, OpenAI, or a local Ollama instance) to analyze code and generate human-readable explanations. Let&#39;s break down the code section by section:</p>
-<p><strong>1. Imports and Setup:</strong></p>
-javascript
-const { ChatOpenAI } = require('@langchain/openai');
-const { ChatGoogleGenerativeAI } = require('@langchain/google-genai');
-const { ChatOllama } = require('@langchain/ollama');
-const chalk = require('chalk');
-const { CacheManager } = require('../core/cacheManager');
-const { PromptManager } = require('./promptManager');
-```
-
+                    <h1>Project Architecture Overview</h1>
+<h2>🏗️ High-Level System Architecture</h2>
+<p>This document provides an overview of the system&#39;s architecture, including major components and their relationships.</p>
+<h2>📁 Project Structure</h2>
+<h3>ai</h3>
 <ul>
-<li><strong><code>require(...)</code>:</strong>  This is how JavaScript (Node.js) imports code from other files or libraries.  Think of it like including building blocks into your program.<ul>
-<li><code>@langchain/openai</code>, <code>@langchain/google-genai</code>, <code>@langchain/ollama</code>: These are libraries that allow the code to interact with AI models from OpenAI (like GPT), Google (like Gemini), and Ollama (local models). Langchain helps to create applications using LLMs.</li>
-<li><code>chalk</code>:  A library that adds colors to the console output, making it easier to read logs and messages.</li>
-<li><code>../core/cacheManager</code>:  Imports the <code>CacheManager</code> class from another file. This class handles storing and retrieving explanations so you don&#39;t have to re-generate them every time (saves time and money!). The <code>../</code> means it&#39;s going up one directory level.</li>
-<li><code>./promptManager</code>: Imports the <code>PromptManager</code> class from another file in the same directory.  This class is responsible for creating the prompts that are sent to the AI model. A &quot;prompt&quot; is the instruction or question you give to the AI.</li>
+<li><code>aiEngine.js</code> - Contains code for aiEngine module</li>
+<li><code>promptManager.js</code> - Contains code for promptManager module</li>
 </ul>
-</li>
-</ul>
-<p><strong>2. Constants:</strong></p>
-<pre><code class="language-javascript">// Constants
-const PROVIDERS = {
-  GEMINI: &#39;gemini&#39;,
-  OPENAI: &#39;openai&#39;,
-  OLLAMA: &#39;ollama&#39;
-};
-
-const MODES = {
-  EXPLAIN: &#39;explain&#39;,
-  ARCHITECTURE: &#39;architecture&#39;,
-  ARCH: &#39;arch&#39;,
-  LINE_BY_LINE: &#39;linebyline&#39;
-};
-
-const USER_LEVELS = {
-  EXPERT: &#39;expert&#39;,
-  BEGINNER: &#39;beginner&#39;
-};
-</code></pre>
+<h3>appoverview</h3>
 <ul>
-<li><strong><code>const</code>:</strong>  Declares variables that cannot be reassigned after they are initialized.</li>
-<li><strong><code>PROVIDERS</code></strong>: Defines the supported AI model providers.  The code can work with Gemini, OpenAI, or Ollama.</li>
-<li><strong><code>MODES</code></strong>: Defines the different types of explanations the tool can generate (e.g., explaining the code, describing the architecture, or doing a line-by-line explanation).</li>
-<li><strong><code>USER_LEVELS</code></strong>: Defines the user&#39;s experience level, which can influence how the explanations are generated (e.g., a beginner might get more detailed explanations).</li>
+<li><code>architectureGenerator.js</code> - Application entry point and main initialization</li>
+<li><code>onboardingGenerator.js</code> - Application entry point and main initialization</li>
 </ul>
-<p><strong>3. <code>AIEngine</code> Class:</strong></p>
-<p>This is the main class that orchestrates the whole process.</p>
-<pre><code class="language-javascript">class AIEngine {
-  constructor(config) {
-    // ...
-  }
-
-  async init() {
-    // ...
-  }
-
-  setupModel() {
-    // ...
-  }
-
-  _log(level, message) {
-    // ...
-  }
-
-  async retryWithBackoff(fn) {
-    // ...
-  }
-
-  estimateTokens(text, metadata) {
-    // ...
-  }
-
-  getUsageSummary() {
-    // ...
-  }
-
-  async generateExplanations(analysis, progressCallback = null) {
-    // ...
-  }
-
-  async explainFile(fileAnalysis) {
-    // ...
-  }
-
-  async buildPrompt(fileAnalysis) {
-    // ...
-  }
-}
-
-module.exports = { AIEngine };
-</code></pre>
+<h3>commands</h3>
 <ul>
-<li><strong><code>class AIEngine { ... }</code></strong>:  Defines a class named <code>AIEngine</code>. Classes are like blueprints for creating objects.</li>
-<li><strong><code>constructor(config)</code></strong>:  The constructor is a special method that runs when you create a new <code>AIEngine</code> object. It takes a <code>config</code> object as input, which contains settings like the AI provider, API key, and verbosity level.</li>
-<li><strong><code>this.config = config;</code></strong>:  Saves the configuration settings to the <code>AIEngine</code> object.  <code>this</code> refers to the current object.</li>
-<li><strong><code>this.provider = config.provider ?? PROVIDERS.GEMINI;</code></strong>:  Sets the AI provider.  If the <code>config</code> doesn&#39;t specify a provider, it defaults to <code>GEMINI</code>. The <code>??</code> is the nullish coalescing operator.</li>
-<li><strong><code>this.model = config.model;</code></strong>:  Sets the specific model to use (e.g., <code>gpt-4o</code>, <code>gemini-2.5-flash</code>, <code>llama2</code>).</li>
-<li><strong><code>this.apiKey = config.apiKey;</code></strong>:  Stores the API key for the AI provider.</li>
-<li><strong><code>this.baseUrl = config.baseUrl;</code></strong>: Stores the base URL, useful for Ollama or custom endpoints.</li>
-<li><strong><code>this.verbose = config.verbose || false;</code></strong>:  Determines whether to print detailed logs to the console. The <code>||</code> is the OR operator, if <code>config.verbose</code> is not defined, the value will be <code>false</code>.</li>
-<li><strong><code>this.cacheManager = new CacheManager();</code></strong>:  Creates a new instance of the <code>CacheManager</code> class.</li>
-<li><strong><code>this.promptManager = new PromptManager();</code></strong>: Creates a new instance of the <code>PromptManager</code> class.</li>
-<li><strong><code>this.init();</code></strong>: Initializes the cache and prompt managers.</li>
-<li><strong><code>this.tokenUsage = { ... };</code></strong>:  Initializes an object to track token usage.  Tokens are like words or pieces of words that the AI model uses. Tracking tokens is important because you&#39;re often charged based on the number of tokens used.</li>
-<li><strong><code>if (!this.apiKey &amp;&amp; this.provider !== &#39;ollama&#39;) { ... }</code></strong>:  Checks if an API key is provided when needed. Ollama does not require an API key because it is running locally.</li>
-<li><strong><code>this.setupModel();</code></strong>:  Calls the <code>setupModel()</code> method to initialize the AI model based on the selected provider.</li>
+<li><code>explain.js</code> - Contains code for explain module</li>
 </ul>
-<p><strong>4. <code>init()</code> Method:</strong></p>
-<pre><code class="language-javascript">  async init() {
-    await this.cacheManager.initialize();
-    await this.promptManager.initialize();
-  }
-</code></pre>
+<h3>core</h3>
 <ul>
-<li><strong><code>async</code></strong>:  Indicates that this method is asynchronous, meaning it can perform operations that take time without blocking the main thread.</li>
-<li><strong><code>await</code></strong>:  Waits for the <code>initialize()</code> methods of the <code>CacheManager</code> and <code>PromptManager</code> to complete before continuing.</li>
-<li>This function initializes the cache and prompt managers.</li>
+<li><code>cacheManager.js</code> - Contains code for cacheManager module</li>
+<li><code>codeAnalyzer.js</code> - Contains code for codeAnalyzer module</li>
 </ul>
-<p><strong>5. <code>setupModel()</code> Method:</strong></p>
-<pre><code class="language-javascript">  setupModel() {
-    if (this.provider === PROVIDERS.GEMINI) {
-      this.modelInstance = new ChatGoogleGenerativeAI({
-        apiKey: this.apiKey,
-        modelName: this.model || &#39;gemini-2.5-flash&#39;,
-        maxOutputTokens: this.config.maxTokens || 15000
-      });
-    } else if (this.provider === PROVIDERS.OPENAI) {
-      this.modelInstance = new ChatOpenAI({
-        openAIApiKey: this.apiKey,
-        modelName: this.model || &#39;gpt-4o&#39;,
-        maxTokens: this.config.maxTokens || 15000,
-        ...(this.baseUrl &amp;&amp; { configuration: { baseURL: this.baseUrl } })
-      });
-    } else if (this.provider === PROVIDERS.OLLAMA) {
-      this.modelInstance = new ChatOllama({
-        baseUrl: this.baseUrl || &#39;http://localhost:11434&#39;,
-        model: this.model || &#39;llama2&#39;,
-        maxTokens: this.config.maxTokens || 15000
-      });
-    } else {
-      const supportedProviders = Object.values(PROVIDERS).join(&#39;, &#39;);
-      throw new Error(`Unsupported AI provider: ${this.provider}. Supported providers are: ${supportedProviders}`);
-    }
-  }
-</code></pre>
+<h3>config</h3>
 <ul>
-<li>This method sets up the AI model instance based on the selected provider (<code>GEMINI</code>, <code>OPENAI</code>, or <code>OLLAMA</code>).</li>
-<li>It uses the appropriate Langchain class (<code>ChatGoogleGenerativeAI</code>, <code>ChatOpenAI</code>, or <code>ChatOllama</code>) to create the model instance.</li>
-<li>It passes in configuration options like the API key, model name, and maximum number of tokens.</li>
-<li>If an unsupported provider is specified, it throws an error.</li>
+<li><code>configManager.js</code> - Configuration settings and environment variables</li>
 </ul>
-<p><strong>6. <code>_log()</code> Method:</strong></p>
-<pre><code class="language-javascript">  _log(level, message) {
-    switch (level) {
-      case &#39;error&#39;:
-        console.error(chalk.redBright(`❌ Error: ${message}`));
-        break;
-      case &#39;warn&#39;:
-        console.warn(chalk.yellowBright(`⚠️ Warning: ${message}`));
-        break;
-      case &#39;info&#39;:
-        this.verbose &amp;&amp; console.log(chalk.gray(`ℹ️ ${message}`));
-        break;
-    }
-  }
-</code></pre>
+<h3>utils</h3>
 <ul>
-<li>A helper method for logging messages to the console with different colors based on the log level (<code>error</code>, <code>warn</code>, <code>info</code>).</li>
-<li>Uses the <code>chalk</code> library to add colors to the output.</li>
-<li>The <code>this.verbose &amp;&amp; ...</code> ensures that informational messages are only printed if the <code>verbose</code> option is enabled.</li>
+<li><code>constants.js</code> - Contains code for constants module</li>
+<li><code>languageMap.js</code> - Contains code for languageMap module</li>
+<li><code>utils.js</code> - Provides utility functions and reusable code</li>
 </ul>
-<p><strong>7. <code>retryWithBackoff()</code> Method:</strong></p>
-<pre><code class="language-javascript">  async retryWithBackoff(fn) {
-    const retries = this.config.retry?.attempts || 3;
-    let delay = this.config.retry?.delay || 1000;
-    let lastError;
-
-    for (let i = 0; i &lt;= retries; i++) {
-      try {
-        return await fn();
-      } catch (error) {
-        lastError = error;
-
-        // If this was the last attempt, throw the error
-        if (i === retries) {
-          throw error;
-        }
-
-        // Log retry attempt
-        this._log(&#39;warn&#39;, `Attempt ${i + 1} failed. Retrying in ${delay}ms...`);
-
-        // Wait for the delay
-        await new Promise(resolve =&gt; setTimeout(resolve, delay));
-
-        // Exponential backoff: double the delay for next attempt
-        delay *= 2;
-      }
-    }
-
-    throw lastError;
-  }
-</code></pre>
+<h3>flowchart</h3>
 <ul>
-<li>This method implements a retry mechanism with exponential backoff.  This is useful for handling temporary errors when communicating with the AI model.</li>
-<li>It takes a function <code>fn</code> as input, which is the operation to be retried.</li>
-<li>It retries the function up to a maximum number of attempts (<code>this.config.retry?.attempts || 3</code>).</li>
-<li>If an error occurs, it waits for a certain amount of time (<code>delay</code>) before retrying.  The delay increases exponentially with each retry (doubling each time).</li>
-<li>If all retries fail, it throws the last error. The <code>?.</code> is the optional chaining operator.</li>
+<li><code>flowchartGenerator.js</code> - Contains code for flowchartGenerator module</li>
 </ul>
-<p><strong>8. <code>estimateTokens()</code> Method:</strong></p>
-<pre><code class="language-javascript">  estimateTokens(text, metadata) {
-    if (metadata &amp;&amp; typeof metadata.completion_tokens === &#39;number&#39; &amp;&amp; typeof metadata.prompt_tokens === &#39;number&#39;) {
-      // If both prompt and completion tokens are available, return their sum
-      return metadata.prompt_tokens + metadata.completion_tokens
-    }
-    if (metadata &amp;&amp; typeof metadata.total_tokens === &#39;number&#39;) {
-      return metadata.total_tokens
-    }
-    if (!text) return 0
-    // Fallback: rough estimate (1 token ≈ 4 chars)
-    return Math.ceil(text.length / 4)
-  }
-</code></pre>
+<h3>output/html</h3>
 <ul>
-<li>Estimates the number of tokens in a given text.</li>
-<li>First, it tries to get the token count from the response metadata (if available).  The LLM providers often return the actual token count which is the most accurate value.</li>
-<li>If the metadata is not available, it falls back to a rough estimate based on the length of the text (assuming 1 token is approximately 4 characters).</li>
+<li><code>htmlOutput.js</code> - Contains code for htmlOutput module</li>
+<li><code>htmlTemplate.js</code> - Contains code for htmlTemplate module</li>
+<li><code>_css.css</code> - Contains code for _css module</li>
+<li><code>_flowchart.js</code> - Contains code for _flowchart module</li>
+<li><code>_js.js</code> - Contains code for _js module</li>
 </ul>
-<p><strong>9. <code>getUsageSummary()</code> Method:</strong></p>
-<pre><code class="language-javascript">  getUsageSummary() {
-    return {
-      ...this.tokenUsage
-    };
-  }
-</code></pre>
+<h3>output/pdf</h3>
 <ul>
-<li>Returns a summary of the token usage, including the total number of input tokens, output tokens, and cached files.</li>
-<li>The <code>...this.tokenUsage</code> uses the spread operator to create a shallow copy of the <code>tokenUsage</code> object.</li>
+<li><code>pdfOutput.js</code> - Contains code for pdfOutput module</li>
 </ul>
-<p><strong>10. <code>generateExplanations()</code> Method:</strong></p>
-<pre><code class="language-javascript">  async generateExplanations(analysis, progressCallback = null) {
-    // Reset token tracking
-    this.tokenUsage = {
-      totalInputTokens: 0,
-      totalOutputTokens: 0,
-      totalTokens: 0,
-      cachedFiles: 0,
-      processedFiles: 0
-    };
-
-    if (Array.isArray(analysis)) {
-      // Multiple files - process with progress tracking
-      const results = [];
-      let completed = 0;
-      const total = analysis.length;
-
-      for (let i = 0; i &lt; analysis.length; i++) {
-        const file = analysis[i];
-
-        const result = await this.explainFile(file);
-
-        results.push(result);
-        completed++;
-
-        // Show progress when file is completed
-        if (progressCallback) {
-          const progress = Math.round((completed / total) * 100);
-          progressCallback(file.path || `file-${i}`, completed, total, progress, result.cached, false); // isStarting = false
-        }
-      }
-
-      return results;
-    } else {
-      // Single file
-      const result = await this.explainFile(analysis);
-      if (progressCallback) {
-        progressCallback(analysis.path || &#39;single-file&#39;, 1, 1, 100, result.cached, false); // Completed
-      }
-      return result;
-    }
-  }
-</code></pre>
+<h2>🧩 Component Breakdown</h2>
+<h3>Services</h3>
 <ul>
-<li>This is the main method for generating explanations for code.</li>
-<li>It takes an <code>analysis</code> object as input, which contains information about the code to be explained (e.g., the file path, language, and content).</li>
-<li>It can handle both single files and multiple files.</li>
-<li>It iterates through the files and calls the <code>explainFile()</code> method to generate an explanation for each file.</li>
-<li>It provides a <code>progressCallback</code> function that can be used to track the progress of the explanation generation.</li>
+<li><strong>ai/promptManager.js</strong> - Contains code for promptManager module</li>
+<li><strong>core/cacheManager.js</strong> - Contains code for cacheManager module</li>
 </ul>
-<p><strong>11. <code>explainFile()</code> Method:</strong></p>
-<pre><code class="language-javascript">  async explainFile(fileAnalysis) {
-    if (!fileAnalysis) return null;
-
-    // Try to get cached explanation first (unless cache is disabled)
-    if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
-      if (this.verbose) {
-        console.log(chalk.gray(`🔍 Checking cache for: ${fileAnalysis.relativePath}`));
-      }
-
-      const cachedExplanation = await this.cacheManager.getCachedExplanation(
-        fileAnalysis.path,
-        this.config
-      );
-
-      if (cachedExplanation) {
-        if (this.verbose) {
-          console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
-        }
-        // Track cached file usage
-        this.tokenUsage.cachedFiles++;
-        return {
-          ...fileAnalysis,
-          explanation: cachedExplanation,
-          cached: true
-        };
-      } else {
-        if (this.verbose) {
-          console.log(chalk.gray(&#39;📭 Cache miss - will generate new explanation&#39;));
-        }
-      }
-    }
-
-    const prompt = await this.buildPrompt(fileAnalysis);
-
-    // Estimate input tokens (prompt)
-    const inputTokens = this.estimateTokens(prompt);
-    this.tokenUsage.totalInputTokens += inputTokens;
-    this.tokenUsage.processedFiles++;
-
-    // Verbose: Show prompt details
-    if (this.verbose) {
-      console.log(chalk.gray(`🔍 Processing: ${fileAnalysis.relativePath}`));
-      console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
-      console.log(chalk.gray(&#39;   &#39; + prompt.replace(/\n/g, &#39;\n   &#39;)));
-      console.log(&#39;&#39;);
-    }
-
-    try {
-      // Retry with exponential backoff using LangChain
-      const result = await this.retryWithBackoff(async () =&gt; {
-        return await this.modelInstance.invoke([
-          { role: &#39;system&#39;, content: &#39;You are a helpful assistant that provides detailed code explanations.&#39; },
-          { role: &#39;user&#39;, content: prompt }
-        ]);
-      });
-
-      const response = result.content;
-
-      // Get token usage from metadata
-      const metadata = result.additional_kwargs?.response_metadata ||
-        result.additional_kwargs?.usage_metadata ||
-        result.lc_kwargs?.response_metadata;
-
-      // Update token tracking with actual usage if available
-      const outputTokens = this.estimateTokens(response, metadata);
-      this.tokenUsage.totalOutputTokens += outputTokens;
-      this.tokenUsage.totalTokens += inputTokens + outputTokens;
-
-      // Verbose: Show response details
-      if (this.verbose) {
-        console.log(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
-        console.log(chalk.gray(&#39;   &#39; + response.substring(0, 200) + (response.length &gt; 200 ? &#39;...&#39; : &#39;&#39;)));
-        console.log(&#39;&#39;);
-      }
-
-      // Cache the explanation (unless cache is disabled)
-      if (fileAnalysis.path &amp;&amp; this.config.cache !== false) {
-        if (this.verbose) {
-          console.log(chalk.gray(`💾 Saving to cache: ${fileAnalysis.relativePath}`));
-        }
-        await this.cacheManager.setCachedExplanation(
-          fileAnalysis.path,
-          this.config,
-          response
-        );
-      }
-
-      return {
-        ...fileAnalysis,
-        explanation: response,
-        cached: false
-      };
-    } catch (error) {
-      // Ensure all errors, including those after all retries, are handled here
-      console.error(`Error explaining file ${fileAnalysis.path}:`, error &amp;&amp; error.message ? error.message : error);
-      return {
-        ...fileAnalysis,
-        explanation: `Error generating explanation: ${error &amp;&amp; error.message ? error.message : error}`,
-        cached: false
-      };
-    }
-  }
-</code></pre>
+<h3>Utilities</h3>
 <ul>
-<li>This method generates an explanation for a single file.</li>
-<li>First, it checks if a cached explanation is available. If so, it returns the cached explanation.</li>
-<li>If no cached explanation is found, it builds a prompt using the <code>buildPrompt()</code> method.</li>
-<li>It sends the prompt to the AI model using the <code>modelInstance.invoke()</code> method.</li>
-<li>It gets the response from the AI model and extracts the explanation.</li>
-<li>It caches the explanation (if caching is enabled).</li>
-<li>It returns an object containing the file analysis, the explanation, and a flag indicating whether the explanation was cached.</li>
-<li>It also handles any errors that occur during the explanation generation process.</li>
+<li><strong>utils/utils.js</strong> - Provides utility functions and reusable code</li>
 </ul>
-<p><strong>12. <code>buildPrompt()</code> Method:</strong></p>
-<pre><code class="language-javascript">  async buildPrompt(fileAnalysis) {
-    const levelDescription = this.config.level === USER_LEVELS.EXPERT
-      ? &#39;an expert developer&#39;
-      : &#39;a beginner developer&#39;;
-
-    // Get the appropriate prompt template
-    let mode = this.config.mode || MODES.EXPLAIN;
-    // Handle architecture mode alias
-    if (mode === MODES.ARCH) {
-      mode = MODES.ARCHITECTURE;
-    }
-    const promptTemplate = await this.promptManager.getPrompt(mode);
-
-    // Render the prompt with variables
-    const prompt = await this.promptManager.renderPrompt(promptTemplate, {
-      levelDescription: levelDescription,
-      language: fileAnalysis.language,
-      filePath: fileAnalysis.path,
-      codeContent: fileAnalysis.content
-    });
-
-    // Add instruction to always respond in markdown
-    return `${prompt}\n\nIMPORTANT: Always respond in markdown format.`;
-  }
-</code></pre>
+<h3>Configs</h3>
 <ul>
-<li>This method builds the prompt that is sent to the AI model.</li>
-<li>It gets the appropriate prompt template from the <code>PromptManager</code> based on the selected mode (e.g., <code>explain</code>, <code>architecture</code>, <code>linebyline</code>).</li>
-<li>It renders the prompt with variables like the user level, language, file path, and code content.</li>
-<li>It adds an instruction to the prompt to always respond in markdown format.</li>
+<li><strong>config/configManager.js</strong> - Configuration settings and environment variables</li>
 </ul>
-<p><strong>13. <code>module.exports</code>:</strong></p>
-<pre><code class="language-javascript">module.exports = { AIEngine };
-</code></pre>
+<h3>Main</h3>
 <ul>
-<li>This line makes the <code>AIEngine</code> class available for use in other files.  This is how you export code from a Node.js module.</li>
+<li><strong>appoverview/architectureGenerator.js</strong> - Application entry point and main initialization</li>
+<li><strong>appoverview/onboardingGenerator.js</strong> - Application entry point and main initialization</li>
 </ul>
-<p><strong>In Summary:</strong></p>
-<p>The <code>aiEngine.js</code> file is responsible for:</p>
+<h3>Others</h3>
 <ul>
-<li>Configuring and initializing the AI model.</li>
-<li>Building prompts for the AI model.</li>
-<li>Sending prompts to the AI model and receiving responses.</li>
-<li>Caching explanations to improve performance and reduce costs.</li>
-<li>Tracking token usage.</li>
-<li>Providing a simple interface for generating explanations for code.</li>
+<li><strong>ai/aiEngine.js</strong> - Contains code for aiEngine module</li>
+<li><strong>commands/explain.js</strong> - Contains code for explain module</li>
+<li><strong>core/codeAnalyzer.js</strong> - Contains code for codeAnalyzer module</li>
+<li><strong>utils/constants.js</strong> - Contains code for constants module</li>
+<li><strong>utils/languageMap.js</strong> - Contains code for languageMap module</li>
+<li><strong>flowchart/flowchartGenerator.js</strong> - Contains code for flowchartGenerator module</li>
+<li><strong>output/html/htmlOutput.js</strong> - Contains code for htmlOutput module</li>
+<li><strong>output/html/htmlTemplate.js</strong> - Contains code for htmlTemplate module</li>
+<li><strong>output/html/_css.css</strong> - Contains code for _css module</li>
+<li><strong>output/html/_flowchart.js</strong> - Contains code for _flowchart module</li>
+<li><strong>output/html/_js.js</strong> - Contains code for _js module</li>
+<li><strong>output/pdf/pdfOutput.js</strong> - Contains code for pdfOutput module</li>
 </ul>
-<p>This file uses other modules (<code>CacheManager</code>, <code>PromptManager</code>) to handle specific tasks like caching and prompt management.  It also uses external libraries (<code>@langchain/*</code>, <code>chalk</code>) to interact with AI models and add colors to the console output.</p>
-<pre><code>
-</code></pre>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    
-
-<div class="file-entry col-12 mb-4" id="file-1" data-file-path="D:\MyDev\CodeExplain\src\ai\promptManager.js" data-file-index="1">
-    <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="1" style="font-size: 1.1rem;">
-                    <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
-                    <i class="fas fa-file-code me-2"></i>
-                    promptManager.js
-                </h2>
-                <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    javascript
-                </span>
-            </div>
-        </div>
-
-        <div class="card-body p-0">
-              <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
-                  <div class="p-3">
-                      <pre class="mb-0"><code class="language-javascript" style="font-size: 0.9rem; line-height: 1.5;">
-<span class="hljs-keyword">const</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;fs-extra&#x27;</span>);
-<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
-
-<span class="hljs-keyword">class</span> <span class="hljs-title class_">PromptManager</span> {
-  <span class="hljs-title function_">constructor</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span> = path.<span class="hljs-title function_">join</span>(__dirname, <span class="hljs-string">&#x27;..&#x27;</span>, <span class="hljs-string">&#x27;..&#x27;</span>, <span class="hljs-string">&#x27;prompts&#x27;</span>);
-    <span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span> = path.<span class="hljs-title function_">join</span>(process.<span class="hljs-title function_">cwd</span>(), <span class="hljs-string">&#x27;.codeexplain&#x27;</span>, <span class="hljs-string">&#x27;prompts&#x27;</span>);
-  }
-
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">initialize</span>(<span class="hljs-params"></span>) {
-    <span class="hljs-comment">// Ensure user prompts directory exists</span>
-    <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">ensureDir</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span>);
-
-    <span class="hljs-comment">// Copy default prompts to user directory if they don&#x27;t exist</span>
-    <span class="hljs-keyword">const</span> defaultPrompts = <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">readdir</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span>);
-    <span class="hljs-keyword">await</span> <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">all</span>(
-      defaultPrompts.<span class="hljs-title function_">map</span>(<span class="hljs-title function_">async</span> (promptEntry) =&gt; {
-        <span class="hljs-keyword">const</span> defaultPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span>, promptEntry);
-        <span class="hljs-keyword">const</span> userPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span>, promptEntry);
-
-        <span class="hljs-comment">// Check if it&#x27;s a file before copying</span>
-        <span class="hljs-keyword">const</span> stat = <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">stat</span>(defaultPromptPath);
-        <span class="hljs-keyword">if</span> (stat.<span class="hljs-title function_">isFile</span>()) {
-          <span class="hljs-comment">// Only copy if user doesn&#x27;t have a custom version</span>
-          <span class="hljs-keyword">if</span> (!(<span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">pathExists</span>(userPromptPath))) {
-            <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">copy</span>(defaultPromptPath, userPromptPath);
-          }
-        }
-      })
-    );
-  }
-
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">getPrompt</span>(<span class="hljs-params">mode</span>) {
-    <span class="hljs-comment">// First check if user has a custom prompt</span>
-    <span class="hljs-keyword">const</span> userPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">userPromptsDir</span>, <span class="hljs-string">`<span class="hljs-subst">${mode}</span>.md`</span>);
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">pathExists</span>(userPromptPath)) {
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">readFile</span>(userPromptPath, <span class="hljs-string">&#x27;utf8&#x27;</span>);
-    }
-
-    <span class="hljs-comment">// Fall back to default prompt</span>
-    <span class="hljs-keyword">const</span> defaultPromptPath = path.<span class="hljs-title function_">join</span>(<span class="hljs-variable language_">this</span>.<span class="hljs-property">promptsDir</span>, <span class="hljs-string">`<span class="hljs-subst">${mode}</span>.md`</span>);
-    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">pathExists</span>(defaultPromptPath)) {
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">await</span> fs.<span class="hljs-title function_">readFile</span>(defaultPromptPath, <span class="hljs-string">&#x27;utf8&#x27;</span>);
-    }
-
-    <span class="hljs-comment">// Log warning about missing prompt files</span>
-    <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">warn</span>(<span class="hljs-string">`Prompt for mode &#x27;<span class="hljs-subst">${mode}</span>&#x27; not found in user or default directories. Using generic fallback prompt.`</span>);
-
-    <span class="hljs-comment">// If no prompt found, return a basic template</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`You are an AI assistant that explains code.
-    
-Please explain the following {{language}} code file:
-
-File: {{filePath}}
-
-Code:
-{{codeContent}}
-
-Please provide a clear explanation in markdown format.`</span>;
-  }
-
-  <span class="hljs-keyword">async</span> <span class="hljs-title function_">renderPrompt</span>(<span class="hljs-params">template, variables</span>) {
-    <span class="hljs-keyword">let</span> prompt = template;
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> [key, value] <span class="hljs-keyword">of</span> <span class="hljs-title class_">Object</span>.<span class="hljs-title function_">entries</span>(variables)) {
-      prompt = prompt.<span class="hljs-title function_">replace</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">RegExp</span>(<span class="hljs-string">`{{<span class="hljs-subst">${key}</span>}}`</span>, <span class="hljs-string">&#x27;g&#x27;</span>), value);
-    }
-    <span class="hljs-keyword">return</span> prompt;
-  }
-}
-
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = { <span class="hljs-title class_">PromptManager</span> };
-                      </code></pre>
-                  </div>
-              </div>
-
-            <div class="p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="h6 text-muted mb-0 d-flex align-items-center">
-                        <i class="fas fa-brain me-2 text-primary"></i>
-                        AI Explanation
-                    </h3>
-                    <button class="btn btn-outline-primary btn-sm copy-explanation" data-file-index="1" title="Copy explanation">
-                        <i class="fas fa-copy me-1"></i> Copy
-                    </button>
-                </div>
-                <div class="explanation-content">
-                    <p>Okay, I&#39;ll explain the JavaScript code file <code>D:\MyDev\CodeExplain\src\ai\promptManager.js</code> in a way that&#39;s easy for a beginner to understand.  I&#39;ll break it down section by section.</p>
-<pre><code class="language-javascript">const fs = require(&#39;fs-extra&#39;);
-const path = require(&#39;path&#39;);
-
-class PromptManager {
-  constructor() {
-    this.promptsDir = path.join(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;prompts&#39;);
-    this.userPromptsDir = path.join(process.cwd(), &#39;.codeexplain&#39;, &#39;prompts&#39;);
-  }
-
-  async initialize() {
-    // Ensure user prompts directory exists
-    await fs.ensureDir(this.userPromptsDir);
-
-    // Copy default prompts to user directory if they don&#39;t exist
-    const defaultPrompts = await fs.readdir(this.promptsDir);
-    await Promise.all(
-      defaultPrompts.map(async (promptEntry) =&gt; {
-        const defaultPromptPath = path.join(this.promptsDir, promptEntry);
-        const userPromptPath = path.join(this.userPromptsDir, promptEntry);
-
-        // Check if it&#39;s a file before copying
-        const stat = await fs.stat(defaultPromptPath);
-        if (stat.isFile()) {
-          // Only copy if user doesn&#39;t have a custom version
-          if (!(await fs.pathExists(userPromptPath))) {
-            await fs.copy(defaultPromptPath, userPromptPath);
-          }
-        }
-      })
-    );
-  }
-
-  async getPrompt(mode) {
-    // First check if user has a custom prompt
-    const userPromptPath = path.join(this.userPromptsDir, `${mode}.md`);
-    if (await fs.pathExists(userPromptPath)) {
-      return await fs.readFile(userPromptPath, &#39;utf8&#39;);
-    }
-
-    // Fall back to default prompt
-    const defaultPromptPath = path.join(this.promptsDir, `${mode}.md`);
-    if (await fs.pathExists(defaultPromptPath)) {
-      return await fs.readFile(defaultPromptPath, &#39;utf8&#39;);
-    }
-
-    // Log warning about missing prompt files
-    console.warn(`Prompt for mode &#39;${mode}&#39; not found in user or default directories. Using generic fallback prompt.`);
-
-    // If no prompt found, return a basic template
-    return `You are an AI assistant that explains code.
-    
-Please explain the following {{language}} code file:
-
-File: {{filePath}}
-
-Code:
-{{codeContent}}
-
-Please provide a clear explanation in markdown format.`;
-  }
-
-  async renderPrompt(template, variables) {
-    let prompt = template;
-    for (const [key, value] of Object.entries(variables)) {
-      prompt = prompt.replace(new RegExp(`{{${key}}}`, &#39;g&#39;), value);
-    }
-    return prompt;
-  }
-}
-
-module.exports = { PromptManager };
-</code></pre>
-<h3>Overview</h3>
-<p>This code defines a <code>PromptManager</code> class in JavaScript.  The purpose of this class is to manage and retrieve prompts for an AI code explanation tool.  Think of prompts as instructions you give to the AI to guide its explanation.  The <code>PromptManager</code> handles:</p>
-<ol>
-<li><strong>Locating prompt files:</strong>  It knows where the default prompts are stored and where user-specific prompts can be stored.</li>
-<li><strong>Initializing user prompts:</strong> It copies the default prompts to the user&#39;s directory if the user doesn&#39;t have their own custom prompts yet.</li>
-<li><strong>Retrieving prompts:</strong>  It finds the appropriate prompt based on the desired &quot;mode&quot; (e.g., a specific language or style of explanation), prioritizing user-defined prompts over the defaults.</li>
-<li><strong>Rendering prompts:</strong>  It takes a template prompt and inserts specific information (like the file path and code content) into the template to create a complete, ready-to-use prompt for the AI.</li>
-</ol>
-<h3>Line-by-Line Explanation</h3>
-<p><strong>1. Imports:</strong></p>
-<pre><code class="language-javascript">const fs = require(&#39;fs-extra&#39;);
-const path = require(&#39;path&#39;);
-</code></pre>
+<h2>🔄 Data Flow and Interactions</h2>
+<p>The following shows how different modules interact with each other:</p>
+<p><strong>ai/aiEngine.js</strong> imports from:</p>
 <ul>
-<li><p><code>const fs = require(&#39;fs-extra&#39;);</code>:  This line imports the <code>fs-extra</code> module.  <code>fs-extra</code> is a Node.js library that provides extra file system utility functions. It&#39;s like the standard <code>fs</code> (file system) module in Node.js but with added features like easily creating directories recursively.  We use it for reading files, writing files, creating directories, and checking if files exist.</p>
-</li>
-<li><p><code>const path = require(&#39;path&#39;);</code>: This line imports the <code>path</code> module.  The <code>path</code> module provides utilities for working with file and directory paths. It helps you construct file paths in a way that works correctly on different operating systems (Windows, macOS, Linux).</p>
-</li>
+<li>@langchain/openai</li>
+<li>@langchain/google-genai</li>
+<li>@langchain/ollama</li>
+<li>chalk</li>
+<li>../core/cachemanager</li>
+<li>./promptmanager</li>
 </ul>
-<p><strong>2. <code>PromptManager</code> Class:</strong></p>
-<pre><code class="language-javascript">class PromptManager {
-  constructor() {
-    this.promptsDir = path.join(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;prompts&#39;);
-    this.userPromptsDir = path.join(process.cwd(), &#39;.codeexplain&#39;, &#39;prompts&#39;);
-  }
-</code></pre>
+<p><strong>ai/promptManager.js</strong> imports from:</p>
 <ul>
-<li><p><code>class PromptManager {</code>:  This defines a class named <code>PromptManager</code>. Classes are blueprints for creating objects, which are instances of the class.  In this case, we will create an object that will manage our prompts.</p>
-</li>
-<li><p><code>constructor() { ... }</code>:  This is the constructor of the class.  The constructor is a special method that&#39;s called when a new object of the class is created (using the <code>new</code> keyword).  It initializes the object&#39;s properties.</p>
-</li>
-<li><p><code>this.promptsDir = path.join(__dirname, &#39;..&#39;, &#39;..&#39;, &#39;prompts&#39;);</code>:  This line sets the <code>promptsDir</code> property of the <code>PromptManager</code> object.</p>
+<li>fs-extra</li>
+<li>path</li>
+</ul>
+<p><strong>appoverview/architectureGenerator.js</strong> imports from:</p>
 <ul>
-<li><code>__dirname</code>: This is a special variable in Node.js that holds the absolute path to the directory containing the current file (the <code>promptManager.js</code> file).</li>
-<li><code>&#39;..&#39;, &#39;..&#39;</code> : This navigates two levels up from the current directory. Assuming <code>promptManager.js</code> is in <code>D:\MyDev\CodeExplain\src\ai</code>, this goes up to <code>D:\MyDev\CodeExplain</code>.</li>
-<li><code>&#39;prompts&#39;</code>:  This adds the <code>prompts</code> directory to the path.</li>
-<li><code>path.join(...)</code>:  This joins all the path segments together to create a complete path to the directory where the default prompt files are stored.  So, <code>this.promptsDir</code> will likely be something like <code>D:\MyDev\CodeExplain\prompts</code>. This assumes the <code>prompts</code> folder is two directories above the current file.</li>
+<li>path</li>
 </ul>
-</li>
-<li><p><code>this.userPromptsDir = path.join(process.cwd(), &#39;.codeexplain&#39;, &#39;prompts&#39;);</code>:  This line sets the <code>userPromptsDir</code> property.  This is where user-specific prompts will be stored.</p>
+<p><strong>appoverview/onboardingGenerator.js</strong> imports from:</p>
 <ul>
-<li><code>process.cwd()</code>:  This returns the current working directory of the Node.js process (where the script is being run from).  For example, if you run the script from <code>D:\MyProject</code>, then <code>process.cwd()</code> will return <code>D:\MyProject</code>.</li>
-<li><code>&#39;.codeexplain&#39;, &#39;prompts&#39;</code>: This creates a directory named <code>.codeexplain</code> in the root of your project (if it doesn&#39;t already exist) and then creates a <code>prompts</code> subdirectory within it.  The dot prefix in <code>.codeexplain</code> typically makes it a hidden directory on Unix-like systems.</li>
-<li>So, <code>this.userPromptsDir</code> will be something like <code>D:\MyProject\.codeexplain\prompts</code>.</li>
+<li>path</li>
 </ul>
-</li>
-</ul>
-<p><strong>3. <code>initialize</code> Method:</strong></p>
-<pre><code class="language-javascript">  async initialize() {
-    // Ensure user prompts directory exists
-    await fs.ensureDir(this.userPromptsDir);
-
-    // Copy default prompts to user directory if they don&#39;t exist
-    const defaultPrompts = await fs.readdir(this.promptsDir);
-    await Promise.all(
-      defaultPrompts.map(async (promptEntry) =&gt; {
-        const defaultPromptPath = path.join(this.promptsDir, promptEntry);
-        const userPromptPath = path.join(this.userPromptsDir, promptEntry);
-
-        // Check if it&#39;s a file before copying
-        const stat = await fs.stat(defaultPromptPath);
-        if (stat.isFile()) {
-          // Only copy if user doesn&#39;t have a custom version
-          if (!(await fs.pathExists(userPromptPath))) {
-            await fs.copy(defaultPromptPath, userPromptPath);
-          }
-        }
-      })
-    );
-  }
-</code></pre>
+<p><strong>commands/explain.js</strong> imports from:</p>
 <ul>
-<li><p><code>async initialize() { ... }</code>: This defines an asynchronous method called <code>initialize</code>. The <code>async</code> keyword allows you to use <code>await</code> inside the method.</p>
-</li>
-<li><p><code>await fs.ensureDir(this.userPromptsDir);</code>:  This line uses <code>fs-extra</code>&#39;s <code>ensureDir</code> function to make sure that the user prompts directory (<code>this.userPromptsDir</code>) exists.  If the directory doesn&#39;t exist, it will be created.  The <code>await</code> keyword means that the code will pause here until the directory is created.</p>
-</li>
-<li><p><code>const defaultPrompts = await fs.readdir(this.promptsDir);</code>: This reads the contents of the default prompts directory (<code>this.promptsDir</code>). <code>fs.readdir</code> returns an array of the names of the files and subdirectories in the directory. <code>await</code> makes the code wait until the directory has been read.</p>
-</li>
-<li><p><code>await Promise.all(defaultPrompts.map(async (promptEntry) =&gt; { ... }));</code>: This is a more complex part.  It iterates over each entry (file or directory name) in the <code>defaultPrompts</code> array and performs an action for each one.  <code>Promise.all</code> ensures that all the asynchronous operations inside the loop complete before the <code>initialize</code> method finishes.</p>
+<li>path</li>
+<li>fs</li>
+<li>chalk</li>
+<li>../config/configmanager</li>
+<li>../core/codeanalyzer</li>
+<li>../ai/aiengine</li>
+<li>../output/html/htmloutput</li>
+<li>../output/pdf/pdfoutput</li>
+<li>../ai/promptmanager</li>
+<li>../flowchart/flowchartgenerator</li>
+<li>../appoverview/architecturegenerator</li>
+<li>../appoverview/onboardinggenerator</li>
+<li>../utils/constants</li>
+</ul>
+<p><strong>core/cacheManager.js</strong> imports from:</p>
 <ul>
-<li><p><code>defaultPrompts.map(async (promptEntry) =&gt; { ... })</code>:  The <code>map</code> function creates a new array by applying a function to each element of the <code>defaultPrompts</code> array.  In this case, the function is an <code>async</code> function that takes a <code>promptEntry</code> (a file or directory name) as input.</p>
-</li>
-<li><p><code>const defaultPromptPath = path.join(this.promptsDir, promptEntry);</code>:  This constructs the full path to the default prompt file (e.g., <code>D:\MyDev\CodeExplain\prompts\javascript.md</code>).</p>
-</li>
-<li><p><code>const userPromptPath = path.join(this.userPromptsDir, promptEntry);</code>:  This constructs the full path to the corresponding user prompt file (e.g., <code>D:\MyProject\.codeexplain\prompts\javascript.md</code>).</p>
-</li>
-<li><p><code>const stat = await fs.stat(defaultPromptPath);</code>: Gets the file stats (size, type, etc.) for the default prompt file.</p>
-</li>
-<li><p><code>if (stat.isFile()) { ... }</code>:  This checks if the <code>defaultPromptPath</code> is a file. We only want to copy files, not directories.</p>
-</li>
-<li><p><code>if (!(await fs.pathExists(userPromptPath))) { ... }</code>:  This checks if a file with the same name already exists in the user prompts directory. <code>fs.pathExists</code> returns <code>true</code> if the file exists, and <code>false</code> otherwise. The <code>!</code> negates the result, so the code inside the <code>if</code> block will only execute if the user prompt file <em>does not</em> exist.</p>
-</li>
-<li><p><code>await fs.copy(defaultPromptPath, userPromptPath);</code>:  If the user prompt file doesn&#39;t exist, this line copies the default prompt file to the user prompts directory.  This ensures that the user has a default prompt to start with.</p>
-</li>
+<li>fs-extra</li>
+<li>path</li>
+<li>crypto</li>
 </ul>
-</li>
-</ul>
-<p><strong>4. <code>getPrompt</code> Method:</strong></p>
-<pre><code class="language-javascript">  async getPrompt(mode) {
-    // First check if user has a custom prompt
-    const userPromptPath = path.join(this.userPromptsDir, `${mode}.md`);
-    if (await fs.pathExists(userPromptPath)) {
-      return await fs.readFile(userPromptPath, &#39;utf8&#39;);
-    }
-
-    // Fall back to default prompt
-    const defaultPromptPath = path.join(this.promptsDir, `${mode}.md`);
-    if (await fs.pathExists(defaultPromptPath)) {
-      return await fs.readFile(defaultPromptPath, &#39;utf8&#39;);
-    }
-
-    // Log warning about missing prompt files
-    console.warn(`Prompt for mode &#39;${mode}&#39; not found in user or default directories. Using generic fallback prompt.`);
-
-    // If no prompt found, return a basic template
-    return `You are an AI assistant that explains code.
-    
-Please explain the following {{language}} code file:
-
-File: {{filePath}}
-
-Code:
-{{codeContent}}
-
-Please provide a clear explanation in markdown format.`;
-  }
-</code></pre>
+<p><strong>core/codeAnalyzer.js</strong> imports from:</p>
 <ul>
-<li><p><code>async getPrompt(mode) { ... }</code>: This defines an asynchronous method called <code>getPrompt</code>.  The <code>mode</code> parameter represents the type of prompt to retrieve (e.g., <code>&quot;javascript&quot;</code>, <code>&quot;python&quot;</code>, <code>&quot;detailed&quot;</code>).</p>
-</li>
-<li><p><code>const userPromptPath = path.join(this.userPromptsDir, </code>${mode}.md<code>);</code>:  This constructs the path to the user-specific prompt file for the given <code>mode</code>.  For example, if <code>mode</code> is <code>&quot;javascript&quot;</code>, then <code>userPromptPath</code> might be <code>D:\MyProject\.codeexplain\prompts\javascript.md</code>.  It assumes prompts are stored as Markdown files (<code>.md</code>).</p>
-</li>
-<li><p><code>if (await fs.pathExists(userPromptPath)) { ... }</code>:  This checks if the user-specific prompt file exists.</p>
-</li>
-<li><p><code>return await fs.readFile(userPromptPath, &#39;utf8&#39;);</code>:  If the user prompt file exists, this line reads the file&#39;s content and returns it.  <code>fs.readFile</code> reads the entire file into a string.  The <code>&#39;utf8&#39;</code> argument specifies that the file should be read as UTF-8 encoded text.  The <code>await</code> keyword makes the code wait until the file has been read.</p>
-</li>
-<li><p><code>const defaultPromptPath = path.join(this.promptsDir, </code>${mode}.md<code>);</code>:  If the user prompt file doesn&#39;t exist, this line constructs the path to the default prompt file for the given <code>mode</code>.</p>
-</li>
-<li><p><code>if (await fs.pathExists(defaultPromptPath)) { ... }</code>:  This checks if the default prompt file exists.</p>
-</li>
-<li><p><code>return await fs.readFile(defaultPromptPath, &#39;utf8&#39;);</code>:  If the default prompt file exists, this line reads the file&#39;s content and returns it.</p>
-</li>
-<li><p><code>console.warn(\</code>Prompt for mode &#39;${mode}&#39; not found in user or default directories. Using generic fallback prompt.`);`:  If neither the user prompt file nor the default prompt file exists, this line logs a warning message to the console. This is helpful for debugging.</p>
-</li>
-<li><p>The final <code>return</code> statement returns a basic, hardcoded prompt template string if no prompt file is found.  This acts as a fallback, ensuring that the AI always has some instructions to work with.  Notice the <code>{{language}}</code>, <code>{{filePath}}</code>, and <code>{{codeContent}}</code> placeholders. These will be replaced later with the actual language, file path, and code content.</p>
-</li>
+<li>fs-extra</li>
+<li>path</li>
+<li>globby</li>
+<li>crypto</li>
+<li>../utils/languagemap</li>
 </ul>
-<p><strong>5. <code>renderPrompt</code> Method:</strong></p>
-<pre><code class="language-javascript">  async renderPrompt(template, variables) {
-    let prompt = template;
-    for (const [key, value] of Object.entries(variables)) {
-      prompt = prompt.replace(new RegExp(`{{${key}}}`, &#39;g&#39;), value);
-    }
-    return prompt;
-  }
-</code></pre>
+<p><strong>config/configManager.js</strong> imports from:</p>
 <ul>
-<li><p><code>async renderPrompt(template, variables) { ... }</code>: This defines an asynchronous method called <code>renderPrompt</code>.  This method takes a <code>template</code> string (the prompt template) and a <code>variables</code> object as input. The <code>variables</code> object contains key-value pairs where the keys are the names of the placeholders in the template (e.g., <code>&quot;language&quot;</code>, <code>&quot;filePath&quot;</code>) and the values are the actual values to insert.</p>
-</li>
-<li><p><code>let prompt = template;</code>: This line creates a copy of the <code>template</code> string. This is important so you don&#39;t modify the original template.</p>
-</li>
-<li><p><code>for (const [key, value] of Object.entries(variables)) { ... }</code>:  This loop iterates over the key-value pairs in the <code>variables</code> object.  <code>Object.entries(variables)</code> returns an array of <code>[key, value]</code> pairs.</p>
+<li>path</li>
+<li>fs-extra</li>
+</ul>
+<p><strong>utils/utils.js</strong> imports from:</p>
 <ul>
-<li><code>const [key, value] of Object.entries(variables)</code>: Destructuring assignment to get the key and value from each entry.</li>
+<li>path</li>
+<li>crypto</li>
 </ul>
-</li>
-<li><p><code>prompt = prompt.replace(new RegExp(\</code>{{${key}}}`, &#39;g&#39;), value);<code>:  This is the core of the rendering logic.  It replaces each placeholder in the </code>prompt<code>string with its corresponding value from the</code>variables` object.</p>
+<p><strong>flowchart/flowchartGenerator.js</strong> imports from:</p>
 <ul>
-<li><code>new RegExp(\</code>{{${key}}}`, &#39;g&#39;)<code>:  This creates a regular expression that matches the placeholder </code>{{key}}<code>. The </code>g<code>flag (global) ensures that *all* occurrences of the placeholder are replaced, not just the first one.  The backticks (``) allow you to use template literals to embed the</code>key<code>variable into the regular expression string.  You need to escape the curly braces</code>{{<code>and</code>}}` with backslashes because they have special meaning in regular expressions.</li>
-<li><code>prompt.replace(...)</code>:  This replaces the matched placeholder with the <code>value</code>.</li>
+<li>path</li>
 </ul>
-</li>
-<li><p><code>return prompt;</code>:  This returns the rendered prompt string, with all the placeholders replaced by their actual values.</p>
-</li>
-</ul>
-<p><strong>6. Module Export:</strong></p>
-<pre><code class="language-javascript">module.exports = { PromptManager };
-</code></pre>
+<p><strong>output/html/htmlOutput.js</strong> imports from:</p>
 <ul>
-<li><code>module.exports = { PromptManager };</code>:  This line exports the <code>PromptManager</code> class so that it can be used in other modules (files) in your Node.js project.  This makes the <code>PromptManager</code> accessible to other parts of your application.</li>
+<li>fs</li>
+<li>path</li>
+<li>marked</li>
+<li>highlight.js</li>
+<li>../../utils/utils</li>
+<li>./htmltemplate</li>
 </ul>
-<h3>Usage Example</h3>
-<p>Here&#39;s a simplified example of how you might use the <code>PromptManager</code> class:</p>
-<pre><code class="language-javascript">const { PromptManager } = require(&#39;./promptManager&#39;); // Adjust the path
-
-async function main() {
-  const promptManager = new PromptManager();
-  await promptManager.initialize();
-
-  const language = &#39;javascript&#39;;
-  const filePath = &#39;D:\\MyProject\\myFile.js&#39;;
-  const codeContent = &#39;function add(a, b) { return a + b; }&#39;;
-
-  const promptTemplate = await promptManager.getPrompt(language);
-  const renderedPrompt = await promptManager.renderPrompt(promptTemplate, {
-    language: language,
-    filePath: filePath,
-    codeContent: codeContent,
-  });
-
-  console.log(renderedPrompt); // Output the fully rendered prompt
-}
-
-main();
-</code></pre>
-<p>In this example:</p>
-<ol>
-<li>We create a new <code>PromptManager</code> object.</li>
-<li>We call the <code>initialize</code> method to set up the user prompts directory and copy default prompts if needed.</li>
-<li>We define some variables that we want to insert into the prompt (language, file path, code content).</li>
-<li>We call the <code>getPrompt</code> method to retrieve the prompt template for the &quot;javascript&quot; mode.</li>
-<li>We call the <code>renderPrompt</code> method to replace the placeholders in the template with the actual values.</li>
-<li>We print the rendered prompt to the console.  This is the final prompt that you would send to your AI code explanation tool.</li>
-</ol>
-<h3>In Summary</h3>
-<p>The <code>PromptManager</code> class provides a structured way to manage and customize prompts for an AI code explanation tool. It handles finding, loading, and rendering prompts, making it easier to provide specific instructions to the AI based on the context of the code being explained. This is a common pattern in AI-powered applications where prompts are crucial for controlling the AI&#39;s behavior.</p>
+<p><strong>output/html/htmlTemplate.js</strong> imports from:</p>
+<ul>
+<li>fs</li>
+<li>path</li>
+</ul>
+<p><strong>output/pdf/pdfOutput.js</strong> imports from:</p>
+<ul>
+<li>path</li>
+<li>puppeteer</li>
+<li>marked</li>
+</ul>
+<h2>🔧 Technology Stack</h2>
+<p>The project uses the following technologies:</p>
+<ul>
+<li><strong>Programming Languages</strong>: javascript, css</li>
+<li><strong>File Extensions</strong>: .js, .css</li>
+</ul>
+<h2>📋 Key Modules</h2>
+<p>The following are key modules that form the backbone of the application:</p>
+<ul>
+<li><strong>appoverview/architectureGenerator.js</strong> - Application entry point and main initialization</li>
+<li><strong>appoverview/onboardingGenerator.js</strong> - Application entry point and main initialization</li>
+</ul>
 
                 </div>
             </div>

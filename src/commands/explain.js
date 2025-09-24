@@ -8,15 +8,27 @@ const { HTMLOutput } = require('../output/html/htmlOutput');
 const { PDFOutput } = require('../output/pdf/pdfOutput');
 const { PromptManager } = require('../ai/promptManager');
 const { FlowchartGenerator } = require('../flowchart/flowchartGenerator');
+const { ArchitectureGenerator } = require('../appoverview/architectureGenerator');
+const { OnboardingGenerator } = require('../appoverview/onboardingGenerator');
 const {
   MODE_LINE_BY_LINE,
   MODE_FLOWCHART,
+  MODE_ARCHITECTURE,
+  MODE_ONBOARDING,
   OUTPUT_PDF,
   OUTPUT_HTML
 } = require('../utils/constants');
 
 async function generateFlowchart(analysis, config) {
   return FlowchartGenerator.generate(analysis, config);
+}
+
+async function generateArchitecture(analysis, config) {
+  return ArchitectureGenerator.generate(analysis, config);
+}
+
+async function generateOnboarding(analysis, config) {
+  return OnboardingGenerator.generate(analysis, config);
 }
 
 async function explain(paths, options) {
@@ -126,19 +138,47 @@ async function explain(paths, options) {
 
     console.log(chalk.green('✅ Code analysis completed!'));
 
-    // Check if we should run in flowchart mode
+    // Handle mode aliases
+    let effectiveMode = finalConfig.mode;
+    if (effectiveMode === 'arch') {
+      effectiveMode = 'architecture';
+    }
+
+    // Check if we should run in flowchart, architecture, or onboarding mode
     let explanations;
     if (!finalConfig.apiKey) {
       console.log(chalk.yellow('⚠️ No API key provided. Running in offline mode.'));
       // In offline mode, we just return the code analysis without AI explanations
-      explanations = allAnalysis.map(item => item ? { ...item, explanation: 'Offline mode: AI explanation not available. Please provide an API key to get AI-powered explanations.' } : null);
+      if (finalConfig.mode === MODE_FLOWCHART || effectiveMode === 'architecture' || finalConfig.mode === MODE_ONBOARDING) {
+        // For special modes, return appropriate message
+        explanations = [{
+          relativePath: effectiveMode === 'architecture' ? 'Project Architecture' : 
+                      finalConfig.mode === MODE_ONBOARDING ? 'Developer Onboarding' : 'Project Flowchart',
+          path: effectiveMode === 'architecture' ? 'project-architecture' : 
+                finalConfig.mode === MODE_ONBOARDING ? 'developer-onboarding' : 'project-flowchart',
+          language: finalConfig.mode,
+          explanation: 'Offline mode: AI analysis not available. Please provide an API key to get AI-powered architecture overview.'
+        }];
+      } else {
+        explanations = allAnalysis.map(item => item ? { ...item, explanation: 'Offline mode: AI explanation not available. Please provide an API key to get AI-powered explanations.' } : null);
+      }
     } else if (finalConfig.mode === MODE_FLOWCHART) {
       console.log(chalk.yellow('📊 Generating flowchart visualization...'));
       const flowchartResult = await generateFlowchart(allAnalysis, finalConfig);
       explanations = [flowchartResult];
       console.log(chalk.green('✅ Flowchart generation completed!'));
+    } else if (effectiveMode === 'architecture') {
+      console.log(chalk.yellow('🏗️ Generating architecture overview...'));
+      const architectureResult = await generateArchitecture(allAnalysis, finalConfig);
+      explanations = [architectureResult];
+      console.log(chalk.green('✅ Architecture overview generation completed!'));
+    } else if (finalConfig.mode === MODE_ONBOARDING) {
+      console.log(chalk.yellow('👨‍💻 Generating onboarding guide...'));
+      const onboardingResult = await generateOnboarding(allAnalysis, finalConfig);
+      explanations = [onboardingResult];
+      console.log(chalk.green('✅ Onboarding guide generation completed!'));
     } else {
-      // Generate AI explanations with progress tracking
+      // Generate AI explanations with progress tracking for normal modes
       const aiEngine = new AIEngine(finalConfig);
       console.log(chalk.yellow('🤖 Generating AI explanations...'));
 

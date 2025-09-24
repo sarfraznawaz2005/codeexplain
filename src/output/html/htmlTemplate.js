@@ -72,7 +72,7 @@ function createHTMLTemplate(config, title, sidebarItems, fileEntries, assets) {
         </header>
 
 
-        ${config.mode === 'flowchart' ? '' : `
+        ${config.mode === 'flowchart' || config.mode === 'architecture' || config.mode === 'onboarding' ? '' : `
         <!-- Sidebar Toggle Button (Mobile) -->
         <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">
             <i class="fas fa-bars"></i>
@@ -95,7 +95,7 @@ function createHTMLTemplate(config, title, sidebarItems, fileEntries, assets) {
         </aside>`}
 
         <!-- Main Content -->
-        <main style="${config.mode === 'flowchart' ? 'margin-left: 0px; width: 100%;' : 'margin-left: 280px; width: calc(100% - 280px);'} margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
+        <main style="${config.mode === 'flowchart' || config.mode === 'architecture' || config.mode === 'onboarding' ? 'margin-left: 0px; width: 100%;' : 'margin-left: 280px; width: calc(100% - 280px);'} margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
             <div class="container-fluid">
                 <!-- File Entries -->
                 <div id="file-entries" class="row g-4">
