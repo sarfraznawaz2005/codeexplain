@@ -47,6 +47,9 @@ describe('explain command', () => {
     jest.spyOn(console, 'error').mockImplementation(() => {});
     jest.spyOn(process, 'exit').mockImplementation(() => {});
 
+    // Ensure FlowchartGenerator.generate is mocked
+    FlowchartGenerator.generate = jest.fn().mockResolvedValue({});
+
     // Setup mocks
     mockConfigManager = {
       loadConfig: jest.fn().mockResolvedValue({
@@ -151,7 +154,14 @@ describe('explain command', () => {
     const paths = ['.'];
     const options = { mode: 'flowchart' };
 
+    // Mock process.argv to include --mode so the precedence logic works
+    const originalArgv = process.argv;
+    process.argv = ['node', 'codeexplain', '--mode', 'flowchart', '.'];
+
     await explain(paths, options);
+
+    // Restore original argv
+    process.argv = originalArgv;
 
     expect(FlowchartGenerator.generate).toHaveBeenCalled();
     expect(AIEngine).not.toHaveBeenCalled();

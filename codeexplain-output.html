@@ -748,73 +748,29 @@
             </div>
         </header>
 
-        <!-- Sidebar Toggle Button (Mobile) -->
-        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">
-            <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Sidebar Navigation -->
-        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(0); opacity: 1; pointer-events: auto; transition: all 0.3s ease; z-index: 1000;">
-            <div class="position-absolute" style="top: 0; right: 0; width: 5px; height: 100%; cursor: ew-resize; background: rgba(0,0,0,0.1);" id="sidebar-resizer"></div>
-            <div class="p-3 border-bottom">
-                <h2 class="h6 fw-bold mb-0 text-muted d-flex align-items-center">
-                    <i class="fas fa-folder-tree me-2"></i>
-                    Project Files
-                </h2>
-            </div>
-            <div class="sidebar-content" style="height: calc(100% - 60px); overflow-y: auto;">
-                <ul class="list-unstyled p-2">
-                                    <li><a href="#file-0" class="d-block py-1 px-2 text-decoration-none rounded">constants.js</a></li>
-                <li><a href="#file-1" class="d-block py-1 px-2 text-decoration-none rounded">languageMap.js</a></li>
-                <li><a href="#file-2" class="d-block py-1 px-2 text-decoration-none rounded">utils.js</a></li>
-
-                </ul>
-            </div>
-        </aside>
-
         <!-- Main Content -->
-        <main style="margin-left: 280px; width: calc(100% - 280px); margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
+        <main style="margin-left: 0px; width: 100%; margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
             <div class="container-fluid">
                 <!-- File Entries -->
                 <div id="file-entries" class="row g-4">
                     
-<div class="file-entry col-12 mb-4" id="file-0" data-file-path="D:\MyDev\CodeExplain\src\utils\constants.js" data-file-index="0">
+<div class="file-entry col-12 mb-4" id="file-0" data-file-path="developer-onboarding" data-file-index="0">
     <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
         <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
             <div class="d-flex justify-content-between align-items-center">
-                 <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="0" style="font-size: 1.1rem;">
-                     <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
+                 <h2 class=" h5 fw-semibold mb-0  d-flex align-items-center text-white" data-file-index="0" style="font-size: 1.1rem;">
+                     
                      <i class="fas fa-file-code me-2"></i>
-                     constants.js
+                     Developer Onboarding
                  </h2>
                 <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    javascript
+                    onboarding
                 </span>
             </div>
         </div>
 
              <div class="card-body p-0">
-               <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
-                   <div class="p-3">
-                       <pre class="mb-0"><code class="language-javascript" style="font-size: 0.9rem; line-height: 1.5;">
-<span class="hljs-comment">// Explanation modes</span>
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">MODE_LINE_BY_LINE</span> = <span class="hljs-string">&#x27;linebyline&#x27;</span>;
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">MODE_FLOWCHART</span> = <span class="hljs-string">&#x27;flowchart&#x27;</span>;
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">MODE_EXPLAIN</span> = <span class="hljs-string">&#x27;explain&#x27;</span>;
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">MODE_ARCHITECTURE</span> = <span class="hljs-string">&#x27;architecture&#x27;</span>;
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">MODE_ARCH</span> = <span class="hljs-string">&#x27;arch&#x27;</span>;  <span class="hljs-comment">// Alias for architecture</span>
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">MODE_ISSUES</span> = <span class="hljs-string">&#x27;issues&#x27;</span>;
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">MODE_ONBOARDING</span> = <span class="hljs-string">&#x27;onboarding&#x27;</span>;
-
-<span class="hljs-comment">// Output formats</span>
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">OUTPUT_PDF</span> = <span class="hljs-string">&#x27;pdf&#x27;</span>;
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">OUTPUT_HTML</span> = <span class="hljs-string">&#x27;html&#x27;</span>;
-
-<span class="hljs-comment">// Default configuration values</span>
-<span class="hljs-built_in">exports</span>.<span class="hljs-property">DEFAULT_RETRY_ATTEMPTS</span> = <span class="hljs-number">3</span>;
-                       </code></pre>
-                   </div>
-               </div>
+               
 
             <div class="p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -827,847 +783,110 @@
                     </button>
                 </div>
                 <div class="explanation-content">
-                    <h1>Explanation of <code>constants.js</code></h1>
-<p>This JavaScript file is designed to define and export a set of constants that can be used throughout the application. These constants appear to be categorized into different groups such as explanation modes, output formats, and default configuration values.</p>
-<h2>Constants</h2>
-<h3>Explanation Modes</h3>
-<p>These constants specify various modes in which the application can operate to provide explanations. These modes likely dictate how information is presented to the user.</p>
+                    <h1>🎉 Welcome to the CodeExplain Project Onboarding Guide</h1>
+<p>Welcome to the CodeExplain project! This guide will help you get up and running with the project quickly, providing a comprehensive overview from setup to coding tips. Let&#39;s dive in!</p>
+<h2>🚀 Getting Started</h2>
+<h3>Project Overview and Purpose</h3>
+<p>The CodeExplain project is designed to facilitate code analysis and presentation across various files. It supports multiple explanation modes such as line-by-line analysis, flowcharts, and architectural overviews, providing dynamic outputs in formats like PDF and HTML. This approach streamlines understanding and committing code changes effectively.</p>
+<h3>Technology Stack and Key Dependencies</h3>
 <ul>
-<li><p><strong><code>MODE_LINE_BY_LINE</code></strong>: </p>
-<ul>
-<li>Value: <code>&#39;linebyline&#39;</code></li>
-<li>Description: This mode might explain code by going through it one line at a time.</li>
+<li><strong>Languages</strong>: JavaScript</li>
+<li><strong>File Types</strong>: <code>.js</code></li>
 </ul>
-</li>
-<li><p><strong><code>MODE_FLOWCHART</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;flowchart&#39;</code></li>
-<li>Description: This mode may represent code or logic as a flowchart, useful for visual learners.</li>
-</ul>
-</li>
-<li><p><strong><code>MODE_EXPLAIN</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;explain&#39;</code></li>
-<li>Description: A general mode for providing explanations without specifying a particular style.</li>
-</ul>
-</li>
-<li><p><strong><code>MODE_ARCHITECTURE</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;architecture&#39;</code></li>
-<li>Description: This mode might explain the architectural design of the code or system.</li>
-</ul>
-</li>
-<li><p><strong><code>MODE_ARCH</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;arch&#39;</code></li>
-<li>Description: An alias for <code>MODE_ARCHITECTURE</code>, providing a shorter name for the same mode.</li>
-</ul>
-</li>
-<li><p><strong><code>MODE_ISSUES</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;issues&#39;</code></li>
-<li>Description: This mode could be used to explain or highlight issues within the code, such as potential bugs or challenges.</li>
-</ul>
-</li>
-<li><p><strong><code>MODE_ONBOARDING</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;onboarding&#39;</code></li>
-<li>Description: This mode is possibly intended to assist new developers or users with getting started or familiarized with the code or system.</li>
-</ul>
-</li>
-</ul>
-<h3>Output Formats</h3>
-<p>These constants define the formats in which the output explanations can be generated.</p>
-<ul>
-<li><p><strong><code>OUTPUT_PDF</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;pdf&#39;</code></li>
-<li>Description: The explanations can be output as a PDF document.</li>
-</ul>
-</li>
-<li><p><strong><code>OUTPUT_HTML</code></strong>:</p>
-<ul>
-<li>Value: <code>&#39;html&#39;</code></li>
-<li>Description: The explanations can be generated in HTML format, likely to be viewed in web browsers.</li>
-</ul>
-</li>
-</ul>
-<h3>Default Configuration Values</h3>
-<p>These are default settings that can be used across the application, most likely for certain configurable behaviors.</p>
-<ul>
-<li><strong><code>DEFAULT_RETRY_ATTEMPTS</code></strong>:<ul>
-<li>Value: <code>3</code></li>
-<li>Description: This constant indicates a default number of retry attempts, possibly used in scenarios such as network requests, file operations, or any repeatable process that may require retries upon failure.</li>
-</ul>
-</li>
-</ul>
-<h2>Usage</h2>
-<p>By exporting these constants, the file allows them to be easily imported and used in other parts of the application. This promotes consistency and makes it easier to manage and update these values from a single location.</p>
-<p>Overall, this file serves as a centralized place for managing key constants that influence the behavior and configuration of the system or application that uses these variables.</p>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    
-
-<div class="file-entry col-12 mb-4" id="file-1" data-file-path="D:\MyDev\CodeExplain\src\utils\languageMap.js" data-file-index="1">
-    <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
-            <div class="d-flex justify-content-between align-items-center">
-                 <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="1" style="font-size: 1.1rem;">
-                     <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
-                     <i class="fas fa-file-code me-2"></i>
-                     languageMap.js
-                 </h2>
-                <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    javascript
-                </span>
-            </div>
-        </div>
-
-             <div class="card-body p-0">
-               <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
-                   <div class="p-3">
-                       <pre class="mb-0"><code class="language-javascript" style="font-size: 0.9rem; line-height: 1.5;">
-<span class="hljs-comment">// Map of file extensions to programming languages</span>
-<span class="hljs-keyword">const</span> languageMap = {
-  <span class="hljs-string">&#x27;.js&#x27;</span>: <span class="hljs-string">&#x27;javascript&#x27;</span>,
-  <span class="hljs-string">&#x27;.jsx&#x27;</span>: <span class="hljs-string">&#x27;javascript&#x27;</span>,
-  <span class="hljs-string">&#x27;.ts&#x27;</span>: <span class="hljs-string">&#x27;typescript&#x27;</span>,
-  <span class="hljs-string">&#x27;.tsx&#x27;</span>: <span class="hljs-string">&#x27;typescript&#x27;</span>,
-  <span class="hljs-string">&#x27;.vue&#x27;</span>: <span class="hljs-string">&#x27;vue&#x27;</span>,
-  <span class="hljs-string">&#x27;.svelte&#x27;</span>: <span class="hljs-string">&#x27;svelte&#x27;</span>,
-  <span class="hljs-string">&#x27;.astro&#x27;</span>: <span class="hljs-string">&#x27;astro&#x27;</span>,
-  <span class="hljs-string">&#x27;.html&#x27;</span>: <span class="hljs-string">&#x27;html&#x27;</span>,
-  <span class="hljs-string">&#x27;.htm&#x27;</span>: <span class="hljs-string">&#x27;html&#x27;</span>,
-  <span class="hljs-string">&#x27;.xml&#x27;</span>: <span class="hljs-string">&#x27;xml&#x27;</span>,
-  <span class="hljs-string">&#x27;.svg&#x27;</span>: <span class="hljs-string">&#x27;xml&#x27;</span>,
-  <span class="hljs-string">&#x27;.css&#x27;</span>: <span class="hljs-string">&#x27;css&#x27;</span>,
-  <span class="hljs-string">&#x27;.scss&#x27;</span>: <span class="hljs-string">&#x27;scss&#x27;</span>,
-  <span class="hljs-string">&#x27;.sass&#x27;</span>: <span class="hljs-string">&#x27;scss&#x27;</span>,
-  <span class="hljs-string">&#x27;.less&#x27;</span>: <span class="hljs-string">&#x27;less&#x27;</span>,
-  <span class="hljs-string">&#x27;.php&#x27;</span>: <span class="hljs-string">&#x27;php&#x27;</span>,
-  <span class="hljs-string">&#x27;.asp&#x27;</span>: <span class="hljs-string">&#x27;asp&#x27;</span>,
-  <span class="hljs-string">&#x27;.jsp&#x27;</span>: <span class="hljs-string">&#x27;java&#x27;</span>,
-  <span class="hljs-string">&#x27;.ejs&#x27;</span>: <span class="hljs-string">&#x27;ejs&#x27;</span>,
-  <span class="hljs-string">&#x27;.hbs&#x27;</span>: <span class="hljs-string">&#x27;handlebars&#x27;</span>,
-  <span class="hljs-string">&#x27;.handlebars&#x27;</span>: <span class="hljs-string">&#x27;handlebars&#x27;</span>,
-  <span class="hljs-string">&#x27;.py&#x27;</span>: <span class="hljs-string">&#x27;python&#x27;</span>,
-  <span class="hljs-string">&#x27;.java&#x27;</span>: <span class="hljs-string">&#x27;java&#x27;</span>,
-  <span class="hljs-string">&#x27;.c&#x27;</span>: <span class="hljs-string">&#x27;c&#x27;</span>,
-  <span class="hljs-string">&#x27;.cpp&#x27;</span>: <span class="hljs-string">&#x27;cpp&#x27;</span>,
-  <span class="hljs-string">&#x27;.cxx&#x27;</span>: <span class="hljs-string">&#x27;cpp&#x27;</span>,
-  <span class="hljs-string">&#x27;.cc&#x27;</span>: <span class="hljs-string">&#x27;cpp&#x27;</span>,
-  <span class="hljs-string">&#x27;.h&#x27;</span>: <span class="hljs-string">&#x27;c&#x27;</span>,
-  <span class="hljs-string">&#x27;.hpp&#x27;</span>: <span class="hljs-string">&#x27;cpp&#x27;</span>,
-  <span class="hljs-string">&#x27;.cs&#x27;</span>: <span class="hljs-string">&#x27;csharp&#x27;</span>,
-  <span class="hljs-string">&#x27;.vb&#x27;</span>: <span class="hljs-string">&#x27;vbnet&#x27;</span>,
-  <span class="hljs-string">&#x27;.fs&#x27;</span>: <span class="hljs-string">&#x27;fsharp&#x27;</span>,
-  <span class="hljs-string">&#x27;.fsx&#x27;</span>: <span class="hljs-string">&#x27;fsharp&#x27;</span>,
-  <span class="hljs-string">&#x27;.go&#x27;</span>: <span class="hljs-string">&#x27;go&#x27;</span>,
-  <span class="hljs-string">&#x27;.rs&#x27;</span>: <span class="hljs-string">&#x27;rust&#x27;</span>,
-  <span class="hljs-string">&#x27;.swift&#x27;</span>: <span class="hljs-string">&#x27;swift&#x27;</span>,
-  <span class="hljs-string">&#x27;.kt&#x27;</span>: <span class="hljs-string">&#x27;kotlin&#x27;</span>,
-  <span class="hljs-string">&#x27;.scala&#x27;</span>: <span class="hljs-string">&#x27;scala&#x27;</span>,
-  <span class="hljs-string">&#x27;.rb&#x27;</span>: <span class="hljs-string">&#x27;ruby&#x27;</span>,
-  <span class="hljs-string">&#x27;.pl&#x27;</span>: <span class="hljs-string">&#x27;perl&#x27;</span>,
-  <span class="hljs-string">&#x27;.pm&#x27;</span>: <span class="hljs-string">&#x27;perl&#x27;</span>,
-  <span class="hljs-string">&#x27;.tcl&#x27;</span>: <span class="hljs-string">&#x27;tcl&#x27;</span>,
-  <span class="hljs-string">&#x27;.lua&#x27;</span>: <span class="hljs-string">&#x27;lua&#x27;</span>,
-  <span class="hljs-string">&#x27;.dart&#x27;</span>: <span class="hljs-string">&#x27;dart&#x27;</span>,
-  <span class="hljs-string">&#x27;.r&#x27;</span>: <span class="hljs-string">&#x27;r&#x27;</span>,
-  <span class="hljs-string">&#x27;.m&#x27;</span>: <span class="hljs-string">&#x27;matlab&#x27;</span>,
-  <span class="hljs-string">&#x27;.matlab&#x27;</span>: <span class="hljs-string">&#x27;matlab&#x27;</span>,
-  <span class="hljs-string">&#x27;.asm&#x27;</span>: <span class="hljs-string">&#x27;asm&#x27;</span>,
-  <span class="hljs-string">&#x27;.s&#x27;</span>: <span class="hljs-string">&#x27;asm&#x27;</span>,
-  <span class="hljs-string">&#x27;.zig&#x27;</span>: <span class="hljs-string">&#x27;zig&#x27;</span>,
-  <span class="hljs-string">&#x27;.v&#x27;</span>: <span class="hljs-string">&#x27;v&#x27;</span>,
-  <span class="hljs-string">&#x27;.nim&#x27;</span>: <span class="hljs-string">&#x27;nim&#x27;</span>,
-  <span class="hljs-string">&#x27;.crystal&#x27;</span>: <span class="hljs-string">&#x27;crystal&#x27;</span>,
-  <span class="hljs-string">&#x27;.pony&#x27;</span>: <span class="hljs-string">&#x27;pony&#x27;</span>,
-  <span class="hljs-string">&#x27;.hs&#x27;</span>: <span class="hljs-string">&#x27;haskell&#x27;</span>,
-  <span class="hljs-string">&#x27;.ml&#x27;</span>: <span class="hljs-string">&#x27;ocaml&#x27;</span>,
-  <span class="hljs-string">&#x27;.elm&#x27;</span>: <span class="hljs-string">&#x27;elm&#x27;</span>,
-  <span class="hljs-string">&#x27;.purs&#x27;</span>: <span class="hljs-string">&#x27;purescript&#x27;</span>,
-  <span class="hljs-string">&#x27;.clj&#x27;</span>: <span class="hljs-string">&#x27;clojure&#x27;</span>,
-  <span class="hljs-string">&#x27;.cljs&#x27;</span>: <span class="hljs-string">&#x27;clojure&#x27;</span>,
-  <span class="hljs-string">&#x27;.scm&#x27;</span>: <span class="hljs-string">&#x27;scheme&#x27;</span>,
-  <span class="hljs-string">&#x27;.rkt&#x27;</span>: <span class="hljs-string">&#x27;racket&#x27;</span>,
-  <span class="hljs-string">&#x27;.ex&#x27;</span>: <span class="hljs-string">&#x27;elixir&#x27;</span>,
-  <span class="hljs-string">&#x27;.exs&#x27;</span>: <span class="hljs-string">&#x27;elixir&#x27;</span>,
-  <span class="hljs-string">&#x27;.erl&#x27;</span>: <span class="hljs-string">&#x27;erlang&#x27;</span>,
-  <span class="hljs-string">&#x27;.hrl&#x27;</span>: <span class="hljs-string">&#x27;erlang&#x27;</span>,
-  <span class="hljs-string">&#x27;.graphql&#x27;</span>: <span class="hljs-string">&#x27;graphql&#x27;</span>,
-  <span class="hljs-string">&#x27;.gql&#x27;</span>: <span class="hljs-string">&#x27;graphql&#x27;</span>,
-  <span class="hljs-string">&#x27;.sql&#x27;</span>: <span class="hljs-string">&#x27;sql&#x27;</span>,
-  <span class="hljs-string">&#x27;.json&#x27;</span>: <span class="hljs-string">&#x27;json&#x27;</span>,
-  <span class="hljs-string">&#x27;.yaml&#x27;</span>: <span class="hljs-string">&#x27;yaml&#x27;</span>,
-  <span class="hljs-string">&#x27;.yml&#x27;</span>: <span class="hljs-string">&#x27;yaml&#x27;</span>,
-  <span class="hljs-string">&#x27;.awk&#x27;</span>: <span class="hljs-string">&#x27;awk&#x27;</span>,
-  <span class="hljs-string">&#x27;.sed&#x27;</span>: <span class="hljs-string">&#x27;sed&#x27;</span>,
-  <span class="hljs-string">&#x27;.perl&#x27;</span>: <span class="hljs-string">&#x27;perl&#x27;</span>,
-  <span class="hljs-string">&#x27;.sh&#x27;</span>: <span class="hljs-string">&#x27;bash&#x27;</span>,
-  <span class="hljs-string">&#x27;.bash&#x27;</span>: <span class="hljs-string">&#x27;bash&#x27;</span>,
-  <span class="hljs-string">&#x27;.zsh&#x27;</span>: <span class="hljs-string">&#x27;bash&#x27;</span>,
-  <span class="hljs-string">&#x27;.makefile&#x27;</span>: <span class="hljs-string">&#x27;makefile&#x27;</span>,
-  <span class="hljs-string">&#x27;.mk&#x27;</span>: <span class="hljs-string">&#x27;makefile&#x27;</span>,
-  <span class="hljs-string">&#x27;.cmake&#x27;</span>: <span class="hljs-string">&#x27;cmake&#x27;</span>,
-  <span class="hljs-string">&#x27;.gradle&#x27;</span>: <span class="hljs-string">&#x27;gradle&#x27;</span>,
-  <span class="hljs-string">&#x27;.maven&#x27;</span>: <span class="hljs-string">&#x27;xml&#x27;</span>,
-  <span class="hljs-string">&#x27;.pom&#x27;</span>: <span class="hljs-string">&#x27;xml&#x27;</span>,
-  <span class="hljs-string">&#x27;.dockerfile&#x27;</span>: <span class="hljs-string">&#x27;dockerfile&#x27;</span>,
-  <span class="hljs-string">&#x27;.containerfile&#x27;</span>: <span class="hljs-string">&#x27;dockerfile&#x27;</span>,
-  <span class="hljs-string">&#x27;.md&#x27;</span>: <span class="hljs-string">&#x27;markdown&#x27;</span>,
-  <span class="hljs-string">&#x27;.markdown&#x27;</span>: <span class="hljs-string">&#x27;markdown&#x27;</span>,
-  <span class="hljs-string">&#x27;.rst&#x27;</span>: <span class="hljs-string">&#x27;rst&#x27;</span>,
-  <span class="hljs-string">&#x27;.tex&#x27;</span>: <span class="hljs-string">&#x27;latex&#x27;</span>,
-  <span class="hljs-string">&#x27;.raku&#x27;</span>: <span class="hljs-string">&#x27;raku&#x27;</span>,
-  <span class="hljs-string">&#x27;.p6&#x27;</span>: <span class="hljs-string">&#x27;raku&#x27;</span>,
-  <span class="hljs-string">&#x27;.vala&#x27;</span>: <span class="hljs-string">&#x27;vala&#x27;</span>,
-  <span class="hljs-string">&#x27;.genie&#x27;</span>: <span class="hljs-string">&#x27;vala&#x27;</span>,
-  <span class="hljs-string">&#x27;.boo&#x27;</span>: <span class="hljs-string">&#x27;boo&#x27;</span>,
-  <span class="hljs-string">&#x27;.cobra&#x27;</span>: <span class="hljs-string">&#x27;python&#x27;</span>,
-  <span class="hljs-string">&#x27;.ahk&#x27;</span>: <span class="hljs-string">&#x27;autohotkey&#x27;</span>
-};
-
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = languageMap;
-                       </code></pre>
-                   </div>
-               </div>
-
-            <div class="p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="h6 text-muted mb-0 d-flex align-items-center">
-                        <i class="fas fa-brain me-2 text-primary"></i>
-                        AI Explanation
-                    </h3>
-                    <button class="btn btn-outline-primary btn-sm copy-explanation" data-file-index="1" title="Copy explanation">
-                        <i class="fas fa-copy me-1"></i> Copy
-                    </button>
-                </div>
-                <div class="explanation-content">
-                    <p>Certainly! Let&#39;s break down the JavaScript file <code>languageMap.js</code> that you provided and understand its components and purpose.</p>
-<h2>Explanation of <code>languageMap.js</code></h2>
-<h3>Overview</h3>
-<p>This JavaScript file defines a mapping between file extensions and their corresponding programming languages. It exports this mapping using <code>module.exports</code> so it can be used in other parts of a Node.js application.</p>
-<h3>Detailed Breakdown</h3>
+<p>The project is JavaScript-based, offering a lightweight and flexible approach to processing and analyzing code data. The current summary does not specify third-party dependencies. You’ll likely want to run <code>npm install</code> to bring in any dependencies not covered in this introduction.</p>
+<h3>Development Environment Setup</h3>
+<p>To start contributing to the project, follow these steps:</p>
 <ol>
-<li><p><strong>Constant Declaration:</strong></p>
-<pre><code class="language-javascript">const languageMap = { ... };
+<li><strong>Clone the Repository</strong>:<pre><code class="language-bash">git clone &lt;repo-url&gt;
 </code></pre>
-<ul>
-<li>Here, <code>languageMap</code> is declared as a constant object. The keys in this object are file extensions (e.g., <code>.js</code>, <code>.ts</code>) and the values are the names of programming languages or technologies (e.g., <code>javascript</code>, <code>typescript</code>).</li>
-</ul>
 </li>
-<li><p><strong>Mapping Explanation:</strong></p>
-<ul>
-<li><p><strong>JavaScript and Variants:</strong></p>
-<ul>
-<li><code>.js</code>, <code>.jsx</code> are mapped to <code>javascript</code>.</li>
-<li><code>.ts</code>, <code>.tsx</code> are mapped to <code>typescript</code>.</li>
-</ul>
-</li>
-<li><p><strong>Frontend Frameworks:</strong></p>
-<ul>
-<li><code>.vue</code> is mapped to <code>vue</code>.</li>
-<li><code>.svelte</code> is mapped to <code>svelte</code>.</li>
-<li><code>.astro</code> is mapped to <code>astro</code>.</li>
-</ul>
-</li>
-<li><p><strong>HTML and XML:</strong></p>
-<ul>
-<li><code>.html</code>, <code>.htm</code> are mapped to <code>html</code>.</li>
-<li><code>.xml</code>, <code>.svg</code> are mapped to <code>xml</code>.</li>
-</ul>
-</li>
-<li><p><strong>Styling:</strong></p>
-<ul>
-<li><code>.css</code> is mapped to <code>css</code>.</li>
-<li><code>.scss</code>, <code>.sass</code> are mapped to <code>scss</code>.</li>
-<li><code>.less</code> is mapped to <code>less</code>.</li>
-</ul>
-</li>
-<li><p><strong>Backend and Other Languages:</strong></p>
-<ul>
-<li><code>.php</code> is mapped to <code>php</code>.</li>
-<li><code>.python</code>, <code>.py</code> are mapped to <code>python</code>.</li>
-<li><code>.java</code>, <code>.jsp</code> are mapped to <code>java</code>.</li>
-<li><code>.c</code>, <code>.h</code> are mapped to <code>c</code>.</li>
-<li><code>.cpp</code>, <code>.cxx</code>, <code>.cc</code>, <code>.hpp</code> are mapped to <code>cpp</code>.</li>
-<li><code>.cs</code> is mapped to <code>csharp</code>.</li>
-</ul>
-</li>
-<li><p><strong>Scripting and Command Languages:</strong></p>
-<ul>
-<li>Various scripting files like <code>.sh</code>, <code>.bash</code>, <code>.zsh</code> are mapped to <code>bash</code>.</li>
-<li><code>.perl</code>, <code>.pl</code>, <code>.pm</code> are mapped to <code>perl</code>.</li>
-<li><code>.awk</code> is mapped to <code>awk</code>.</li>
-<li><code>.sed</code> is mapped to <code>sed</code>.</li>
-</ul>
-</li>
-<li><p><strong>Miscellaneous Technologies:</strong></p>
-<ul>
-<li><code>.json</code> is mapped to <code>json</code>.</li>
-<li><code>.yaml</code>, <code>.yml</code> are mapped to <code>yaml</code>.</li>
-<li><code>.md</code>, <code>.markdown</code> are mapped to <code>markdown</code>.</li>
-<li><code>.dockerfile</code>, <code>.containerfile</code> are mapped to <code>dockerfile</code>.</li>
-</ul>
-</li>
-<li><p><strong>Additional Programming Languages:</strong></p>
-<ul>
-<li><strong>Rust</strong> with <code>.rs</code>.</li>
-<li><strong>Swift</strong> with <code>.swift</code>.</li>
-<li><strong>Ruby</strong> with <code>.rb</code>.</li>
-<li><strong>Go</strong> with <code>.go</code>.</li>
-<li><strong>Elixir</strong> with <code>.ex</code>, <code>.exs</code>.</li>
-<li><strong>Erlang</strong> with <code>.erl</code>, <code>.hrl</code>.</li>
-</ul>
-</li>
-<li><p><strong>Other Markups or Configuration Files:</strong></p>
-<ul>
-<li><code>.makefile</code>, <code>.mk</code> are mapped to <code>makefile</code>.</li>
-<li><code>.cmake</code> is mapped to <code>cmake</code>.</li>
-<li><code>.tex</code> is mapped to <code>latex</code>.</li>
-<li><code>.rst</code> for reStructuredText.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p><strong>Exporting the Module:</strong></p>
-<pre><code class="language-javascript">module.exports = languageMap;
+<li><strong>Install Dependencies</strong>:
+Navigate to the project directory and run:<pre><code class="language-bash">npm install
 </code></pre>
-<ul>
-<li>This line exports the <code>languageMap</code> object so that it can be used in other files within a Node.js environment. It is common practice to export modules in Node.js to share code between files.</li>
-</ul>
 </li>
+<li><strong>Setup Environment Variables</strong>:
+If there are any environment-specific configurations or <code>.env</code> files, ensure they are correctly set up.</li>
 </ol>
-<h3>Use Case</h3>
-<p>The <code>languageMap</code> is typically used in tools or applications that need to determine the type of language based on a file&#39;s extension. This is helpful in scenarios like code editors, syntax highlighters, or language analyzers where knowing the language of the code is necessary for proper processing.</p>
-<h3>Summary</h3>
-<p>This file serves as a static utility map that aids in recognizing programming languages and environments from files based on their extensions. It allows developers to abstract the logic of understanding a file&#39;s purpose or language from its extension into a reusable module. This prevents repetitive condition checks and promotes cleaner, modular code structure.</p>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    
-
-<div class="file-entry col-12 mb-4" id="file-2" data-file-path="D:\MyDev\CodeExplain\src\utils\utils.js" data-file-index="2">
-    <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
-            <div class="d-flex justify-content-between align-items-center">
-                 <h2 class="toggle-code h5 fw-semibold mb-0 cursor-pointer d-flex align-items-center text-white" data-file-index="2" style="font-size: 1.1rem;">
-                     <i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>
-                     <i class="fas fa-file-code me-2"></i>
-                     utils.js
-                 </h2>
-                <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    javascript
-                </span>
-            </div>
-        </div>
-
-             <div class="card-body p-0">
-               <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
-                   <div class="p-3">
-                       <pre class="mb-0"><code class="language-javascript" style="font-size: 0.9rem; line-height: 1.5;">
-<span class="hljs-comment">/**
- * Common utility functions for CodeExplain
- */</span>
-
-<span class="hljs-keyword">const</span> path = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;path&#x27;</span>);
-<span class="hljs-keyword">const</span> crypto = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;crypto&#x27;</span>)
-
-<span class="hljs-comment">/**
- * Escape HTML special characters
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">unsafe</span> - String to escape
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Escaped string
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">escapeHtml</span>(<span class="hljs-params">unsafe</span>) {
-  <span class="hljs-keyword">return</span> unsafe.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/[&amp;&lt;&gt;&quot;&#x27;]/g</span>, <span class="hljs-function">(<span class="hljs-params">m</span>) =&gt;</span> {
-    <span class="hljs-keyword">switch</span> (m) {
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;&amp;&#x27;</span>: <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&amp;amp;&#x27;</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;&lt;&#x27;</span>: <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&amp;lt;&#x27;</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;&gt;&#x27;</span>: <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&amp;gt;&#x27;</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;&quot;&#x27;</span>: <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&amp;quot;&#x27;</span>;
-      <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;&#x27;&quot;</span>: <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&amp;#039;&#x27;</span>;
-      <span class="hljs-attr">default</span>: <span class="hljs-keyword">return</span> m;
-    }
-  });
-}
-
-<span class="hljs-comment">/**
- * Escape regex special characters
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">string</span> - String to escape
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Escaped string
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">escapeRegExp</span>(<span class="hljs-params">string</span>) {
-  <span class="hljs-keyword">return</span> string.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/[.*+?^${}()|[\]\\]/g</span>, <span class="hljs-string">&#x27;\\$&amp;&#x27;</span>);
-}
-
-<span class="hljs-comment">/**
- * Get file extension from path
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">filePath</span> - Path to file
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} File extension
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">getFileExtension</span>(<span class="hljs-params">filePath</span>) {
-  <span class="hljs-keyword">return</span> path.<span class="hljs-title function_">extname</span>(filePath).<span class="hljs-title function_">toLowerCase</span>();
-}
-
-<span class="hljs-comment">/**
- * Get file name without extension
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">filePath</span> - Path to file
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} File name without extension
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">getFileNameWithoutExtension</span>(<span class="hljs-params">filePath</span>) {
-  <span class="hljs-keyword">return</span> path.<span class="hljs-title function_">basename</span>(filePath, path.<span class="hljs-title function_">extname</span>(filePath));
-}
-
-<span class="hljs-comment">/**
- * Check if a file should be included based on extension
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">filePath</span> - Path to file
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string[]</span>} <span class="hljs-variable">allowedExtensions</span> - Allowed extensions
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if file should be included
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">shouldIncludeFile</span>(<span class="hljs-params">filePath, allowedExtensions</span>) {
-  <span class="hljs-keyword">const</span> ext = <span class="hljs-title function_">getFileExtension</span>(filePath);
-  <span class="hljs-keyword">return</span> allowedExtensions.<span class="hljs-title function_">includes</span>(ext);
-}
-
-<span class="hljs-comment">/**
- * Format bytes to human readable format
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">number</span>} <span class="hljs-variable">bytes</span> - Number of bytes
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">number</span>} <span class="hljs-variable">decimals</span> - Number of decimal places
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Formatted string
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">formatBytes</span>(<span class="hljs-params">bytes, decimals = <span class="hljs-number">2</span></span>) {
-  <span class="hljs-keyword">if</span> (bytes === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;0 Bytes&#x27;</span>;
-
-  <span class="hljs-keyword">const</span> k = <span class="hljs-number">1024</span>;
-  <span class="hljs-keyword">const</span> dm = decimals &lt; <span class="hljs-number">0</span> ? <span class="hljs-number">0</span> : decimals;
-  <span class="hljs-keyword">const</span> sizes = [<span class="hljs-string">&#x27;Bytes&#x27;</span>, <span class="hljs-string">&#x27;KB&#x27;</span>, <span class="hljs-string">&#x27;MB&#x27;</span>, <span class="hljs-string">&#x27;GB&#x27;</span>, <span class="hljs-string">&#x27;TB&#x27;</span>];
-
-  <span class="hljs-keyword">const</span> i = <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">floor</span>(<span class="hljs-title class_">Math</span>.<span class="hljs-title function_">log</span>(bytes) / <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">log</span>(k));
-
-  <span class="hljs-keyword">return</span> <span class="hljs-built_in">parseFloat</span>((bytes / <span class="hljs-title class_">Math</span>.<span class="hljs-title function_">pow</span>(k, i)).<span class="hljs-title function_">toFixed</span>(dm)) + <span class="hljs-string">&#x27; &#x27;</span> + sizes[i];
-}
-
-<span class="hljs-comment">/**
- * Capitalize first letter of string
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">string</span> - String to capitalize
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Capitalized string
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">capitalizeFirstLetter</span>(<span class="hljs-params">string</span>) {
-  <span class="hljs-keyword">return</span> string.<span class="hljs-title function_">charAt</span>(<span class="hljs-number">0</span>).<span class="hljs-title function_">toUpperCase</span>() + string.<span class="hljs-title function_">slice</span>(<span class="hljs-number">1</span>);
-}
-
-<span class="hljs-comment">/**
- * Convert camelCase to kebab-case
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">string</span> - String to convert
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Converted string
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">camelToKebab</span>(<span class="hljs-params">string</span>) {
-  <span class="hljs-keyword">return</span> string.<span class="hljs-title function_">replace</span>(<span class="hljs-regexp">/([a-z0-9])([A-Z])/g</span>, <span class="hljs-string">&#x27;$1-$2&#x27;</span>).<span class="hljs-title function_">toLowerCase</span>();
-}
-
-<span class="hljs-comment">/**
- * Truncate string with ellipsis
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">str</span> - String to truncate
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">number</span>} <span class="hljs-variable">maxLength</span> - Maximum length
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Truncated string
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">truncateString</span>(<span class="hljs-params">str, maxLength</span>) {
-  <span class="hljs-keyword">if</span> (str.<span class="hljs-property">length</span> &lt;= maxLength) <span class="hljs-keyword">return</span> str;
-  <span class="hljs-keyword">if</span> (maxLength &lt;= <span class="hljs-number">3</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;...&#x27;</span>;
-  <span class="hljs-keyword">return</span> str.<span class="hljs-title function_">slice</span>(<span class="hljs-number">0</span>, maxLength - <span class="hljs-number">3</span>) + <span class="hljs-string">&#x27;...&#x27;</span>;
-}
-
-<span class="hljs-comment">/**
- * Generate unique ID
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Unique ID
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">generateUniqueId</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">return</span> crypto.<span class="hljs-title function_">randomBytes</span>(<span class="hljs-number">8</span>).<span class="hljs-title function_">toString</span>(<span class="hljs-string">&#x27;hex&#x27;</span>)
-}
-
-<span class="hljs-comment">/**
- * Sleep for specified milliseconds
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">number</span>} <span class="hljs-variable">ms</span> - Milliseconds to sleep
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">Promise</span>} Promise that resolves after specified time
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">sleep</span>(<span class="hljs-params">ms</span>) {
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Promise</span>(<span class="hljs-function"><span class="hljs-params">resolve</span> =&gt;</span> <span class="hljs-built_in">setTimeout</span>(resolve, ms));
-}
-
-<span class="hljs-comment">/**
- * Deep merge two objects
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} <span class="hljs-variable">target</span> - Target object
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Object</span>} <span class="hljs-variable">source</span> - Source object
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">Object</span>} Merged object
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">deepMerge</span>(<span class="hljs-params">target, source</span>) {
-  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> target !== <span class="hljs-string">&#x27;object&#x27;</span> || target === <span class="hljs-literal">null</span>) {
-    <span class="hljs-keyword">return</span> source;
-  }
-
-  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> source !== <span class="hljs-string">&#x27;object&#x27;</span> || source === <span class="hljs-literal">null</span>) {
-    <span class="hljs-keyword">return</span> target;
-  }
-
-  <span class="hljs-keyword">const</span> output = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(target) ? [...target] : { ...target };
-
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> source) {
-    <span class="hljs-keyword">if</span> (source.<span class="hljs-title function_">hasOwnProperty</span>(key)) {
-      <span class="hljs-keyword">if</span> (<span class="hljs-title function_">isObject</span>(source[key])) {
-        output[key] = <span class="hljs-title function_">deepMerge</span>(output[key] || {}, source[key]);
-      } <span class="hljs-keyword">else</span> {
-        output[key] = source[key];
-      }
-    }
-  }
-
-  <span class="hljs-keyword">return</span> output;
-}
-
-<span class="hljs-comment">/**
- * Check if value is object
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">*</span>} <span class="hljs-variable">item</span> - Value to check
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">boolean</span>} True if value is object
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">isObject</span>(<span class="hljs-params">item</span>) {
-  <span class="hljs-keyword">return</span> (item &amp;&amp; <span class="hljs-keyword">typeof</span> item === <span class="hljs-string">&#x27;object&#x27;</span> &amp;&amp; !<span class="hljs-title class_">Array</span>.<span class="hljs-title function_">isArray</span>(item));
-}
-
-<span class="hljs-comment">/**
- * Format date to readable string
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Date</span>} <span class="hljs-variable">date</span> - Date to format
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Formatted date string
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">formatDate</span>(<span class="hljs-params">date</span>) {
-  <span class="hljs-keyword">return</span> date.<span class="hljs-title function_">toLocaleDateString</span>(<span class="hljs-string">&#x27;en-US&#x27;</span>, {
-    <span class="hljs-attr">year</span>: <span class="hljs-string">&#x27;numeric&#x27;</span>,
-    <span class="hljs-attr">month</span>: <span class="hljs-string">&#x27;long&#x27;</span>,
-    <span class="hljs-attr">day</span>: <span class="hljs-string">&#x27;numeric&#x27;</span>,
-    <span class="hljs-attr">hour</span>: <span class="hljs-string">&#x27;2-digit&#x27;</span>,
-    <span class="hljs-attr">minute</span>: <span class="hljs-string">&#x27;2-digit&#x27;</span>
-  });
-}
-
-<span class="hljs-comment">/**
- * Pluralize word based on count
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">number</span>} <span class="hljs-variable">count</span> - Count
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">singular</span> - Singular form
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">plural</span> - Plural form
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} Pluralized word
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">pluralize</span>(<span class="hljs-params">count, singular, plural</span>) {
-  <span class="hljs-keyword">return</span> count === <span class="hljs-number">1</span> ? singular : plural;
-}
-
-<span class="hljs-comment">/**
- * Convert array to human-readable list
- * <span class="hljs-doctag">@param</span> {<span class="hljs-type">Array</span>} <span class="hljs-variable">array</span> - Array to convert
- * <span class="hljs-doctag">@returns</span> {<span class="hljs-type">string</span>} <span class="hljs-variable">Human</span>-readable list
- */</span>
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">arrayToHumanReadableList</span>(<span class="hljs-params">array</span>) {
-  <span class="hljs-keyword">if</span> (array.<span class="hljs-property">length</span> === <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;&#x27;</span>;
-  <span class="hljs-keyword">if</span> (array.<span class="hljs-property">length</span> === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> array[<span class="hljs-number">0</span>];
-  <span class="hljs-keyword">if</span> (array.<span class="hljs-property">length</span> === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> array.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27; and &#x27;</span>);
-
-  <span class="hljs-comment">// Create a shallow copy to avoid modifying the original array</span>
-  <span class="hljs-keyword">const</span> arrCopy = [...array];
-  <span class="hljs-keyword">const</span> last = arrCopy.<span class="hljs-title function_">pop</span>();
-  <span class="hljs-keyword">return</span> arrCopy.<span class="hljs-title function_">join</span>(<span class="hljs-string">&#x27;, &#x27;</span>) + <span class="hljs-string">&#x27;, and &#x27;</span> + last;
-}
-
-<span class="hljs-keyword">function</span> <span class="hljs-title function_">dd</span>(<span class="hljs-params">data</span>) {
-  process.<span class="hljs-property">stdout</span>.<span class="hljs-title function_">write</span>(<span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>(data, <span class="hljs-literal">null</span>, <span class="hljs-number">2</span>) + <span class="hljs-string">&#x27;\n&#x27;</span>);
-  process.<span class="hljs-title function_">exit</span>();
-}
-
-<span class="hljs-variable language_">module</span>.<span class="hljs-property">exports</span> = {
-  dd,
-  escapeHtml,
-  escapeRegExp,
-  getFileExtension,
-  getFileNameWithoutExtension,
-  shouldIncludeFile,
-  formatBytes,
-  capitalizeFirstLetter,
-  camelToKebab,
-  truncateString,
-  generateUniqueId,
-  sleep,
-  deepMerge,
-  isObject,
-  formatDate,
-  pluralize,
-  arrayToHumanReadableList
-};
-                       </code></pre>
-                   </div>
-               </div>
-
-            <div class="p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="h6 text-muted mb-0 d-flex align-items-center">
-                        <i class="fas fa-brain me-2 text-primary"></i>
-                        AI Explanation
-                    </h3>
-                    <button class="btn btn-outline-primary btn-sm copy-explanation" data-file-index="2" title="Copy explanation">
-                        <i class="fas fa-copy me-1"></i> Copy
-                    </button>
-                </div>
-                <div class="explanation-content">
-                    <p>Sure, let&#39;s break down and explain the <code>utils.js</code> file provided in a beginner-friendly manner.</p>
-<pre><code class="language-javascript">/**
- * Common utility functions for CodeExplain
- */
-</code></pre>
-<p>This line is a comment that describes the purpose of the file. It&#39;s a module containing a collection of utility functions for a project called CodeExplain.</p>
-<h3>Required Modules</h3>
-<pre><code class="language-javascript">const path = require(&#39;path&#39;);
-const crypto = require(&#39;crypto&#39;);
-</code></pre>
+<h2>🏗️ Architecture Overview</h2>
+<h3>High-level System Architecture</h3>
+<p>While the code summary suggests a well-structured architectural approach, specific architectural components like services, controllers, or views are not explicitly detailed. The primary interaction revolves around utility functions and constant management.</p>
+<h3>Key Components and Their Responsibilities</h3>
 <ul>
-<li><strong><code>path</code></strong>: A built-in Node.js module that provides utilities for working with file and directory paths.</li>
-<li><strong><code>crypto</code></strong>: A built-in Node.js module that provides cryptographic functionality, including the ability to generate random bytes, which is used here for creating unique IDs.</li>
+<li><p><strong>Constants Module</strong> (<code>constants.js</code>): Centralizes various operational parameters, including modes and output formats.</p>
+</li>
+<li><p><strong>Language Mapping</strong> (<code>languageMap.js</code>): Maps file extensions to programming languages for syntax-related operations.</p>
+</li>
+<li><p><strong>Utility Functions</strong> (<code>utils.js</code>): Assists with string manipulation, file handling, and other programming tasks.</p>
+</li>
 </ul>
-<h3>Utility Functions</h3>
-<ol>
-<li><p><strong>Escape HTML Special Characters</strong></p>
-<pre><code class="language-javascript">function escapeHtml(unsafe) {
-  return unsafe.replace(/[&amp;&lt;&gt;&quot;&#39;]/g, (m) =&gt; {
-    switch (m) {
-      case &#39;&amp;&#39;: return &#39;&amp;amp;&#39;;
-      case &#39;&lt;&#39;: return &#39;&amp;lt;&#39;;
-      case &#39;&gt;&#39;: return &#39;&amp;gt;&#39;;
-      case &#39;&quot;&#39;: return &#39;&amp;quot;&#39;;
-      case &quot;&#39;&quot;: return &#39;&amp;#039;&#39;;
-      default: return m;
-    }
-  });
-}
-</code></pre>
+<h3>How Modules Interact</h3>
+<p>Each module exports specific functionalities. The constants and language mappings are likely imported across the application to ensure consistency and efficiency, while utility functions facilitate common operations across the codebase.</p>
+<h2>📁 Project Structure</h2>
+<h3>Directory Organization</h3>
 <ul>
-<li><strong>Purpose</strong>: Replaces HTML special characters (<code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code>, <code>&quot;</code>, <code>&#39;</code>) with their HTML entity equivalents to make the string safe to display in HTML.</li>
+<li><strong>Root Directory</strong>: <ul>
+<li>Contains JavaScript files providing constants, language mapping, and utility functions.</li>
 </ul>
 </li>
-<li><p><strong>Escape Regex Special Characters</strong></p>
-<pre><code class="language-javascript">function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, &#39;\\$&amp;&#39;);
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Escapes special characters in a string so it can be used safely in a regular expression.</li>
 </ul>
-</li>
-<li><p><strong>Get File Extension</strong></p>
-<pre><code class="language-javascript">function getFileExtension(filePath) {
-  return path.extname(filePath).toLowerCase();
-}
-</code></pre>
+<h3>Important Files and Their Purposes</h3>
 <ul>
-<li><strong>Purpose</strong>: Extracts and returns the file extension from a given file path in lowercase.</li>
-</ul>
+<li><p><strong><code>constants.js</code></strong>: Holds application-wide constants.</p>
 </li>
-<li><p><strong>Get File Name Without Extension</strong></p>
-<pre><code class="language-javascript">function getFileNameWithoutExtension(filePath) {
-  return path.basename(filePath, path.extname(filePath));
-}
+<li><p><strong><code>languageMap.js</code></strong>: Contains a map of file extensions to programming languages.</p>
+</li>
+<li><p><strong><code>utils.js</code></strong>: Provides reusable utility functions for various operations.</p>
+</li>
+</ul>
+<h3>Entry Points and Main Application Flow</h3>
+<p>The current code summary does not specify an application entry point. Check the <code>package.json</code> file for scripts and main entry points.</p>
+<h2>🔧 Development Workflow</h2>
+<h3>How to Run the Project Locally</h3>
+<p>Given that the main application flow isn&#39;t detailed, ensure <code>npm</code> scripts align with starting the project. Typically, you&#39;d use:</p>
+<pre><code class="language-bash">npm start
 </code></pre>
+<h3>Testing Procedures</h3>
+<p>Check for testing scripts in <code>package.json</code>, or establish your testing environment using preferred tools like Mocha, Jest, etc.</p>
+<h3>Code Style and Conventions</h3>
+<p>Adhere to best practices in JavaScript involving naming conventions, camelCase, and use of ES6+ syntax. It might be useful to set up ESLint for consistent style.</p>
+<h3>Best Practices for the Codebase</h3>
 <ul>
-<li><strong>Purpose</strong>: Retrieves the base name (file name without path) minus the file extension.</li>
+<li>Use the utility functions liberally to maintain code clarity and consistencies.</li>
+<li>Always reference <code>constants.js</code> for any constant values instead of hardcoding them.</li>
 </ul>
-</li>
-<li><p><strong>Check If File Should Be Included</strong></p>
-<pre><code class="language-javascript">function shouldIncludeFile(filePath, allowedExtensions) {
-  const ext = getFileExtension(filePath);
-  return allowedExtensions.includes(ext);
-}
-</code></pre>
+<h2>📖 Key Concepts</h2>
+<h3>Important Patterns and Architectural Decisions</h3>
 <ul>
-<li><strong>Purpose</strong>: Checks if the file’s extension is among a list of allowed extensions.</li>
+<li><strong>Modular Exports</strong>: JavaScript&#39;s module system is used to encapsulate related functionalities.</li>
+<li><strong>Centralized Constants</strong>: Ensures easy configurability and consistency.</li>
 </ul>
-</li>
-<li><p><strong>Format Bytes</strong></p>
-<pre><code class="language-javascript">function formatBytes(bytes, decimals = 2) {
-  if (bytes === 0) return &#39;0 Bytes&#39;;
-
-  const k = 1024;
-  const dm = decimals &lt; 0 ? 0 : decimals;
-  const sizes = [&#39;Bytes&#39;, &#39;KB&#39;, &#39;MB&#39;, &#39;GB&#39;, &#39;TB&#39;];
-
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + &#39; &#39; + sizes[i];
-}
-</code></pre>
+<h3>Domain-Specific Terminology</h3>
 <ul>
-<li><strong>Purpose</strong>: Converts a byte value into a human-readable string, using metric unit suffixes.</li>
+<li><strong>Explanation Modes</strong>: Different ways the project can process and present code data.</li>
+<li><strong>Output Formats</strong>: Mechanisms for exporting processed data.</li>
 </ul>
-</li>
-<li><p><strong>Capitalize First Letter of String</strong></p>
-<pre><code class="language-javascript">function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-</code></pre>
+<h3>Common Workflows and Processes</h3>
 <ul>
-<li><strong>Purpose</strong>: Capitalizes the first letter of a string.</li>
+<li><strong>Adding New Language Support</strong>: Extend <code>languageMap.js</code> with new file extensions and associated languages.</li>
+<li><strong>Adjusting Constants</strong>: Modify <code>constants.js</code> for application configuration changes.</li>
 </ul>
-</li>
-<li><p><strong>Convert camelCase to kebab-case</strong></p>
-<pre><code class="language-javascript">function camelToKebab(string) {
-  return string.replace(/([a-z0-9])([A-Z])/g, &#39;$1-$2&#39;).toLowerCase();
-}
-</code></pre>
+<h2>💡 Tips for New Developers</h2>
+<h3>Areas to Focus On First</h3>
 <ul>
-<li><strong>Purpose</strong>: Converts a <code>camelCase</code> string to <code>kebab-case</code>.</li>
+<li>Understand how utility functions can streamline coding tasks.</li>
+<li>Familiarize yourself with the explanation modes and how they impact routing or logic in the code.</li>
 </ul>
-</li>
-<li><p><strong>Truncate String with Ellipsis</strong></p>
-<pre><code class="language-javascript">function truncateString(str, maxLength) {
-  if (str.length &lt;= maxLength) return str;
-  if (maxLength &lt;= 3) return &#39;...&#39;;
-  return str.slice(0, maxLength - 3) + &#39;...&#39;;
-}
-</code></pre>
+<h3>Common Pitfalls to Avoid</h3>
 <ul>
-<li><strong>Purpose</strong>: Truncates a string to a specified maximum length and appends <code>&quot;...&quot;</code> to indicate truncation.</li>
+<li>Directly using string literals for config values instead of defined constants.</li>
+<li>Forgetting to update <code>languageMap.js</code> as new file types are handled.</li>
 </ul>
-</li>
-<li><p><strong>Generate Unique ID</strong></p>
-<pre><code class="language-javascript">function generateUniqueId() {
-  return crypto.randomBytes(8).toString(&#39;hex&#39;);
-}
-</code></pre>
+<h3>Where to Find Help and Documentation</h3>
 <ul>
-<li><strong>Purpose</strong>: Generates a unique hexadecimal string ID using cryptographic random bytes.</li>
+<li><strong>Project Repository</strong>: Check <code>README.md</code> for project-specific guidance and known issues.</li>
+<li><strong>Team Communication Channels</strong>: Use Slack, Discord, or your team’s preferred communication tools to get quick help.</li>
 </ul>
-</li>
-<li><p><strong>Sleep Function</strong></p>
-<pre><code class="language-javascript">function sleep(ms) {
-  return new Promise(resolve =&gt; setTimeout(resolve, ms));
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Delays execution for a specified number of milliseconds.</li>
-</ul>
-</li>
-<li><p><strong>Deep Merge Two Objects</strong></p>
-<pre><code class="language-javascript">function deepMerge(target, source) {
-  if (typeof target !== &#39;object&#39; || target === null) {
-    return source;
-  }
-
-  if (typeof source !== &#39;object&#39; || source === null) {
-    return target;
-  }
-
-  const output = Array.isArray(target) ? [...target] : { ...target };
-
-  for (const key in source) {
-    if (source.hasOwnProperty(key)) {
-      if (isObject(source[key])) {
-        output[key] = deepMerge(output[key] || {}, source[key]);
-      } else {
-        output[key] = source[key];
-      }
-    }
-  }
-
-  return output;
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Merges two objects deeply, meaning that nested objects are merged as well.</li>
-</ul>
-</li>
-<li><p><strong>Check If Value is Object</strong></p>
-<pre><code class="language-javascript">function isObject(item) {
-  return (item &amp;&amp; typeof item === &#39;object&#39; &amp;&amp; !Array.isArray(item));
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Checks if a value is a plain object (not an array or <code>null</code>).</li>
-</ul>
-</li>
-<li><p><strong>Format Date to Readable String</strong></p>
-<pre><code class="language-javascript">function formatDate(date) {
-  return date.toLocaleDateString(&#39;en-US&#39;, {
-    year: &#39;numeric&#39;,
-    month: &#39;long&#39;,
-    day: &#39;numeric&#39;,
-    hour: &#39;2-digit&#39;,
-    minute: &#39;2-digit&#39;
-  });
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Formats a <code>Date</code> object into a human-readable string in the English (US) format.</li>
-</ul>
-</li>
-<li><p><strong>Pluralize Word Based on Count</strong></p>
-<pre><code class="language-javascript">function pluralize(count, singular, plural) {
-  return count === 1 ? singular : plural;
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Chooses between a singular or plural word based on a numeric count.</li>
-</ul>
-</li>
-<li><p><strong>Convert Array to Human-Readable List</strong></p>
-<pre><code class="language-javascript">function arrayToHumanReadableList(array) {
-  if (array.length === 0) return &#39;&#39;;
-  if (array.length === 1) return array[0];
-  if (array.length === 2) return array.join(&#39; and &#39;);
-
-  const arrCopy = [...array];
-  const last = arrCopy.pop();
-  return arrCopy.join(&#39;, &#39;) + &#39;, and &#39; + last;
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Converts an array into a comma-separated string with an <code>&#39;and&#39;</code> before the last element.</li>
-</ul>
-</li>
-<li><p><strong>Debugging Utility</strong></p>
-<pre><code class="language-javascript">function dd(data) {
-  process.stdout.write(JSON.stringify(data, null, 2) + &#39;\n&#39;);
-  process.exit();
-}
-</code></pre>
-<ul>
-<li><strong>Purpose</strong>: Prints data in a prettified JSON format and then exits the process. Useful for debugging.</li>
-</ul>
-</li>
-</ol>
-<h3>Exports</h3>
-<pre><code class="language-javascript">module.exports = {
-  dd,
-  escapeHtml,
-  escapeRegExp,
-  getFileExtension,
-  getFileNameWithoutExtension,
-  shouldIncludeFile,
-  formatBytes,
-  capitalizeFirstLetter,
-  camelToKebab,
-  truncateString,
-  generateUniqueId,
-  sleep,
-  deepMerge,
-  isObject,
-  formatDate,
-  pluralize,
-  arrayToHumanReadableList
-};
-</code></pre>
-<p>These utility functions are all exported as part of the module, allowing them to be imported and used in other parts of the application. </p>
-<p>When using this file in your project, you can import it using <code>require</code> and call any of these functions as needed. This makes the code modular and reusable across different parts of your application.</p>
+<p>We’re excited to have you on board and look forward to your contributions! Enjoy your coding journey with CodeExplain! 🎉</p>
 
                 </div>
             </div>
@@ -1678,16 +897,6 @@ const crypto = require(&#39;crypto&#39;);
                 </div>
             </div>
         </main>
-
-        <!-- Navigation Arrows -->
-        <div id="nav-arrows" class="position-fixed d-none d-flex flex-column" style="bottom: 20px; right: 20px; z-index: 1040; gap: 8px;">
-            <button id="prev-file" class="btn btn-primary btn-sm" title="Previous file">
-                <i class="fas fa-chevron-up"></i>
-            </button>
-            <button id="next-file" class="btn btn-primary btn-sm" title="Next file">
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
     </div>
 
     <!-- Non-critical scripts -->

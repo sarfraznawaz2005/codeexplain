@@ -243,13 +243,13 @@ class AIEngine {
     return result;
   }
 
-  async explainCodebaseFromSummaries(fileSummaries, analysisArray) {
+   async explainCodebaseFromSummaries(fileSummaries, analysisArray) {
     // Create a single codebase analysis object
     const codebaseSummary = this.buildCodebaseSummary(analysisArray, fileSummaries);
 
     const codebaseAnalysis = {
-      relativePath: this.config.mode === 'architecture' ? 'Project Architecture' : 'Developer Onboarding',
-      path: this.config.mode === 'architecture' ? 'project-architecture' : 'developer-onboarding',
+      relativePath: (this.config.mode === 'architecture' || this.config.mode === 'arch') ? 'Project Architecture' : 'Developer Onboarding',
+      path: (this.config.mode === 'architecture' || this.config.mode === 'arch') ? 'project-architecture' : 'developer-onboarding',
       language: this.config.mode,
       content: codebaseSummary,
       codebaseSummary: codebaseSummary
