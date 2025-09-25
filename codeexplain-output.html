@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Explanation: src</title>
+    <title>Code Explanation: src\utils\</title>
     <!-- Critical CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -739,7 +739,7 @@
                 <div class="row align-items-center">
                     <div class="col-auto d-flex align-items-center">
                         <i class="fas fa-code text-primary me-3 fs-4"></i>
-                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">src</span></h1>
+                         <h1 class="h5 fw-bold text-dark mb-0">Code Explanation: <span class="text-primary fw-semibold">src\utils\</span></h1>
                     </div>
                     <div class="col text-center d-none d-md-block">
                         <small class="text-muted">AI-Powered Code Explanation</small>
@@ -781,125 +781,24 @@
 
 ## Project Structure
 
-### ai
+### Root Directory
 
-- **aiEngine.js** (javascript): The `aiEngine.js` file defines the `AIEngine` class, which orchestrates code analysis and explanation using various AI models. It supports multiple AI providers (Google Gemini, OpenAI, and Ollama) for generating code explanations in different modes (e.g., summary, architecture). The engine manages API interactions, caching, and token usage while performing codebase analysis and generating explanations. It utilizes `CacheManager` and `PromptManager` classes for caching and prompt handling, respectively. The class includes error management and retry logic with exponential backoff. Overall, it serves as a utility for automated code documentation and analysis in development environments.
-- **promptManager.js** (javascript): ```markdown
-The `promptManager.js` file defines a `PromptManager` class responsible for handling prompt templates for code explanations. It manages default and user-specific prompt directories, ensuring user directories exist and copying default prompts if custom versions don&#x27;t exist. The class provides methods to fetch prompts based on a specified mode, prioritizing user-defined prompts, with a fallback to default templates or a generic template if no match is found. It also includes functionality to render a prompt by replacing placeholders with provided variables. This system supports dynamic generation and customization of explanatory prompts for code files.
+- <span class="hljs-comment">**constants.js** (javascript): ```markdown
+This JavaScript file defines and exports a set of constants used throughout a codebase. It categorizes these constants into explanation modes, output formats, and default configuration values. The explanation modes likely relate to different ways of interpreting or displaying code, such as line-by-line analysis, flowchart visualization, or architectural overview. The output formats specify the document types—PDF or HTML—that the system can produce. Additionally, it sets a default configuration for retry attempts in operations, indicating how many times an action should be retried upon failure. This file standardizes key parameters for consistent system behavior.
 ```
-
-### commands
-
-- **explain.js** (javascript): ```markdown
-The `explain.js` script is part of the CodeExplain project located at `D:\MyDev\CodeExplain\src\commands\`. It provides a function to analyze and <span class="hljs-keyword">explain</span> code files <span class="hljs-keyword">using</span> AI-powered tools. It supports several modes including flowchart, architecture, <span class="hljs-keyword">and</span> onboarding, <span class="hljs-keyword">and</span> outputs results <span class="hljs-keyword">in</span> either PDF <span class="hljs-keyword">or</span> HTML formats. The script handles file <span class="hljs-keyword">path</span> inputs, loads configurations, validates inputs, <span class="hljs-keyword">and</span> manages settings <span class="hljs-keyword">via</span> CLI, environment, <span class="hljs-keyword">and</span> config files. It uses various components <span class="hljs-keyword">like</span> <span class="hljs-symbol">`CodeAnalyzer`</span>, <span class="hljs-symbol">`AIEngine`</span>, <span class="hljs-keyword">and</span> output generators, <span class="hljs-keyword">with</span> a focus <span class="hljs-keyword">on</span> explaining code through AI <span class="hljs-keyword">with</span> optional verbosity <span class="hljs-keyword">for</span> debug <span class="hljs-keyword">and</span> reporting.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-
-### core
-
-- **cacheManager.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-The JavaScript file defines a <span class="hljs-symbol">`CacheManager`</span> class responsible <span class="hljs-keyword">for</span> managing cached explanations of code files. It creates cache <span class="hljs-keyword">keys</span> <span class="hljs-keyword">using</span> file paths <span class="hljs-keyword">and</span> configuration settings, storing explanation data <span class="hljs-keyword">in</span> JSON files <span class="hljs-keyword">within</span> a specific directory. The <span class="hljs-symbol">`initialize`</span> method ensures the cache directory <span class="hljs-keyword">exists</span>, <span class="hljs-keyword">while</span> <span class="hljs-symbol">`getCachedExplanation`</span> retrieves explanations <span class="hljs-keyword">if</span> the cached data <span class="hljs-keyword">is</span> still valid <span class="hljs-keyword">by</span> comparing file modification times <span class="hljs-keyword">and</span> hashes. The <span class="hljs-symbol">`setCachedExplanation`</span> method saves new explanations <span class="hljs-keyword">to</span> the cache. This mechanism optimizes explanation retrieval <span class="hljs-keyword">by</span> avoiding redundant computations <span class="hljs-keyword">in</span> a development environment.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-- **codeAnalyzer.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-The <span class="hljs-symbol">`codeAnalyzer.js`</span> file defines a <span class="hljs-symbol">`CodeAnalyzer`</span> class used <span class="hljs-keyword">for</span> analyzing code files <span class="hljs-keyword">within</span> a given <span class="hljs-keyword">path</span>. Its main functionality includes counting files, building file patterns <span class="hljs-keyword">to</span> <span class="hljs-keyword">include</span>/<span class="hljs-keyword">exclude</span> specific files, <span class="hljs-keyword">and</span> analyzing file contents. It uses globbing patterns <span class="hljs-keyword">to</span> handle directory contents <span class="hljs-keyword">and</span> can track analysis progress. The class also checks file extensions against a configured list <span class="hljs-keyword">for</span> inclusion, hashing the file content <span class="hljs-keyword">to</span> provide <span class="hljs-keyword">unique</span> identifiers, <span class="hljs-keyword">and</span> detecting file language. It integrates utilities such <span class="hljs-keyword">as</span> <span class="hljs-symbol">`fs-extra`</span> <span class="hljs-keyword">for</span> file operations <span class="hljs-keyword">and</span> <span class="hljs-symbol">`globby`</span> <span class="hljs-keyword">for</span> <span class="hljs-keyword">path</span> pattern matching, <span class="hljs-keyword">and</span> plays a <span class="hljs-keyword">role</span> <span class="hljs-keyword">in</span> processing large codebases efficiently.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-
-### config
-
-- **configManager.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-The <span class="hljs-symbol">`configManager.js`</span> file defines a <span class="hljs-symbol">`ConfigManager`</span> class that handles configuration management <span class="hljs-keyword">for</span> a project. It sets default configuration <span class="hljs-keyword">values</span> <span class="hljs-keyword">and</span> allows loading, caching, <span class="hljs-keyword">and</span> saving of configuration files <span class="hljs-keyword">in</span> JSON format. The configuration includes settings <span class="hljs-keyword">like</span> model provider, file extensions, <span class="hljs-keyword">and</span> directories <span class="hljs-keyword">to</span> <span class="hljs-keyword">exclude</span>. It checks <span class="hljs-keyword">for</span> existing config files <span class="hljs-keyword">in</span> a designated directory, uses environment variables <span class="hljs-keyword">where</span> needed, <span class="hljs-keyword">and</span> provides backward compatibility <span class="hljs-keyword">for</span> model selection. This manager ensures that <span class="hljs-keyword">all</span> configuration-related operations are streamlined, maintaining consistency across the application.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-
-### flowchart
-
-- **flowchartGenerator.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-The <span class="hljs-symbol">`flowchartGenerator.js`</span> file <span class="hljs-keyword">is</span> a JavaScript module that creates flowcharts representing code architecture <span class="hljs-keyword">and</span> dependencies of a project based <span class="hljs-keyword">on</span> code analysis. The <span class="hljs-symbol">`FlowchartGenerator`</span> class analyzes the structure of a project, identifies components <span class="hljs-keyword">and</span> their relationships, <span class="hljs-keyword">and</span> generates a textual <span class="hljs-keyword">and</span> graphical representation <span class="hljs-keyword">using</span> the Mermaid syntax. It highlights entry points, core components, functions, <span class="hljs-keyword">and</span> dependencies <span class="hljs-keyword">while</span> ensuring no sensitive information <span class="hljs-keyword">is</span> exposed. This module <span class="hljs-keyword">is</span> crucial <span class="hljs-keyword">for</span> visualizing project architecture, aiding <span class="hljs-keyword">in</span> understanding <span class="hljs-keyword">and</span> debugging complex systems.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-
-### utils
-
-- **constants.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-This JavaScript file defines <span class="hljs-keyword">and</span> exports a <span class="hljs-keyword">set</span> of constants used <span class="hljs-keyword">for</span> configuring explanation <span class="hljs-keyword">and</span> output modes. It includes modes <span class="hljs-keyword">for</span> different explanation types such <span class="hljs-keyword">as</span> <span class="hljs-string">&#x27;linebyline&#x27;</span>, <span class="hljs-string">&#x27;flowchart&#x27;</span>, <span class="hljs-string">&#x27;explain&#x27;</span>, <span class="hljs-string">&#x27;architecture&#x27;</span>, <span class="hljs-keyword">and</span> related aliases. Additionally, it specifies <span class="hljs-string">&#x27;pdf&#x27;</span> <span class="hljs-keyword">and</span> <span class="hljs-string">&#x27;html&#x27;</span> <span class="hljs-keyword">as</span> possible output formats. The file also sets a default <span class="hljs-keyword">value</span> of <span class="hljs-number">3</span> <span class="hljs-keyword">for</span> retry attempts. These constants likely serve <span class="hljs-keyword">as</span> configuration options <span class="hljs-keyword">in</span> a larger <span class="hljs-keyword">system</span> that generates explanations <span class="hljs-keyword">or</span> documentation <span class="hljs-keyword">in</span> various formats <span class="hljs-keyword">and</span> styles.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-- **languageMap.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-This JavaScript file defines <span class="hljs-keyword">and</span> exports <span class="hljs-symbol">`languageMap`</span>, an <span class="hljs-keyword">object</span> <span class="hljs-keyword">mapping</span> file extensions <span class="hljs-keyword">to</span> corresponding programming languages. It serves <span class="hljs-keyword">as</span> a utility <span class="hljs-keyword">for</span> identifying the programming language of a file based <span class="hljs-keyword">on</span> its extension. The <span class="hljs-keyword">map</span> covers a wide range of languages <span class="hljs-keyword">and</span> extensions, <span class="hljs-keyword">is</span> part of a utility library, <span class="hljs-keyword">and</span> could be used <span class="hljs-keyword">in</span> larger systems <span class="hljs-keyword">for</span> tasks <span class="hljs-keyword">like</span> syntax highlighting, file parsing, <span class="hljs-keyword">or</span> language-specific processing.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-- **utils.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-This JavaScript file, <span class="hljs-symbol">`utils.js`</span>, provides a <span class="hljs-keyword">collection</span> of utility functions <span class="hljs-keyword">for</span> the CodeExplain project. It includes functions <span class="hljs-keyword">for</span> <span class="hljs-keyword">string</span> manipulation (<span class="hljs-built_in">e</span>.g., <span class="hljs-symbol">`escapeHtml`</span>, <span class="hljs-symbol">`camelToKebab`</span>, <span class="hljs-symbol">`capitalizeFirstLetter`</span>), file <span class="hljs-keyword">path</span> handling (<span class="hljs-built_in">e</span>.g., <span class="hljs-symbol">`getFileExtension`</span>, <span class="hljs-symbol">`getFileNameWithoutExtension`</span>), list <span class="hljs-keyword">and</span> <span class="hljs-keyword">object</span> handling (<span class="hljs-symbol">`deepMerge`</span>, <span class="hljs-symbol">`arrayToHumanReadableList`</span>), <span class="hljs-keyword">and</span> miscellaneous tasks <span class="hljs-keyword">like</span> generating <span class="hljs-keyword">unique</span> IDs <span class="hljs-keyword">and</span> formatting dates <span class="hljs-keyword">and</span> bytes. These utilities simplify common operations such <span class="hljs-keyword">as</span> escaping characters, managing paths, <span class="hljs-keyword">and</span> data formatting <span class="hljs-keyword">for</span> broader <span class="hljs-keyword">use</span> <span class="hljs-keyword">within</span> the project, enhancing code readability <span class="hljs-keyword">and</span> maintainability.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-
-### output/html
-
-- **htmlOutput.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-The <span class="hljs-symbol">`htmlOutput.js`</span> file <span class="hljs-keyword">is</span> responsible <span class="hljs-keyword">for</span> generating an HTML representation of code analysis <span class="hljs-keyword">and</span> explanations. It utilizes libraries <span class="hljs-keyword">like</span> <span class="hljs-symbol">`marked`</span> <span class="hljs-keyword">for</span> Markdown parsing <span class="hljs-keyword">and</span> <span class="hljs-symbol">`highlight.js`</span> <span class="hljs-keyword">for</span> syntax highlighting. The <span class="hljs-symbol">`HTMLOutput`</span> class constructs an HTML page <span class="hljs-keyword">with</span> features <span class="hljs-keyword">like</span> syntax-highlighted code blocks, a sidebar navigation tree, <span class="hljs-keyword">and</span> explanations of analyzed files, supporting both Mermaid diagrams <span class="hljs-keyword">and</span> Markdown. Additional functionality includes <span class="hljs-keyword">path</span> normalization, <span class="hljs-built_in">title</span> modification <span class="hljs-keyword">with</span> labels, <span class="hljs-keyword">and</span> HTML asset loading. This script <span class="hljs-keyword">is</span> used <span class="hljs-keyword">in</span> transforming code analysis results <span class="hljs-keyword">into</span> a visually engaging HTML format, primarily <span class="hljs-keyword">for</span> documentation purposes.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-- **htmlTemplate.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-This JavaScript file generates an HTML template <span class="hljs-keyword">for</span> displaying AI-powered code explanations. The <span class="hljs-symbol">`createHTMLTemplate`</span> <span class="hljs-keyword">function</span> constructs a complete HTML document, including critical CSS/JS, <span class="hljs-keyword">and</span> customizable sidebar <span class="hljs-keyword">and</span> file entry sections based <span class="hljs-keyword">on</span> the given configuration. It adapts layout elements based <span class="hljs-keyword">on</span> different modes such <span class="hljs-keyword">as</span> flowchart <span class="hljs-keyword">or</span> architecture. The <span class="hljs-symbol">`loadHTMLAssets`</span> <span class="hljs-keyword">function</span> asynchronously loads external CSS <span class="hljs-keyword">and</span> JavaScript files required <span class="hljs-keyword">for</span> rendering, optionally including additional flowchart scripts. This file serves <span class="hljs-keyword">as</span> a utility <span class="hljs-keyword">to</span> render formatted HTML pages <span class="hljs-keyword">for</span> code explanation purposes <span class="hljs-keyword">in</span> the larger CodeExplain <span class="hljs-keyword">system</span>.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-- **_css.css** (css): `</span><span class="hljs-symbol">``</span>markdown
-This CSS file styles an HTML document, focusing <span class="hljs-keyword">on</span> sidebars, main content, code blocks, <span class="hljs-keyword">and</span> responsive elements, particularly <span class="hljs-keyword">for</span> displaying Mermaid diagrams. It provides hover effects, typography styles <span class="hljs-keyword">for</span> various headings, paragraphs, <span class="hljs-keyword">and</span> lists <span class="hljs-keyword">within</span> the <span class="hljs-symbol">`.explanation-content`</span> class, <span class="hljs-keyword">and</span> applies specific designs <span class="hljs-keyword">for</span> interactive elements <span class="hljs-keyword">like</span> buttons <span class="hljs-keyword">and</span> navigation arrows. The file also includes styles <span class="hljs-keyword">for</span> Mermaid diagrams, ensuring they are responsive, zoomable, <span class="hljs-keyword">and</span> can toggle fullscreen views. <span class="hljs-keyword">Key</span> features are the enhancement of readability, <span class="hljs-keyword">user</span> interaction, <span class="hljs-keyword">and</span> maintaining layout consistency <span class="hljs-keyword">for</span> both code <span class="hljs-keyword">and</span> diagram displays.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-- **_flowchart.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-This JavaScript file manages the rendering <span class="hljs-keyword">and</span> interaction features, such <span class="hljs-keyword">as</span> zoom <span class="hljs-keyword">and</span> fullscreen, <span class="hljs-keyword">for</span> Mermaid.js diagrams <span class="hljs-keyword">in</span> an HTML document. It initializes Mermaid <span class="hljs-keyword">with</span> specified settings, processes <span class="hljs-keyword">and</span> renders diagrams identified <span class="hljs-keyword">by</span> the <span class="hljs-string">&quot;mermaid&quot;</span> class, <span class="hljs-keyword">and</span> adds interactive controls (zoom <span class="hljs-keyword">in</span>/out, reset, <span class="hljs-keyword">and</span> fullscreen) <span class="hljs-keyword">to</span> <span class="hljs-keyword">each</span> diagram. The file supports various input methods including mouse <span class="hljs-keyword">and</span> touch <span class="hljs-keyword">for</span> zoom <span class="hljs-keyword">and</span> pan actions, ensuring dynamic <span class="hljs-keyword">and</span> responsive flowchart interactions. Additionally, it maintains state <span class="hljs-keyword">for</span> <span class="hljs-keyword">each</span> diagram <span class="hljs-keyword">to</span> facilitate these interactions <span class="hljs-keyword">and</span> handles invalid <span class="hljs-keyword">or</span> empty content <span class="hljs-keyword">with</span> warnings.
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
-- **_js.js** (javascript): `</span><span class="hljs-symbol">``</span>markdown
-This JavaScript file manages the UI interactions <span class="hljs-keyword">for</span> a web application <span class="hljs-keyword">with</span> a collapsible sidebar, syntax-highlighted code blocks, <span class="hljs-keyword">and</span> navigation functionality. It initializes syntax highlighting <span class="hljs-keyword">using</span> the <span class="hljs-symbol">`highlight.js`</span> library, provides folder icon toggling <span class="hljs-keyword">and</span> file entry folding, implements clipboard copy features, <span class="hljs-keyword">and</span> manages the sidebar<span class="hljs-string">&#x27;s resizing and mobile responsiveness. It synchronizes the sidebar with the current scroll position to highlight the active file and offers previous/next file navigation using visible file elements. The file aims to enhance interactivity and usability of a documentation or code-explanation web interface.
+- **languageMap.js** (javascript): ```markdown
+This JavaScript file defines and exports `languageMap`, an object mapping file extensions to corresponding programming languages. The map serves as a utility to identify the programming language associated with a file based on its extension. It includes mappings for various extensions, covering common languages like JavaScript, Python, and Java, and also less common ones like Haskell, Raku, and Vala. This utility is likely used in a larger system for file analysis, syntax highlighting, or language-specific processing tasks by determining the language context from a file&#x27;s extension.
 ```
-
-### output/pdf
-
-- **pdfOutput.js** (javascript): ```markdown
-The JavaScript file `pdfOutput.js` is designed to convert code explanations into a formatted PDF document. It utilizes Puppeteer to render HTML content, which includes code snippets and explanations, into a PDF file. The file supports markdown and Mermaid diagrams, providing syntax highlighting via highlight.js. The class `PDFOutput` manages the configuration and generation process, including HTML generation, code content rendering with markdown parsing, and PDF formatting with specific page configurations. It outputs a PDF document to a designated path, summarizing code explanations for easy sharing and documentation.
+- **utils.js** (javascript): ```markdown
+The `utils.js` file provides a collection of common utility functions for the &quot;CodeExplain&quot; application. It includes functions for string manipulation (escaping HTML and regex characters, capitalizing, converting camelCase to kebab-case), file operations (extracting file extensions and names), data formatting (byte size and date), and general utilities (unique ID generation, sleep, deep object merging). Additionally, it includes helper functions to handle pluralization and to convert arrays into human-readable lists. This file streamlines common tasks across the system, enhancing code reusability and modularity.
 ```
 
 ## Technology Stack
 
-- **Languages**: javascript, css
-- **File Types**: .js, .css
+- **Languages**: javascript
+- **File Types**: .js
 
 ## Key Files Content
-
-### config/configManager.js
-
-```javascript
-const path = require(&#x27;</span><span class="hljs-keyword">path</span><span class="hljs-string">&#x27;);
-const fs = require(&#x27;</span>fs-extra<span class="hljs-string">&#x27;);
-
-// Configuration constants
-const CONFIG_DEFAULTS = {
-  GEMINI_MODEL: &#x27;</span>gemini<span class="hljs-number">-2.5</span>-flash<span class="hljs-string">&#x27;,
-  OPENAI_MODEL: &#x27;</span>gpt<span class="hljs-number">-4</span>o<span class="hljs-string">&#x27;,
-  RETRY_ATTEMPTS: 3,
-  RETRY_DELAY: 1000,
-  JSON_INDENT_SPACES: 2
-};
-
-const CONFIG_DIR_NAME = &#x27;</span>.codeexplain<span class="hljs-string">&#x27;;
-const CONFIG_FILE_NAME = &#x27;</span>config.json<span class="hljs-string">&#x27;;
-
-class ConfigManager {
-  #codeExplainDir;
-
-  constructor(configPath) {
-    this.configPath = configPath;
-    this.#codeExplainDir = path.join(process.cwd(), CONFIG_DIR_NAME);
-    this.defaultConfig = {
-      provider: &#x27;</span>gemini<span class="hljs-string">&#x27;,
-      model: &#x27;</span>gemini<span class="hljs-number">-2.5</span>-flash<span class="hljs-string">&#x27;,
-      output: &#x27;</span>html<span class="hljs-string">&#x27;,
-      mode: &#x27;</span><span class="hljs-keyword">explain</span><span class="hljs-string">&#x27;,
-      level: &#x27;</span>beginner<span class="hljs-string">&#x27;,
-      maxTokens: 15000,
-      baseUrl: null, // For Ollama or custom OpenAI endpoints
-      retry: {
-        attempts: CONFIG_DEFAULTS.RETRY_ATTEMPTS,
-        delay: CONFIG_DEFAULTS.RETRY_DELAY
-      },
-      codeExtensions: [
-        // Web Development
-        &#x27;</span>.js<span class="hljs-string">&#x27;, &#x27;</span>.jsx<span class="hljs-string">&#x27;, &#x27;</span>.ts<span class="hljs-string">&#x27;, &#x27;</span>.tsx<span class="hljs-string">&#x27;, &#x27;</span>.vue<span class="hljs-string">&#x27;, &#x27;</span>.svelte<span class="hljs-string">&#x27;, &#x27;</span>.astro<span class="hljs-string">&#x27;,
-        &#x27;</span>.html<span class="hljs-string">&#x27;, &#x27;</span>.h
-... (truncated)
-<span class="hljs-symbol">``</span><span class="hljs-symbol">`
 
 </span>
                       </code></pre>
@@ -918,188 +817,107 @@ class ConfigManager {
                 </div>
                 <div class="explanation-content">
                     <h1>Codebase Architecture Overview</h1>
-<p>The CodeExplain project is a robust system designed to analyze, document, and visually represent codebases using AI-powered tools. Below, we dissect the architecture of the project, detailing the roles of specific components, data flows, and the project&#39;s overall organization.</p>
-<h2>Overview</h2>
-<h3>Main Objective</h3>
-<p>The primary goal of this codebase is to analyze code projects and provide explanations, flowcharts, and documentation using AI models. The system can generate outputs in various formats, such as HTML and PDF, and supports multiple AI providers like Google Gemini, OpenAI, and Ollama.</p>
-<h3>Technology Stack</h3>
+<p>This document provides a comprehensive overview of the architecture and design of the codebase in question. The codebase comprises a set of JavaScript files, each of which plays a specific role in the system. This architecture overview will help you understand the structure, key components, their relationships, data flow, and design patterns employed.</p>
+<h2>Project Structure</h2>
+<p>The project is relatively simple, with a focus on utility and configuration for a broader application. Here is the structure of the codebase:</p>
+<pre><code>Root Directory
+│
+├── constants.js
+├── languageMap.js
+└── utils.js
+</code></pre>
+<h3>Entry Points and Main Application Flow</h3>
+<p>As this codebase consists primarily of utility files, configuration, and mappings, there is no traditional application flow with an entry point like <code>main.js</code> or a command-line interface. Instead, these files are designed to be imported and used within larger systems or applications.</p>
+<h2>Key Components and Their Relationships</h2>
+<h3>1. <strong>constants.js</strong></h3>
+<p>The <code>constants.js</code> file is crucial for maintaining standardized values across the system. It categorizes constants into three main groups:</p>
 <ul>
-<li><strong>Languages</strong>: JavaScript, CSS</li>
-<li><strong>Frameworks/Libraries</strong>: Node.js, Mermaid.js, Highlight.js, Puppeteer</li>
+<li><strong>Explanation Modes</strong>: Define different ways code can be interpreted or displayed.</li>
+<li><strong>Output Formats</strong>: Specify the document types (PDF, HTML) that the system can produce.</li>
+<li><strong>Default Configuration Values</strong>: Include defaults like retry attempts for operations.</li>
 </ul>
-<h2>Project Structure and Components</h2>
-<h3>AI Module</h3>
-<h4><code>ai/aiEngine.js</code></h4>
-<p><strong>AIEngine Class</strong></p>
-<pre><code class="language-javascript">class AIEngine {
-  // Manages AI model interaction
+<p>By centralizing these constants, the file ensures consistency and easy configurability.</p>
+<pre><code class="language-javascript">// Example snippet from constants.js
+export const EXPLANATION_MODES = {
+    LINE_BY_LINE: &#39;line_by_line&#39;,
+    FLOWCHART: &#39;flowchart&#39;,
+    ARCHITECTURE: &#39;architecture&#39;
+};
+
+export const OUTPUT_FORMATS = {
+    PDF: &#39;pdf&#39;,
+    HTML: &#39;html&#39;
+};
+
+export const DEFAULT_CONFIG = {
+    RETRY_ATTEMPTS: 3
+};
+</code></pre>
+<h3>2. <strong>languageMap.js</strong></h3>
+<p>The <code>languageMap.js</code> file is a utility for mapping file extensions to programming languages. This mapping is extremely useful in scenarios involving:</p>
+<ul>
+<li>File analysis</li>
+<li>Syntax highlighting</li>
+<li>Language-specific processing</li>
+</ul>
+<p>By translating file extensions into language identifiers, the system can apply appropriate processing rules.</p>
+<pre><code class="language-javascript">// Example snippet from languageMap.js
+export const languageMap = {
+    &#39;.js&#39;: &#39;JavaScript&#39;,
+    &#39;.py&#39;: &#39;Python&#39;,
+    &#39;.java&#39;: &#39;Java&#39;,
+    // More mappings can be added here
+};
+</code></pre>
+<h3>3. <strong>utils.js</strong></h3>
+<p>This file, <code>utils.js</code>, provides various utility functions that enhance code reusability and modularity throughout the system. The functions cover:</p>
+<ul>
+<li><strong>String Manipulation</strong>: Escaping characters, string formatting, etc.</li>
+<li><strong>File Operations</strong>: Extracting file information.</li>
+<li><strong>Data Formatting</strong>: Converting bytes to human-readable format, formatting dates.</li>
+<li><strong>General Utilities</strong>: ID generation, sleeping/waiting operations, deep object merging.</li>
+</ul>
+<p>These utilities resolve common programming tasks, making the application more efficient and maintainable.</p>
+<pre><code class="language-javascript">// Example snippet from utils.js
+export function escapeHtml(html) {
+    return html.replace(/[&amp;&lt;&gt;&quot;&#39;]/g, function (match) {
+        return ENTITY_MAP[match];
+    });
 }
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Manages interactions with AI providers to generate explanations and documentation. It handles API communication, manages caching via <code>CacheManager</code>, and prompts using <code>PromptManager</code>. Supports error management and retry mechanisms.</li>
-<li><strong>Key Interactions</strong>: Utilizes <code>CacheManager</code> for caching responses and <code>PromptManager</code> for managing prompt templates.</li>
-</ul>
-<h4><code>ai/promptManager.js</code></h4>
-<p><strong>PromptManager Class</strong></p>
-<pre><code class="language-javascript">class PromptManager {
-  // Manages prompt templates
+
+export function getFileExtension(filename) {
+    return filename.slice(((filename.lastIndexOf(&quot;.&quot;) - 1) &gt;&gt;&gt; 0) + 2);
 }
+
+// More utility functions follow...
 </code></pre>
+<h2>Design Patterns and Architectural Decisions</h2>
+<h3>Modular Design</h3>
+<p>The codebase adopts a modular design, where each file has a clear responsibility. This separation allows for:</p>
 <ul>
-<li><strong>Responsibilities</strong>: Handles loading and customizing prompt templates for AI explanations. Supports default and user-specific templates and rendering templates with placeholders.</li>
-<li><strong>Key Interactions</strong>: Interfaces directly with <code>AIEngine</code> to provide templates needed for generating explanations.</li>
+<li><strong>Ease of Maintenance</strong>: Changes in one module do not affect others.</li>
+<li><strong>Reusability</strong>: Modules can be easily reused in other parts of the application or in different projects.</li>
+<li><strong>Testing</strong>: Each module can be tested independently.</li>
 </ul>
-<h3>Core Module</h3>
-<h4><code>core/cacheManager.js</code></h4>
-<p><strong>CacheManager Class</strong></p>
-<pre><code class="language-javascript">class CacheManager {
-  // Manages explanation caching
-}
-</code></pre>
+<h3>Centralized Configuration</h3>
+<p>The use of <code>constants.js</code> reflects a centralized configuration pattern. By aggregating constants in one place, the design promotes:</p>
 <ul>
-<li><strong>Responsibilities</strong>: Caches and retrieves code explanations to optimize performance and reduce redundant computations.</li>
-<li><strong>Key Interactions</strong>: Works closely with <code>AIEngine</code> to save and retrieve explanations.</li>
+<li><strong>Consistency</strong>: Use of uniform values across the application.</li>
+<li><strong>Configurability</strong>: Easy to update values without altering multiple files.</li>
 </ul>
-<h4><code>core/codeAnalyzer.js</code></h4>
-<p><strong>CodeAnalyzer Class</strong></p>
-<pre><code class="language-javascript">class CodeAnalyzer {
-  // Analyzes code files
-}
-</code></pre>
+<h2>Technology Stack</h2>
 <ul>
-<li><strong>Responsibilities</strong>: Analyzes code files, counts files, and builds patterns to include/exclude files during analysis. Detects file languages and unique identifiers using file hashes.</li>
-<li><strong>Key Interactions</strong>: Provides processed data to <code>AIEngine</code> for further AI analysis.</li>
+<li><strong>Language</strong>: JavaScript</li>
+<li><strong>File Types</strong>: <code>.js</code></li>
 </ul>
-<h3>Command Module</h3>
-<h4><code>commands/explain.js</code></h4>
-<pre><code class="language-javascript">function analyzeAndExplain() {
-  // Entry point for explaining code
-}
-</code></pre>
+<h2>Project Organization</h2>
 <ul>
-<li><strong>Responsibilities</strong>: Main CLI interface for analyzing and explaining code files. It loads configurations, validates inputs, and handles verbosity for debugging. Acts as the entry point for the code explanation workflow.</li>
+<li>Files are organized by functionality and purpose.</li>
+<li>Constants, mappings, and utilities are separate to enhance clarity and organization.</li>
+<li>The straightforward directory structure makes the project easy to navigate.</li>
 </ul>
-<h3>Config Module</h3>
-<h4><code>config/configManager.js</code></h4>
-<p><strong>ConfigManager Class</strong></p>
-<pre><code class="language-javascript">class ConfigManager {
-  // Manages application configuration
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Handles loading, caching, and saving of configuration files. Manages model provider settings, file extensions, and exclusions.</li>
-<li><strong>Key Interactions</strong>: Provides configuration data to <code>AIEngine</code>, <code>CodeAnalyzer</code>, and other components.</li>
-</ul>
-<h3>Flowchart Module</h3>
-<h4><code>flowchart/flowchartGenerator.js</code></h4>
-<p><strong>FlowchartGenerator Class</strong></p>
-<pre><code class="language-javascript">class FlowchartGenerator {
-  // Generates code flowcharts
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Analyzes project structure to generate flowcharts using Mermaid syntax. Visualizes components and relationships.</li>
-<li><strong>Key Interactions</strong>: Used primarily for visual representation within the HTML output.</li>
-</ul>
-<h3>Utilities Module</h3>
-<h4><code>utils/constants.js</code></h4>
-<pre><code class="language-javascript">const MODES = [&#39;linebyline&#39;, &#39;flowchart&#39;, &#39;explain&#39;, &#39;architecture&#39;];
-const OUTPUT_FORMATS = [&#39;pdf&#39;, &#39;html&#39;];
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Defines constants used across the system for modes and outputs.</li>
-</ul>
-<h4><code>utils/languageMap.js</code></h4>
-<pre><code class="language-javascript">const languageMap = {
-  &#39;.js&#39;: &#39;JavaScript&#39;,
-  &#39;.ts&#39;: &#39;TypeScript&#39;,
-  // More mappings
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Maps file extensions to programming languages.</li>
-</ul>
-<h4><code>utils/utils.js</code></h4>
-<pre><code class="language-javascript">function escapeHtml() {
-  // Utility function
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Provides general utilities for string manipulation, path handling, and data formatting.</li>
-</ul>
-<h3>Output Module</h3>
-<h4>HTML Output</h4>
-<h5><code>output/html/htmlOutput.js</code></h5>
-<p><strong>HTMLOutput Class</strong></p>
-<pre><code class="language-javascript">class HTMLOutput {
-  // Generates HTML documents
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Generates HTML pages for code analysis with syntax highlighting and navigable structures. Supports Mermaid diagrams.</li>
-</ul>
-<h5><code>output/html/htmlTemplate.js</code></h5>
-<pre><code class="language-javascript">function createHTMLTemplate() {
-  // Creates an HTML template
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Constructs HTML documents, loading necessary assets for rendering explanations.</li>
-</ul>
-<h5><code>output/html/_css.css</code></h5>
-<ul>
-<li><strong>Responsibilities</strong>: Styles the HTML documents, focusing on sidebars and syntax-highlighted code across devices.</li>
-</ul>
-<h5><code>output/html/_flowchart.js</code></h5>
-<pre><code class="language-javascript">function initializeMermaid() {
-  // Render Mermaid diagrams
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Manages rendering of Mermaid diagrams within HTML pages.</li>
-</ul>
-<h5><code>output/html/_js.js</code></h5>
-<pre><code class="language-javascript">function initializeUI() {
-  // Manages UI interactions
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Enhances UI with interactive features such as syntax highlighting and navigation.</li>
-</ul>
-<h4>PDF Output</h4>
-<h5><code>output/pdf/pdfOutput.js</code></h5>
-<p><strong>PDFOutput Class</strong></p>
-<pre><code class="language-javascript">class PDFOutput {
-  // Manages HTML to PDF conversion
-}
-</code></pre>
-<ul>
-<li><strong>Responsibilities</strong>: Converts HTML content, including code explanations and diagrams, into PDF format using Puppeteer.</li>
-</ul>
-<h2>Key Design Patterns and Architectural Decisions</h2>
-<ul>
-<li><strong>Module Segmentation</strong>: Code is divided into modules based on functionality (e.g., AI interaction, configuration, analysis).</li>
-<li><strong>Caching</strong>: Implements caching to improve performance and manage API call limits.</li>
-<li><strong>Configuration Management</strong>: Centralized through the <code>ConfigManager</code> class, ensuring consistency and flexibility.</li>
-<li><strong>Dynamic Template Rendering</strong>: Uses <code>PromptManager</code> for customizable prompts enhancing AI explanations.</li>
-<li><strong>Extensibility</strong>: Designed to support multiple AI providers and output formats, enabling future scalability.</li>
-</ul>
-<h2>Application Flow</h2>
-<ol>
-<li><strong>Input Handling</strong>: The process starts at <code>commands/explain.js</code>, which takes user inputs and configurations.</li>
-<li><strong>Analysis and Explanation</strong>:<ul>
-<li>Uses <code>CodeAnalyzer</code> for code file analysis.</li>
-<li>Interacts with <code>AIEngine</code>, which employs AI models to generate explanations.</li>
-</ul>
-</li>
-<li><strong>Output Generation</strong>:<ul>
-<li>Utilizes <code>HTMLOutput</code> or <code>PDFOutput</code> to create desired documentation format.</li>
-<li>Enhances results with flowcharts via <code>FlowchartGenerator</code>.</li>
-</ul>
-</li>
-</ol>
-<hr>
-<p>This document provides a structural overview of the CodeExplain project, detailing critical components, their roles, and interactions, ensuring that it is accessible even to those new to software architecture and development concepts.</p>
+<h2>Conclusion</h2>
+<p>This codebase provides foundational components for file type recognition, utility functions, and standardized constants. Its modular structure fosters maintainability and scalability, making it an ideal candidate for integration into more complex systems. Developers can extend this base to support additional features or integrate it into broader applications that require these foundational elements.</p>
 
                 </div>
             </div>

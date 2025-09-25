@@ -230,7 +230,12 @@ class AIEngine {
       // Restore original mode
       this.config.mode = originalMode;
 
-  
+      // Show progress when file summary is completed
+      completed++;
+      if (progressCallback) {
+        const progress = Math.round((completed / total) * 100);
+        progressCallback(file.path || `file-${i}`, completed, total, progress, summaryResult.cached, false); // isStarting = false
+      }
     }
 
       // Now generate the final architecture/onboarding analysis using the AI summaries
