@@ -290,9 +290,10 @@ function processFlowchartContent(content, explanation) {
  * @returns {string} HTML string for the file entry
  */
 function generateFileEntry(config, file, fileIndex) {
-  let processedExplanation = file.explanation || 'No explanation available.';
-  const isFlowchart = config.mode === 'flowchart';
-  let mermaidDiagrams = [];
+   let processedExplanation = file.explanation || 'No explanation available.';
+   const isFlowchart = config.mode === 'flowchart';
+   const isMultiFileMode = config.mode === 'explain' || config.mode === 'issues';
+   let mermaidDiagrams = [];
 
   if (isFlowchart) {
     // Process flowchart content and explanation
@@ -336,25 +337,25 @@ function generateFileEntry(config, file, fileIndex) {
     <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
         <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="${isFlowchart ? '' : 'toggle-code'} h5 fw-semibold mb-0 ${isFlowchart ? '' : 'cursor-pointer'} d-flex align-items-center text-white" data-file-index="${fileIndex}" style="font-size: 1.1rem;">
-                    ${isFlowchart ? '' : '<i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>'}
-                    <i class="fas fa-${isFlowchart ? 'project-diagram' : 'file-code'} me-2"></i>
-                    ${escapeHtml(file.relativePath || path.basename(file.path))}
-                </h2>
+                 <h2 class="${isMultiFileMode ? 'toggle-code' : ''} h5 fw-semibold mb-0 ${isMultiFileMode ? 'cursor-pointer' : ''} d-flex align-items-center text-white" data-file-index="${fileIndex}" style="font-size: 1.1rem;">
+                     ${isMultiFileMode ? '<i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>' : ''}
+                     <i class="fas fa-${isFlowchart ? 'project-diagram' : 'file-code'} me-2"></i>
+                     ${escapeHtml(file.relativePath || path.basename(file.path))}
+                 </h2>
                 <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
                     ${file.language || 'text'}
                 </span>
             </div>
         </div>
 
-        <div class="card-body p-0">
-              ${isFlowchart ? '' : `<div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
-                  <div class="p-3">
-                      <pre class="mb-0"><code class="language-${file.language}" style="font-size: 0.9rem; line-height: 1.5;">
+             <div class="card-body p-0">
+               ${isMultiFileMode ? `<div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
+                   <div class="p-3">
+                       <pre class="mb-0"><code class="language-${file.language}" style="font-size: 0.9rem; line-height: 1.5;">
 ${highlightCode(file.content, file.language)}
-                      </code></pre>
-                  </div>
-              </div>`}
+                       </code></pre>
+                   </div>
+               </div>` : ''}
 
             <div class="p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
