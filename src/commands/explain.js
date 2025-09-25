@@ -175,7 +175,7 @@ async function explain(paths, options) {
       explanations = [flowchartResult];
       console.log(chalk.green('✅ Flowchart generation completed!'));
     } else if (effectiveMode === 'architecture') {
-      console.log(chalk.yellow('🏗️ Generating architecture overview...'));
+      console.log(chalk.yellow('🔍 Creating file summaries for analysis:'));
       const aiEngine = new AIEngine(finalConfig);
       let fileCounter = 0;
       explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
@@ -199,9 +199,10 @@ async function explain(paths, options) {
           console.log(`${paddedCounter} - ${progressText}${displayPath}`);
         }
       });
+      console.log(chalk.yellow('🏗️ Generating architecture overview...'));
       console.log(chalk.green('✅ Architecture overview generation completed!'));
     } else if (finalConfig.mode === MODE_ONBOARDING) {
-      console.log(chalk.yellow('👨‍💻 Generating onboarding guide...'));
+      console.log(chalk.yellow('🔍 Creating file summaries for analysis:'));
       const aiEngine = new AIEngine(finalConfig);
       let fileCounter = 0;
       explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
@@ -225,6 +226,7 @@ async function explain(paths, options) {
           console.log(`${paddedCounter} - ${progressText}${displayPath}`);
         }
       });
+      console.log(chalk.yellow('👨‍💻 Generating onboarding guide...'));
       console.log(chalk.green('✅ Onboarding guide generation completed!'));
     } else {
       // Generate AI explanations with progress tracking for normal modes

@@ -768,7 +768,7 @@
                     Developer Onboarding
                 </h2>
                 <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    arch
+                    onboarding
                 </span>
             </div>
         </div>
@@ -776,21 +776,21 @@
         <div class="card-body p-0">
               <div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
                   <div class="p-3">
-                      <pre class="mb-0"><code class="language-arch" style="font-size: 0.9rem; line-height: 1.5;">
-# Codebase Summary
+                      <pre class="mb-0"><code class="language-onboarding" style="font-size: 0.9rem; line-height: 1.5;">
+<span class="hljs-comment"># Codebase Summary</span>
 
-## Project Structure
+<span class="hljs-comment">## Project Structure</span>
 
-### Root Directory
+<span class="hljs-comment">### Root Directory
 
-- <span class="hljs-comment">**constants.js** (javascript): ```markdown
-This JavaScript file defines and exports a set of constants used throughout a codebase. It categorizes these constants into explanation modes, output formats, and default configuration values. The explanation modes likely relate to different ways of interpreting or displaying code, such as line-by-line analysis, flowchart visualization, or architectural overview. The output formats specify the document types—PDF or HTML—that the system can produce. Additionally, it sets a default configuration for retry attempts in operations, indicating how many times an action should be retried upon failure. This file standardizes key parameters for consistent system behavior.
+- **constants.js** (javascript): ```markdown
+The `constants.js` file in the `src/utils` directory defines and exports a set of constants that are used throughout the application. These constants include various operation modes such as `MODE_LINE_BY_LINE`, `MODE_FLOWCHART`, and `MODE_EXPLAIN`, among others. Additionally, it specifies the supported output formats like `OUTPUT_PDF` and `OUTPUT_HTML`. The file also sets a default configuration value for retry attempts. These constants are likely used to configure different behaviors and responses in the larger system based on the specified mode or output format.
 ```
 - **languageMap.js** (javascript): ```markdown
-This JavaScript file defines and exports `languageMap`, an object mapping file extensions to corresponding programming languages. The map serves as a utility to identify the programming language associated with a file based on its extension. It includes mappings for various extensions, covering common languages like JavaScript, Python, and Java, and also less common ones like Haskell, Raku, and Vala. This utility is likely used in a larger system for file analysis, syntax highlighting, or language-specific processing tasks by determining the language context from a file&#x27;s extension.
+The `languageMap.js` file defines a JavaScript object mapping file extensions to their corresponding programming languages. This allows for the identification of the programming language based on a file&#x27;s extension. The `languageMap` object contains a list of key-value pairs, where the key is the file extension and the value is the associated language. The module exports this map for use in other parts of the system, potentially assisting in syntax highlighting, file categorization, or build processes by determining the language of a given file.
 ```
 - **utils.js** (javascript): ```markdown
-The `utils.js` file provides a collection of common utility functions for the &quot;CodeExplain&quot; application. It includes functions for string manipulation (escaping HTML and regex characters, capitalizing, converting camelCase to kebab-case), file operations (extracting file extensions and names), data formatting (byte size and date), and general utilities (unique ID generation, sleep, deep object merging). Additionally, it includes helper functions to handle pluralization and to convert arrays into human-readable lists. This file streamlines common tasks across the system, enhancing code reusability and modularity.
+The JavaScript file `utils.js` provides a collection of utility functions for the CodeExplain project. These functions include: escaping HTML and regex characters, manipulating file paths and names, checking file inclusion based on extensions, formatting byte sizes and dates, manipulating strings (e.g., case conversion, truncation), generating unique IDs, deep merging objects, sleep functionality for promises, and converting arrays to human-readable lists. Additionally, it has a utility for printing and exiting (`dd`). This suite of utilities supports various common tasks, improving code reuse and readability in the larger system.
 ```
 
 ## Technology Stack
@@ -816,108 +816,125 @@ The `utils.js` file provides a collection of common utility functions for the &q
                     </button>
                 </div>
                 <div class="explanation-content">
-                    <h1>Codebase Architecture Overview</h1>
-<p>This document provides a comprehensive overview of the architecture and design of the codebase in question. The codebase comprises a set of JavaScript files, each of which plays a specific role in the system. This architecture overview will help you understand the structure, key components, their relationships, data flow, and design patterns employed.</p>
-<h2>Project Structure</h2>
-<p>The project is relatively simple, with a focus on utility and configuration for a broader application. Here is the structure of the codebase:</p>
-<pre><code>Root Directory
-│
-├── constants.js
-├── languageMap.js
-└── utils.js
+                    <h1>🛠 CodeExplain Onboarding Guide</h1>
+<p>Welcome to the CodeExplain project! This guide will help you understand the project&#39;s structure, purpose, and development practices. By the end of this guide, you&#39;ll be set up to start contributing effectively.</p>
+<h2>🚀 Getting Started</h2>
+<h3>Project Overview and Purpose</h3>
+<p>The CodeExplain project is a tool designed to analyze code files, determine their languages, and apply various transformations based on predefined operation modes. It supports multiple output formats to accommodate different documentation needs.</p>
+<h3>Technology Stack and Key Dependencies</h3>
+<ul>
+<li><strong>Programming Language</strong>: JavaScript</li>
+<li><strong>Environment</strong>: Node.js</li>
+<li><strong>File Types</strong>: Primarily <code>.js</code> files</li>
+</ul>
+<p>Before proceeding, ensure you have Node.js installed on your machine.</p>
+<h3>Development Environment Setup</h3>
+<ol>
+<li><p><strong>Clone the repository</strong>:</p>
+<pre><code class="language-bash">git clone &lt;repository-url&gt;
 </code></pre>
+</li>
+<li><p><strong>Navigate to the project directory</strong>:</p>
+<pre><code class="language-bash">cd codebase-directory
+</code></pre>
+</li>
+<li><p><strong>Install dependencies</strong>:</p>
+<pre><code class="language-bash">npm install
+</code></pre>
+</li>
+</ol>
+<h2>🏗️ Architecture Overview</h2>
+<h3>High-Level System Architecture</h3>
+<p>The application consists of several JavaScript modules that manage utility functions, constants, and language mappings.</p>
+<h3>Key Components and Their Responsibilities</h3>
+<ul>
+<li><strong>constants.js</strong>: Defines constants used throughout the application, including operation modes and output formats.</li>
+<li><strong>languageMap.js</strong>: Provides mappings between file extensions and programming languages.</li>
+<li><strong>utils.js</strong>: Contains utility functions for handling common operations like string manipulation, file operations, and generating unique IDs.</li>
+</ul>
+<h3>How Modules Interact With Each Other</h3>
+<p>Modules in this project are imported and utilized where needed, with utility functions and constants often being called by other parts of the system to ensure consistent behavior.</p>
+<h2>📁 Project Structure</h2>
+<h3>Directory Organization</h3>
+<ul>
+<li><strong>Root Directory</strong>: Contains key JavaScript files (<code>constants.js</code>, <code>languageMap.js</code>, <code>utils.js</code>) that provide foundational elements for the application.</li>
+</ul>
+<h3>Important Files and Their Purposes</h3>
+<ul>
+<li><p><strong>constants.js</strong>: </p>
+<p>It exports configuration constants and operation modes used throughout the application.</p>
+
+</li>
+<li><p><strong>languageMap.js</strong>:</p>
+<p>This file provides a map from file extensions to programming languages.</p>
+
+</li>
+<li><p><strong>utils.js</strong>:</p>
+<p>A collection of utility functions for string manipulation, file handling, and more.</p></li>
+</ul>
 <h3>Entry Points and Main Application Flow</h3>
-<p>As this codebase consists primarily of utility files, configuration, and mappings, there is no traditional application flow with an entry point like <code>main.js</code> or a command-line interface. Instead, these files are designed to be imported and used within larger systems or applications.</p>
-<h2>Key Components and Their Relationships</h2>
-<h3>1. <strong>constants.js</strong></h3>
-<p>The <code>constants.js</code> file is crucial for maintaining standardized values across the system. It categorizes constants into three main groups:</p>
-<ul>
-<li><strong>Explanation Modes</strong>: Define different ways code can be interpreted or displayed.</li>
-<li><strong>Output Formats</strong>: Specify the document types (PDF, HTML) that the system can produce.</li>
-<li><strong>Default Configuration Values</strong>: Include defaults like retry attempts for operations.</li>
-</ul>
-<p>By centralizing these constants, the file ensures consistency and easy configurability.</p>
-<pre><code class="language-javascript">// Example snippet from constants.js
-export const EXPLANATION_MODES = {
-    LINE_BY_LINE: &#39;line_by_line&#39;,
-    FLOWCHART: &#39;flowchart&#39;,
-    ARCHITECTURE: &#39;architecture&#39;
-};
-
-export const OUTPUT_FORMATS = {
-    PDF: &#39;pdf&#39;,
-    HTML: &#39;html&#39;
-};
-
-export const DEFAULT_CONFIG = {
-    RETRY_ATTEMPTS: 3
-};
+<p>Currently, the project structure does not indicate a single main entry point file, but each module serves a purpose in supporting the larger system by facilitating common tasks.</p>
+<h2>🔧 Development Workflow</h2>
+<h3>How to Run the Project Locally</h3>
+<ol>
+<li><p><em>Ensure all dependencies are installed</em> by running:</p>
+<pre><code class="language-bash">npm install
 </code></pre>
-<h3>2. <strong>languageMap.js</strong></h3>
-<p>The <code>languageMap.js</code> file is a utility for mapping file extensions to programming languages. This mapping is extremely useful in scenarios involving:</p>
+</li>
+<li><p><em>Run the main script</em> (if applicable) or use the modules in a Node.js environment to test their functionalities.</p>
+</li>
+</ol>
+<h3>Testing Procedures</h3>
 <ul>
-<li>File analysis</li>
-<li>Syntax highlighting</li>
-<li>Language-specific processing</li>
+<li><strong>Unit Testing</strong>: Describe any testing framework to be set up for future implementations.</li>
+<li><strong>Manual Testing</strong>: Currently, manually test functionalities by importing modules in a Node.js environment.</li>
 </ul>
-<p>By translating file extensions into language identifiers, the system can apply appropriate processing rules.</p>
-<pre><code class="language-javascript">// Example snippet from languageMap.js
-export const languageMap = {
-    &#39;.js&#39;: &#39;JavaScript&#39;,
-    &#39;.py&#39;: &#39;Python&#39;,
-    &#39;.java&#39;: &#39;Java&#39;,
-    // More mappings can be added here
-};
-</code></pre>
-<h3>3. <strong>utils.js</strong></h3>
-<p>This file, <code>utils.js</code>, provides various utility functions that enhance code reusability and modularity throughout the system. The functions cover:</p>
+<h3>Code Style and Conventions</h3>
 <ul>
-<li><strong>String Manipulation</strong>: Escaping characters, string formatting, etc.</li>
-<li><strong>File Operations</strong>: Extracting file information.</li>
-<li><strong>Data Formatting</strong>: Converting bytes to human-readable format, formatting dates.</li>
-<li><strong>General Utilities</strong>: ID generation, sleeping/waiting operations, deep object merging.</li>
+<li>Follow standard JavaScript conventions.</li>
+<li>Use ESLint for linting (if configured).</li>
+<li>Format code using Prettier (if configured).</li>
 </ul>
-<p>These utilities resolve common programming tasks, making the application more efficient and maintainable.</p>
-<pre><code class="language-javascript">// Example snippet from utils.js
-export function escapeHtml(html) {
-    return html.replace(/[&amp;&lt;&gt;&quot;&#39;]/g, function (match) {
-        return ENTITY_MAP[match];
-    });
-}
-
-export function getFileExtension(filename) {
-    return filename.slice(((filename.lastIndexOf(&quot;.&quot;) - 1) &gt;&gt;&gt; 0) + 2);
-}
-
-// More utility functions follow...
-</code></pre>
-<h2>Design Patterns and Architectural Decisions</h2>
-<h3>Modular Design</h3>
-<p>The codebase adopts a modular design, where each file has a clear responsibility. This separation allows for:</p>
+<h3>Best Practices for the Codebase</h3>
 <ul>
-<li><strong>Ease of Maintenance</strong>: Changes in one module do not affect others.</li>
-<li><strong>Reusability</strong>: Modules can be easily reused in other parts of the application or in different projects.</li>
-<li><strong>Testing</strong>: Each module can be tested independently.</li>
+<li>Consistently use the defined constants instead of hardcoded values.</li>
+<li>Reuse utility functions for any applicable functionality to maintain DRY (Don&#39;t Repeat Yourself) principles.</li>
+<li>Maintain readability and modularity by adequately commenting and structuring code.</li>
 </ul>
-<h3>Centralized Configuration</h3>
-<p>The use of <code>constants.js</code> reflects a centralized configuration pattern. By aggregating constants in one place, the design promotes:</p>
+<h2>📖 Key Concepts</h2>
+<h3>Important Patterns and Architectural Decisions</h3>
 <ul>
-<li><strong>Consistency</strong>: Use of uniform values across the application.</li>
-<li><strong>Configurability</strong>: Easy to update values without altering multiple files.</li>
+<li><strong>Use of Constants</strong>: Centralizes configuration to ensure uniform behavior across modules.</li>
+<li><strong>Utility Functions</strong>: Encapsulates common tasks for reuse and clarity.</li>
 </ul>
-<h2>Technology Stack</h2>
+<h3>Domain-Specific Terminology</h3>
 <ul>
-<li><strong>Language</strong>: JavaScript</li>
-<li><strong>File Types</strong>: <code>.js</code></li>
+<li><strong>MODE_LINE_BY_LINE</strong>: Transformation mode that processes code line by line.</li>
+<li><strong>MODE_FLOWCHART</strong>: Mode intended to generate flowchart representations.</li>
+<li><strong>OUTPUT_PDF</strong> and <strong>OUTPUT_HTML</strong>: Supported output formats for documentation.</li>
 </ul>
-<h2>Project Organization</h2>
+<h3>Common Workflows and Processes</h3>
 <ul>
-<li>Files are organized by functionality and purpose.</li>
-<li>Constants, mappings, and utilities are separate to enhance clarity and organization.</li>
-<li>The straightforward directory structure makes the project easy to navigate.</li>
+<li><strong>Adding New Languages</strong>: Update <code>languageMap.js</code> whenever supporting additional file extensions.</li>
 </ul>
-<h2>Conclusion</h2>
-<p>This codebase provides foundational components for file type recognition, utility functions, and standardized constants. Its modular structure fosters maintainability and scalability, making it an ideal candidate for integration into more complex systems. Developers can extend this base to support additional features or integrate it into broader applications that require these foundational elements.</p>
+<h2>💡 Tips for New Developers</h2>
+<h3>Areas to Focus on First</h3>
+<ul>
+<li>Understand how constants and utility functions are used across different files.</li>
+<li>Familiarize yourself with JavaScript module patterns used in the project.</li>
+</ul>
+<h3>Common Pitfalls to Avoid</h3>
+<ul>
+<li>Avoid hardcoding values when a constant is available.</li>
+<li>Ensure that new utility functions do not duplicate existing functionalities.</li>
+</ul>
+<h3>Where to Find Help and Documentation</h3>
+<ul>
+<li>Project README for setup and usage instructions.</li>
+<li>JavaScript documentation for language-specific queries.</li>
+<li>Team members and existing code reviews for project-specific advice.</li>
+</ul>
+<p>Welcome aboard, and happy coding! If you have questions, don’t hesitate to reach out to the team.</p>
 
                 </div>
             </div>

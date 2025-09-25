@@ -234,16 +234,13 @@ class AIEngine {
       completed++;
       if (progressCallback) {
         const progress = Math.round((completed / total) * 100);
-        progressCallback(file.path || `file-${i}`, completed, total, progress, summaryResult.cached, false); // isStarting = false
+        progressCallback(file.path || file.relativePath, completed, total, progress, summaryResult.cached, false); // isStarting = false
       }
     }
 
-      // Now generate the final architecture/onboarding analysis using the AI summaries
-      const result = await this.explainCodebaseFromSummaries(fileSummaries, analysisArray);
-      if (progressCallback) {
-        progressCallback('Final analysis', total, total, 100, result.cached, false);
-      }
-      return result;
+    // Now generate the final architecture/onboarding analysis using the AI summaries
+    const result = await this.explainCodebaseFromSummaries(fileSummaries, analysisArray);
+    return result;
   }
 
   async explainCodebaseFromSummaries(fileSummaries, analysisArray) {
