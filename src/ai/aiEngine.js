@@ -1,11 +1,13 @@
-const path = require('path');
+ const path = require('path');
 const { ChatOpenAI } = require('@langchain/openai');
 const { ChatGoogleGenerativeAI } = require('@langchain/google-genai');
 const { ChatOllama } = require('@langchain/ollama');
 const chalk = require('chalk');
 const { CacheManager } = require('../core/cacheManager');
 const { PromptManager } = require('./promptManager');
+const { Logger } = require('../utils/logger');
 const { dd } = require('../utils/utils'); // Debugging helper
+const { encoding_for_model } = require('tiktoken');
 
 // Constants
 const PROVIDERS = {
@@ -27,6 +29,8 @@ const USER_LEVELS = {
   BEGINNER: 'beginner'
 };
 
+const { DEFAULT_CONCURRENCY, MAX_CONCURRENCY } = require('../utils/constants');
+
 class AIEngine {
   constructor(config) {
     this.config = config;
@@ -35,6 +39,10 @@ class AIEngine {
     this.apiKey = config.apiKey;
     this.baseUrl = config.baseUrl; // For Ollama or custom endpoints
     this.verbose = config.verbose || false;
+    this.concurrency = Math.min(config.concurrency || DEFAULT_CONCURRENCY, MAX_CONCURRENCY);
+
+    // Initialize logger
+    this.logger = new Logger({ verbose: this.verbose });
 
     // Initialize managers
     this.cacheManager = new CacheManager();
@@ -102,7 +110,10 @@ class AIEngine {
         console.warn(chalk.yellowBright(`⚠️ Warning: ${message}`));
         break;
       case 'info':
-        this.verbose && console.log(chalk.gray(`ℹ️ ${message}`));
+        if (this.verbose) {
+          const msg = typeof message === 'function' ? message() : message;
+          console.log(chalk.gray(`ℹ️ ${msg}`));
+        }
         break;
     }
   }
@@ -138,7 +149,7 @@ class AIEngine {
     throw lastError;
   }
 
-  // Estimate tokens using LangChain response metadata if available, otherwise fallback to length-based estimate
+  // Estimate tokens using LangChain response metadata if available, otherwise use proper tokenization
   estimateTokens(text, metadata) {
     if (metadata && typeof metadata.completion_tokens === 'number' && typeof metadata.prompt_tokens === 'number') {
       // If both prompt and completion tokens are available, return their sum
@@ -148,7 +159,28 @@ class AIEngine {
       return metadata.total_tokens
     }
     if (!text) return 0
-    // Fallback: rough estimate (1 token ≈ 4 chars)
+
+    // Use proper tokenization for OpenAI models
+    if (this.provider === PROVIDERS.OPENAI) {
+      try {
+        // Map model names to tiktoken encoding
+        let encodingName = 'cl100k_base'; // Default for GPT-3.5-turbo and GPT-4
+        if (this.model && this.model.includes('gpt-4o')) {
+          encodingName = 'o200k_base'; // GPT-4o uses o200k_base
+        }
+
+        const encoding = encoding_for_model(this.model || 'gpt-3.5-turbo', encodingName);
+        const tokens = encoding.encode(text);
+        encoding.free();
+        return tokens.length;
+      } catch (error) {
+        // Fallback to rough estimate if tiktoken fails
+        this._log('warn', `Failed to tokenize with tiktoken: ${error.message}`);
+        return Math.ceil(text.length / 4);
+      }
+    }
+
+    // For other providers, use rough estimate (1 token ≈ 4 chars)
     return Math.ceil(text.length / 4)
   }
 
@@ -157,6 +189,284 @@ class AIEngine {
     return {
       ...this.tokenUsage
     };
+  }
+
+  // Helper function to suggest garbage collection for large objects
+  _suggestGC() {
+    // Only suggest GC if --expose-gc flag is used and gc is available
+    if (typeof global !== 'undefined' && global.gc) {
+      try {
+        global.gc();
+      } catch (error) {
+        // Ignore GC errors
+      }
+    }
+  }
+
+  // Helper function to process files in parallel batches with memory cleanup
+  async processFilesInBatches(files, processFn, progressCallback = null) {
+    const results = [];
+    const total = files.length;
+    let completed = 0;
+
+    // Process files in batches of concurrency size
+    for (let i = 0; i < files.length; i += this.concurrency) {
+      const batch = files.slice(i, i + this.concurrency);
+      const batchPromises = batch.map(async (file, batchIndex) => {
+        const globalIndex = i + batchIndex;
+        try {
+          const result = await processFn(file, globalIndex);
+          // Clear reference to file content immediately after processing to free memory
+          if (file && file.content) {
+            file.content = null;
+          }
+          return { success: true, result, index: globalIndex };
+        } catch (error) {
+          console.error(`Error processing file ${file.path || `file-${globalIndex}`}:`, error.message);
+          // Clear reference even on error
+          if (file && file.content) {
+            file.content = null;
+          }
+          return { success: false, error, index: globalIndex };
+        }
+      });
+
+      // Wait for the current batch to complete
+      const batchResults = await Promise.allSettled(batchPromises);
+
+      // Process batch results
+      for (const batchResult of batchResults) {
+        if (batchResult.status === 'fulfilled') {
+          const { success, result, index } = batchResult.value;
+          if (success) {
+            results[index] = result;
+            completed++;
+
+            // Update progress
+            if (progressCallback) {
+              const progress = Math.round((completed / total) * 100);
+              const file = files[index];
+              progressCallback(file.path || `file-${index}`, completed, total, progress, result.cached, false);
+            }
+          } else {
+            // Handle failed file processing
+            results[index] = null;
+            completed++;
+            if (progressCallback) {
+              const progress = Math.round((completed / total) * 100);
+              const file = files[index];
+              progressCallback(file.path || `file-${index}`, completed, total, progress, false, false);
+            }
+          }
+        } else {
+          // Promise was rejected
+          console.error('Batch processing error:', batchResult.reason);
+          completed++;
+        }
+      }
+
+      // Clear batch references to help GC
+      batch.length = 0;
+
+      // Suggest garbage collection after large batches
+      if (i % (this.concurrency * 5) === 0) {
+        this._suggestGC();
+      }
+    }
+
+    return results;
+  }
+
+  // Helper function to process files with request batching for compatible providers
+  async processFilesWithRequestBatching(files, progressCallback = null, processFn = null) {
+    // Default processing function
+    const defaultProcessFn = processFn || (async (file, index) => await this.explainFile(file));
+
+    // Only use request batching for providers that support it efficiently
+    if (this.provider !== PROVIDERS.OPENAI) {
+      // Fall back to regular batch processing
+      return this.processFilesInBatches(files, defaultProcessFn, progressCallback);
+    }
+
+    const results = [];
+    const total = files.length;
+    let completed = 0;
+
+    // Process files in batches, but try to batch API requests within each batch
+    for (let i = 0; i < files.length; i += this.concurrency) {
+      const batch = files.slice(i, i + this.concurrency);
+
+      // Prepare batch data: check cache and build prompts
+      const batchData = [];
+      for (let j = 0; j < batch.length; j++) {
+        const file = batch[j];
+        const globalIndex = i + j;
+
+        // For custom processing functions, just call them directly
+        if (processFn) {
+          try {
+            const result = await defaultProcessFn(file, globalIndex);
+            results[globalIndex] = result;
+            completed++;
+            if (progressCallback) {
+              const progress = Math.round((completed / total) * 100);
+              progressCallback(file.path || `file-${globalIndex}`, completed, total, progress, result.cached, false);
+            }
+          } catch (error) {
+            console.error(`Error processing file ${file.path || `file-${globalIndex}`}:`, error.message);
+            results[globalIndex] = null;
+            completed++;
+            if (progressCallback) {
+              const progress = Math.round((completed / total) * 100);
+              progressCallback(file.path || `file-${globalIndex}`, completed, total, progress, false, false);
+            }
+          }
+          continue;
+        }
+
+        // Check cache first for default explainFile processing
+        if (this.config.cache !== false) {
+          const cachedExplanation = await this.cacheManager.getCachedExplanation(file.path, this.config);
+          if (cachedExplanation) {
+            results[globalIndex] = {
+              ...file,
+              explanation: cachedExplanation,
+              cached: true
+            };
+            this.tokenUsage.cachedFiles++;
+            completed++;
+            if (progressCallback) {
+              const progress = Math.round((completed / total) * 100);
+              progressCallback(file.path || `file-${globalIndex}`, completed, total, progress, true, false);
+            }
+            continue;
+          }
+        }
+
+        // Build prompt for non-cached files
+        const prompt = await this.buildPrompt(file);
+        const inputTokens = this.estimateTokens(prompt);
+        this.tokenUsage.totalInputTokens += inputTokens;
+        this.tokenUsage.processedFiles++;
+
+        batchData.push({
+          file,
+          prompt,
+          inputTokens,
+          globalIndex
+        });
+      }
+
+      // If we have prompts to process, use batch API calls
+      if (batchData.length > 0) {
+        try {
+          // For OpenAI, we can use Promise.all for concurrent requests
+          // In the future, this could be enhanced to use OpenAI's batch API
+          const batchPromises = batchData.map(async (data) => {
+            const { file, prompt, inputTokens, globalIndex } = data;
+
+            try {
+              const result = await this.retryWithBackoff(async () => {
+                return await this.modelInstance.invoke([
+                  { role: 'system', content: 'You are a helpful assistant that provides detailed code explanations.' },
+                  { role: 'user', content: prompt }
+                ]);
+              });
+
+              const response = result.content;
+              const metadata = result.additional_kwargs?.response_metadata ||
+                result.additional_kwargs?.usage_metadata ||
+                result.lc_kwargs?.response_metadata;
+              const outputTokens = this.estimateTokens(response, metadata);
+              this.tokenUsage.totalOutputTokens += outputTokens;
+              this.tokenUsage.totalTokens += inputTokens + outputTokens;
+
+              // Cache the result
+              if (this.config.cache !== false) {
+                await this.cacheManager.setCachedExplanation(file.path, this.config, response);
+              }
+
+              // Clear file content reference to free memory
+              if (file && file.content) {
+                file.content = null;
+              }
+
+              return {
+                success: true,
+                result: {
+                  ...file,
+                  explanation: response,
+                  cached: false
+                },
+                globalIndex
+              };
+            } catch (error) {
+              console.error(`Error processing file ${file.path}:`, error.message);
+              // Clear file content reference even on error
+              if (file && file.content) {
+                file.content = null;
+              }
+              return {
+                success: false,
+                error,
+                globalIndex
+              };
+            }
+          });
+
+          // Execute batch requests concurrently
+          const batchResults = await Promise.allSettled(batchPromises);
+
+          // Process results
+          for (const batchResult of batchResults) {
+            if (batchResult.status === 'fulfilled') {
+              const { success, result, globalIndex } = batchResult.value;
+              if (success) {
+                results[globalIndex] = result;
+                completed++;
+                if (progressCallback) {
+                  const progress = Math.round((completed / total) * 100);
+                  progressCallback(result.path || `file-${globalIndex}`, completed, total, progress, false, false);
+                }
+              } else {
+                results[globalIndex] = null;
+                completed++;
+                if (progressCallback) {
+                  const progress = Math.round((completed / total) * 100);
+                  progressCallback(`file-${globalIndex}`, completed, total, progress, false, false);
+                }
+              }
+            } else {
+              console.error('Request batch processing error:', batchResult.reason);
+              completed++;
+            }
+          }
+        } catch (error) {
+          console.error('Batch processing failed:', error);
+          // Fall back to individual processing for this batch
+          for (const data of batchData) {
+            try {
+              const result = await this.explainFile(data.file);
+              results[data.globalIndex] = result;
+              completed++;
+              if (progressCallback) {
+                const progress = Math.round((completed / total) * 100);
+                progressCallback(data.file.path || `file-${data.globalIndex}`, completed, total, progress, result.cached, false);
+              }
+            } catch (error) {
+              results[data.globalIndex] = null;
+              completed++;
+              if (progressCallback) {
+                const progress = Math.round((completed / total) * 100);
+                progressCallback(data.file.path || `file-${data.globalIndex}`, completed, total, progress, false, false);
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return results;
   }
 
   async generateExplanations(analysis, progressCallback = null) {
@@ -176,26 +486,8 @@ class AIEngine {
     }
 
     if (Array.isArray(analysis)) {
-      // Multiple files - process with progress tracking
-      const results = [];
-      let completed = 0;
-      const total = analysis.length;
-
-      for (let i = 0; i < analysis.length; i++) {
-        const file = analysis[i];
-
-        const result = await this.explainFile(file);
-
-        results.push(result);
-        completed++;
-
-        // Show progress when file is completed
-        if (progressCallback) {
-          const progress = Math.round((completed / total) * 100);
-          progressCallback(file.path || `file-${i}`, completed, total, progress, result.cached, false); // isStarting = false
-        }
-      }
-
+      // Multiple files - use request batching for better performance
+      const results = await this.processFilesWithRequestBatching(analysis, progressCallback);
       return results;
     } else {
       // Single file
@@ -208,42 +500,38 @@ class AIEngine {
   }
 
   async explainCodebaseWithAISummaries(analysisArray, progressCallback) {
-    // First, generate AI summaries for each file
-    const fileSummaries = [];
-    let completed = 0;
-    const total = analysisArray.length;
+    // First, generate AI summaries for each file using request batching
+    const fileSummaries = await this.processFilesWithRequestBatching(
+      analysisArray,
+      progressCallback,
+      async (file, index) => {
+        // Temporarily set mode to summary to get file summaries
+        const originalMode = this.config.mode;
+        this.config.mode = MODES.SUMMARY;
 
-    for (let i = 0; i < analysisArray.length; i++) {
-      const file = analysisArray[i];
+        const summaryResult = await this.explainFile(file);
 
-      // Temporarily set mode to summary to get file summaries
-      const originalMode = this.config.mode;
-      this.config.mode = MODES.SUMMARY;
+        // Restore original mode
+        this.config.mode = originalMode;
 
-      const summaryResult = await this.explainFile(file);
-      fileSummaries.push({
-        relativePath: file.relativePath,
-        language: file.language,
-        summary: summaryResult.explanation
-      });
-
-      // Restore original mode
-      this.config.mode = originalMode;
-
-      // Show progress when file summary is completed
-      completed++;
-      if (progressCallback) {
-        const progress = Math.round((completed / total) * 100);
-        progressCallback(file.path || file.relativePath, completed, total, progress, summaryResult.cached, false); // isStarting = false
+        return {
+          relativePath: file.relativePath,
+          language: file.language,
+          summary: summaryResult.explanation,
+          cached: summaryResult.cached
+        };
       }
-    }
+    );
+
+    // Filter out any null results and ensure proper structure
+    const validSummaries = fileSummaries.filter(summary => summary !== null);
 
     // Now generate the final architecture/onboarding analysis using the AI summaries
-    const result = await this.explainCodebaseFromSummaries(fileSummaries, analysisArray);
+    const result = await this.explainCodebaseFromSummaries(validSummaries, analysisArray);
     return result;
   }
 
-   async explainCodebaseFromSummaries(fileSummaries, analysisArray) {
+  async explainCodebaseFromSummaries(fileSummaries, analysisArray) {
     // Create a single codebase analysis object
     const codebaseSummary = this.buildCodebaseSummary(analysisArray, fileSummaries);
 
@@ -257,9 +545,7 @@ class AIEngine {
 
     // Try to get cached explanation first (unless cache is disabled)
     if (this.config.cache !== false) {
-      if (this.verbose) {
-        console.log(chalk.gray(`🔍 Checking cache for: ${codebaseAnalysis.relativePath}`));
-      }
+      this._log('info', () => chalk.gray(`🔍 Checking cache for: ${codebaseAnalysis.relativePath}`));
 
       const cachedExplanation = await this.cacheManager.getCachedExplanation(
         codebaseAnalysis.path,
@@ -267,9 +553,7 @@ class AIEngine {
       );
 
       if (cachedExplanation) {
-        if (this.verbose) {
-          console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
-        }
+        this._log('info', () => chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
         // Track cached file usage
         this.tokenUsage.cachedFiles++;
         return {
@@ -278,9 +562,7 @@ class AIEngine {
           cached: true
         };
       } else {
-        if (this.verbose) {
-          console.log(chalk.gray('📭 Cache miss - will generate new explanation'));
-        }
+        this._log('info', () => chalk.gray('📭 Cache miss - will generate new explanation'));
       }
     }
 
@@ -292,12 +574,12 @@ class AIEngine {
     this.tokenUsage.processedFiles++;
 
     // Verbose: Show prompt details
-    if (this.verbose) {
+    this.logger.logVerbose(() => {
       console.log(chalk.gray(`🔍 Processing: ${codebaseAnalysis.relativePath}`));
       console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
       console.log(chalk.gray('   ' + prompt.replace(/\n/g, '\n   ')));
       console.log('');
-    }
+    });
 
     try {
       // Retry with exponential backoff using LangChain
@@ -369,9 +651,7 @@ class AIEngine {
 
     // Try to get cached explanation first (unless cache is disabled)
     if (this.config.cache !== false) {
-      if (this.verbose) {
-        console.log(chalk.gray(`🔍 Checking cache for: ${codebaseAnalysis.relativePath}`));
-      }
+      this.logger.logVerbose(() => console.log(chalk.gray(`🔍 Checking cache for: ${codebaseAnalysis.relativePath}`)));
 
       const cachedExplanation = await this.cacheManager.getCachedExplanation(
         codebaseAnalysis.path,
@@ -379,9 +659,7 @@ class AIEngine {
       );
 
       if (cachedExplanation) {
-        if (this.verbose) {
-          console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
-        }
+        this.logger.logVerbose(() => console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`)));
         // Track cached file usage
         this.tokenUsage.cachedFiles++;
         return {
@@ -390,9 +668,7 @@ class AIEngine {
           cached: true
         };
       } else {
-        if (this.verbose) {
-          console.log(chalk.gray('📭 Cache miss - will generate new explanation'));
-        }
+        this.logger.logVerbose(() => console.log(chalk.gray('📭 Cache miss - will generate new explanation')));
       }
     }
 
@@ -404,12 +680,12 @@ class AIEngine {
     this.tokenUsage.processedFiles++;
 
     // Verbose: Show prompt details
-    if (this.verbose) {
+    this.logger.logVerbose(() => {
       console.log(chalk.gray(`🔍 Processing: ${codebaseAnalysis.relativePath}`));
       console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
       console.log(chalk.gray('   ' + prompt.replace(/\n/g, '\n   ')));
       console.log('');
-    }
+    });
 
     try {
       // Retry with exponential backoff using LangChain
@@ -550,9 +826,7 @@ class AIEngine {
 
     // Try to get cached explanation first (unless cache is disabled)
     if (fileAnalysis.path && this.config.cache !== false) {
-      if (this.verbose) {
-        console.log(chalk.gray(`🔍 Checking cache for: ${fileAnalysis.relativePath}`));
-      }
+      this._log('info', () => chalk.gray(`🔍 Checking cache for: ${fileAnalysis.relativePath}`));
 
       const cachedExplanation = await this.cacheManager.getCachedExplanation(
         fileAnalysis.path,
@@ -560,9 +834,7 @@ class AIEngine {
       );
 
       if (cachedExplanation) {
-        if (this.verbose) {
-          console.log(chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
-        }
+        this._log('info', () => chalk.gray(`📋 Cache hit! Using cached explanation (${cachedExplanation.length} chars)`));
         // Track cached file usage
         this.tokenUsage.cachedFiles++;
         return {
@@ -571,9 +843,7 @@ class AIEngine {
           cached: true
         };
       } else {
-        if (this.verbose) {
-          console.log(chalk.gray('📭 Cache miss - will generate new explanation'));
-        }
+        this._log('info', () => chalk.gray('📭 Cache miss - will generate new explanation'));
       }
     }
 
@@ -585,12 +855,14 @@ class AIEngine {
     this.tokenUsage.processedFiles++;
 
     // Verbose: Show prompt details
-    if (this.verbose) {
-      console.log(chalk.gray(`🔍 Processing: ${fileAnalysis.relativePath}`));
-      console.log(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
-      console.log(chalk.gray('   ' + prompt.replace(/\n/g, '\n   ')));
-      console.log('');
-    }
+    this._log('info', () => {
+      const output = [];
+      output.push(chalk.gray(`🔍 Processing: ${fileAnalysis.relativePath}`));
+      output.push(chalk.gray(`📝 Prompt (${prompt.length} chars, ~${inputTokens} tokens):`));
+      output.push(chalk.gray('   ' + prompt.replace(/\n/g, '\n   ')));
+      output.push('');
+      return output.join('\n');
+    });
 
     try {
       // Retry with exponential backoff using LangChain
@@ -614,22 +886,27 @@ class AIEngine {
       this.tokenUsage.totalTokens += inputTokens + outputTokens;
 
       // Verbose: Show response details
-      if (this.verbose) {
-        console.log(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
-        console.log(chalk.gray('   ' + response.substring(0, 200) + (response.length > 200 ? '...' : '')));
-        console.log('');
-      }
+      this._log('info', () => {
+        const output = [];
+        output.push(chalk.gray(`✅ Response (${response.length} chars, ~${outputTokens} tokens):`));
+        output.push(chalk.gray('   ' + response.substring(0, 200) + (response.length > 200 ? '...' : '')));
+        output.push('');
+        return output.join('\n');
+      });
 
       // Cache the explanation (unless cache is disabled)
       if (fileAnalysis.path && this.config.cache !== false) {
-        if (this.verbose) {
-          console.log(chalk.gray(`💾 Saving to cache: ${fileAnalysis.relativePath}`));
-        }
+        this._log('info', () => chalk.gray(`💾 Saving to cache: ${fileAnalysis.relativePath}`));
         await this.cacheManager.setCachedExplanation(
           fileAnalysis.path,
           this.config,
           response
         );
+      }
+
+      // Clear file content reference to free memory
+      if (fileAnalysis && fileAnalysis.content) {
+        fileAnalysis.content = null;
       }
 
       return {
@@ -640,6 +917,12 @@ class AIEngine {
     } catch (error) {
       // Ensure all errors, including those after all retries, are handled here
       console.error(`Error explaining file ${fileAnalysis.path}:`, error && error.message ? error.message : error);
+
+      // Clear file content reference even on error
+      if (fileAnalysis && fileAnalysis.content) {
+        fileAnalysis.content = null;
+      }
+
       return {
         ...fileAnalysis,
         explanation: `Error generating explanation: ${error && error.message ? error.message : error}`,

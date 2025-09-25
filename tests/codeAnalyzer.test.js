@@ -83,6 +83,48 @@ describe('CodeAnalyzer', () => {
 
       await expect(analyzer.analyze('nonexistent')).rejects.toThrow('Path does not exist');
     });
+
+    test('should skip files larger than maxFileSize', async () => {
+      const filePath = 'large.js';
+      const fullPath = path.resolve(filePath);
+
+      fs.pathExists.mockResolvedValue(true);
+      fs.stat.mockResolvedValue({
+        isFile: () => true,
+        isDirectory: () => false,
+        size: 15 * 1024 * 1024, // 15MB (larger than 10MB default)
+        mtime: new Date()
+      });
+
+      const result = await analyzer.analyze(filePath);
+
+      expect(result).toBeNull();
+      expect(console.warn).toHaveBeenCalledWith(
+        expect.stringContaining('Skipping large file: ')
+      );
+      expect(console.warn).toHaveBeenCalledWith(
+        expect.stringContaining('(15.0MB > 10MB limit)')
+      );
+    });
+
+    test('should process files within size limit', async () => {
+      const filePath = 'small.js';
+      const fullPath = path.resolve(filePath);
+
+      fs.pathExists.mockResolvedValue(true);
+      fs.stat.mockResolvedValue({
+        isFile: () => true,
+        isDirectory: () => false,
+        size: 1024, // 1KB (within limit)
+        mtime: new Date()
+      });
+      fs.readFile.mockResolvedValue('console.log("small file");');
+
+      const result = await analyzer.analyze(filePath);
+
+      expect(result).not.toBeNull();
+      expect(result.content).toBe('console.log("small file");');
+    });
   });
 
   describe('shouldIncludeFile', () => {

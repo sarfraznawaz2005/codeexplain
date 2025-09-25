@@ -60,8 +60,11 @@ describe('explain command', () => {
         level: 'beginner',
         maxTokens: 15000,
         cache: true,
-        apiKey: 'test-api-key'
-      })
+        apiKey: 'test-api-key',
+        concurrency: 3,
+        maxFileSize: 10
+      }),
+
     };
     ConfigManager.mockImplementation(() => mockConfigManager);
 

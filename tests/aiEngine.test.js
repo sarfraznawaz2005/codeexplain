@@ -34,7 +34,8 @@ describe('AIEngine', () => {
       mode: 'explain',
       level: 'beginner',
       maxTokens: 15000,
-      cache: true
+      cache: true,
+      concurrency: 5
     };
 
     mockCacheManager = {
@@ -99,15 +100,36 @@ describe('AIEngine', () => {
       config.apiKey = undefined;
       expect(() => new AIEngine(config)).toThrow('API key required for gemini');
     });
+
+    test('should set concurrency from config', () => {
+      const engine = new AIEngine(config);
+      expect(engine.concurrency).toBe(5);
+    });
+
+    test('should default concurrency to 3 when not specified', () => {
+      delete config.concurrency;
+      const engine = new AIEngine(config);
+      expect(engine.concurrency).toBe(3);
+    });
   });
 
   describe('estimateTokens', () => {
-    test('should estimate tokens based on text length', () => {
-      const engine = new AIEngine(config);
+    test('should estimate tokens based on text length for non-OpenAI providers', () => {
+      const engine = new AIEngine(config); // gemini provider
 
       expect(engine.estimateTokens('')).toBe(0);
       expect(engine.estimateTokens('test')).toBe(1); // 4 chars / 4 = 1
       expect(engine.estimateTokens('this is a longer text')).toBe(6); // 21 chars / 4 = 5.25 -> 6
+    });
+
+    test('should use tiktoken for OpenAI provider', () => {
+      config.provider = 'openai';
+      const engine = new AIEngine(config);
+
+      // Test with actual token counts (approximate)
+      expect(engine.estimateTokens('')).toBe(0);
+      expect(engine.estimateTokens('test')).toBeGreaterThan(0); // Should be actual token count
+      expect(engine.estimateTokens('this is a longer text')).toBeGreaterThan(3); // Should be more accurate
     });
   });
 

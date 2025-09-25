@@ -10,6 +10,8 @@ const CONFIG_DEFAULTS = {
   JSON_INDENT_SPACES: 2
 };
 
+const { MAX_FILE_SIZE_MB } = require('../utils/constants');
+
 const CONFIG_DIR_NAME = '.codeexplain';
 const CONFIG_FILE_NAME = 'config.json';
 
@@ -31,6 +33,8 @@ class ConfigManager {
         attempts: CONFIG_DEFAULTS.RETRY_ATTEMPTS,
         delay: CONFIG_DEFAULTS.RETRY_DELAY
       },
+      concurrency: 3,
+      maxFileSize: MAX_FILE_SIZE_MB,
       codeExtensions: [
         // Web Development
         '.js', '.jsx', '.ts', '.tsx', '.vue', '.svelte', '.astro',
@@ -174,6 +178,8 @@ class ConfigManager {
       ]
     };
   }
+
+
 
   async loadConfig() {
     if (this._cachedConfig) {

@@ -5,5 +5,8 @@ module.exports = {
   },
   transformIgnorePatterns: [
     'node_modules/(?!(marked)/)'
-  ]
+  ],
+  moduleNameMapper: {
+    '^./htmlTemplate$': '<rootDir>/tests/__mocks__/htmlTemplate.js'
+  }
 };

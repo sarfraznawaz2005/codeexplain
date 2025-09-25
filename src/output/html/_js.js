@@ -79,13 +79,50 @@
             }
         });
 
-        // Code folding
+        // Code folding with dynamic loading
         document.addEventListener('click', function (e) {
             if (e.target.closest('.toggle-code')) {
                 const toggleElement = e.target.closest('.toggle-code');
-                const codeContainer = toggleElement.closest('.file-entry').querySelector('.code-container');
+                const fileEntry = toggleElement.closest('.file-entry');
+                const codeContainer = fileEntry.querySelector('.code-container');
                 const icon = toggleElement.querySelector('i');
+                const fileIndex = parseInt(fileEntry.getAttribute('data-file-index'));
+                const spinner = codeContainer.querySelector('.spinner-border');
+                const loadingText = codeContainer.querySelector('.loading-text');
 
+                // Check if code is already loaded
+                const isLoaded = codeContainer.hasAttribute('data-loaded');
+
+                if (!isLoaded) {
+                    // Show loading state
+                    spinner.style.display = 'inline-block';
+                    loadingText.textContent = 'Loading code...';
+
+                    // Load code content from pre-embedded data
+                    const codeContentDiv = codeContainer.querySelector('.code-content');
+                    if (codeContentDiv) {
+                        const highlightedCode = codeContentDiv.innerHTML;
+
+                        // Replace placeholder with actual code
+                        codeContainer.innerHTML = `
+                            <pre class="hljs p-3 mb-0" style="background: transparent;"><code class="hljs">${highlightedCode}</code></pre>
+                        `;
+
+                        // Mark as loaded
+                        codeContainer.setAttribute('data-loaded', 'true');
+                    } else {
+                        // Fallback if content not found
+                        codeContainer.innerHTML = `
+                            <div class="p-3 text-center text-muted">
+                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                Code content not available
+                            </div>
+                        `;
+                        codeContainer.setAttribute('data-loaded', 'true');
+                    }
+                }
+
+                // Toggle visibility
                 if (codeContainer.classList.contains('d-none')) {
                     codeContainer.classList.remove('d-none');
                     icon.classList.remove('fa-chevron-right');

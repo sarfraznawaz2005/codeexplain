@@ -48,7 +48,7 @@ class PDFOutput {
     const files = Array.isArray(explanations) ? explanations : [explanations];
 
     // Generate HTML content
-    const htmlContent = this.generateHTML(files, targetPath, title);
+    const htmlContent = await this.generateHTML(files, targetPath, title);
 
     // Convert HTML to PDF using Puppeteer
     let browser;
@@ -95,7 +95,7 @@ class PDFOutput {
     return `<h2>Table of Contents</h2><ul>${tocItems.join('')}</ul>`;
   }
 
-  generateFileContent(file, index) {
+  async generateFileContent(file, index) {
     let processedExplanation = file.explanation || 'No explanation available.';
     processedExplanation = typeof processedExplanation === 'string' ? processedExplanation : String(processedExplanation);
 
@@ -113,11 +113,23 @@ class PDFOutput {
       renderedExplanation = `<pre>${escapeHtml(processedExplanation)}</pre>`;
     }
 
+    // Read file content from disk if not available in memory
+    let fileContent = file.content;
+    if (!fileContent) {
+      try {
+        const fs = require('fs').promises;
+        fileContent = await fs.readFile(file.path, 'utf8');
+      } catch (error) {
+        console.error(`Error reading file content for PDF: ${file.path}`, error);
+        fileContent = '// Error: Could not read file content';
+      }
+    }
+
     return `
       <div class="file" id="file-${index}">
         <div class="file-path">${escapeHtml(file.relativePath || path.basename(file.path))}</div>
         <div class="code">
-          <pre><code class="language-${file.language || 'plaintext'}">${escapeHtml(file.content)}</code></pre>
+          <pre><code class="language-${file.language || 'plaintext'}">${escapeHtml(fileContent)}</code></pre>
         </div>
         <div class="explanation">
           <h2>AI Explanation</h2>
@@ -127,7 +139,11 @@ class PDFOutput {
     `;
   }
 
-  generateHTML(files, targetPath, title) {
+  async generateHTML(files, targetPath, title) {
+    // Generate file content for all files
+    const fileContents = await Promise.all(
+      files.filter(f => f !== null).map((file, index) => this.generateFileContent(file, index))
+    );
 
     const htmlTemplate = `
       <!DOCTYPE html>
@@ -249,7 +265,7 @@ class PDFOutput {
           <h1>${title}</h1>
           ${this.generateTableOfContents(files)}
           <div style="page-break-before: always;"></div>
-          ${files.filter(f => f !== null).map((file, index) => this.generateFileContent(file, index)).join('')}
+          ${fileContents.join('')}
           <script>
               if (typeof hljs !== 'undefined') {
                   hljs.highlightAll();

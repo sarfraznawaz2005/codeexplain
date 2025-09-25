@@ -3,6 +3,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const { globby } = require('globby');
 const crypto = require('crypto');
+const { MAX_FILE_SIZE_BYTES, MAX_FILE_SIZE_MB } = require('../utils/constants');
 
 class CodeAnalyzer {
   static OUTPUT_FILE_PREFIX = 'codeexplain-output';
@@ -11,6 +12,8 @@ class CodeAnalyzer {
     this.config = Object.assign({}, config);
     // Ensure all codeExtensions are lowercase for consistent matching
     this.config.codeExtensions = (this.config.codeExtensions || []).map(ext => ext.toLowerCase());
+    // Set max file size from config (convert MB to bytes)
+    this.maxFileSizeBytes = (this.config.maxFileSize || MAX_FILE_SIZE_MB) * 1024 * 1024;
     // Pre-compile exclude patterns (wildcards to regex)
     this.excludeRegexes = (this.config.exclude || []).map(pattern => {
       if (pattern.includes('*')) {
@@ -104,14 +107,30 @@ class CodeAnalyzer {
       return null;
     }
     try {
-      const content = await fs.readFile(filePath, 'utf8');
+      const fileStats = stats || await fs.stat(filePath);
+
+      // Check file size limit
+      if (fileStats.size > this.maxFileSizeBytes) {
+        const maxSizeMB = this.maxFileSizeBytes / 1024 / 1024;
+        console.warn(`⚠️ Skipping large file: ${filePath} (${(fileStats.size / 1024 / 1024).toFixed(1)}MB > ${maxSizeMB}MB limit)`);
+        return null;
+      }
+
+      // For very large files, read in chunks to avoid memory issues
+      let content;
+      if (fileStats.size > 1024 * 1024) { // 1MB threshold for chunked reading
+        content = await this.readFileInChunks(filePath, fileStats.size);
+      } else {
+        content = await fs.readFile(filePath, 'utf8');
+      }
+
       const hash = crypto.createHash('sha256').update(content).digest('hex');
       const ext = path.extname(filePath).toLowerCase();
       let relativePath = path.basename(filePath);
       if (basePath) {
         relativePath = path.relative(basePath, filePath).replace(/\\/g, '/');
       }
-      const fileStats = stats || await fs.stat(filePath);
+
       return {
         path: filePath,
         relativePath,
@@ -124,6 +143,30 @@ class CodeAnalyzer {
       console.error('Error in analyzeFile:', err.message);
       return null;
     }
+  }
+
+  // Read large files in chunks to prevent memory exhaustion
+  async readFileInChunks(filePath, fileSize) {
+    const chunkSize = 64 * 1024; // 64KB chunks
+    const chunks = [];
+    const stream = require('fs').createReadStream(filePath, {
+      encoding: 'utf8',
+      highWaterMark: chunkSize
+    });
+
+    return new Promise((resolve, reject) => {
+      stream.on('data', (chunk) => {
+        chunks.push(chunk);
+      });
+
+      stream.on('end', () => {
+        resolve(chunks.join(''));
+      });
+
+      stream.on('error', (err) => {
+        reject(err);
+      });
+    });
   }
 
   async analyzeDirectory(dirPath) {

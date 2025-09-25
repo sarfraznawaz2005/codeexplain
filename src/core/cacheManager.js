@@ -30,20 +30,27 @@ class CacheManager {
 
       const stats = await fs.stat(filePath);
       const currentMtime = stats.mtime.getTime();
+      const currentSize = stats.size;
 
-      if (cacheData.mtime === currentMtime) {
+      // Fast path: check mtime and size first (no file content read needed)
+      if (cacheData.mtime === currentMtime && cacheData.fileSize === currentSize) {
         return cacheData.explanation;
       }
 
-      const fileContent = await fs.readFile(filePath, 'utf8');
-      const currentHash = crypto.createHash('sha256').update(fileContent).digest('hex');
+      // Medium path: if mtime changed but size is same, check hash
+      if (cacheData.fileSize === currentSize) {
+        const fileContent = await fs.readFile(filePath, 'utf8');
+        const currentHash = crypto.createHash('sha256').update(fileContent).digest('hex');
 
-      if (cacheData.fileHash === currentHash) {
-        cacheData.mtime = currentMtime;
-        await fs.writeJson(cacheFile, cacheData);
-        return cacheData.explanation;
+        if (cacheData.fileHash === currentHash) {
+          // Update mtime in cache
+          cacheData.mtime = currentMtime;
+          await fs.writeJson(cacheFile, cacheData);
+          return cacheData.explanation;
+        }
       }
 
+      // Slow path: file has changed, invalidate cache
       return null;
     } catch (error) {
       console.warn('Cache read error:', error.message);
@@ -70,6 +77,7 @@ class CacheManager {
 
       const cacheData = {
         fileHash,
+        fileSize: stats.size,
         mtime: stats.mtime.getTime(),
         explanation,
         timestamp: new Date().toISOString(),

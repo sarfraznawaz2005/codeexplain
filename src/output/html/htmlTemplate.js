@@ -14,7 +14,7 @@ const path = require('path');
  * @param {object} assets - { styles, jsCode, jsCodeFlowChart }
  * @returns {string} HTML layout string
  */
-function createMultiFileLayout(config, title, sidebarItems, fileEntries, assets) {
+function createMultiFileLayout(config, title, sidebarItems, fileEntries, assets, headerOnly = false, footerOnly = false, showSidebarAndNavigation = true) {
     // Handle title - can be string or object with html/plain properties
     let finalTitle = 'AI-Powered Code Explanation';
     let headerTitle = title;
@@ -30,104 +30,239 @@ function createMultiFileLayout(config, title, sidebarItems, fileEntries, assets)
     }
 
     const { styles, jsCode, jsCodeFlowChart } = assets;
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${finalTitle}</title>
-    <!-- Critical CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/cupertino.min.css">
 
-    <!-- Critical JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-    <style>
-    ${styles}
-    </style>
+    // For streaming: return only header part
+    if (headerOnly) {
+        const headerParts = [
+            '<!DOCTYPE html>',
+            '<html lang="en">',
+            '<head>',
+            '    <meta charset="UTF-8">',
+            '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+            '    <title>' + finalTitle + '</title>',
+            '    <!-- Critical CSS -->',
+            '    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">',
+            '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">',
+            '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/cupertino.min.css">',
+            '',
+            '    <!-- Critical JavaScript -->',
+            '    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>',
+            '    <style>',
+            styles,
+            '    </style>',
+            '',
+            '    <script>',
+            jsCode,
+            (jsCodeFlowChart || ''),
+            '    </script>',
+            '</head>',
+            '    <body class="bg-light text-dark" style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, \'Helvetica Neue\', Arial, sans-serif;">',
+            '    <div id="app" class="vh-100">',
+            '        <!-- Header -->',
+            '        <header class="bg-white shadow-sm position-fixed top-0 start-0 w-100 border-bottom" style="z-index: 1030; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.95);">',
+            '            <div class="container-fluid py-3 px-4">',
+            '                <div class="row align-items-center">',
+            '                    <div class="col-auto d-flex align-items-center">',
+            '                        <i class="fas fa-code text-primary me-3 fs-4"></i>',
+            '                         <h1 class="h5 fw-bold text-dark mb-0">' + headerTitle + '</h1>',
+            '                    </div>',
+            '                    <div class="col text-center d-none d-md-block">',
+            '                        <small class="text-muted">AI-Powered Code Explanation</small>',
+            '                    </div>',
+            '                </div>',
+            '            </div>',
+            '        </header>'
+        ];
 
-    <script>
-    ${jsCode}
-    ${jsCodeFlowChart || ''}
-    </script>
-</head>
-    <body class="bg-light text-dark" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-    <div id="app" class="vh-100">
-        <!-- Header -->
-        <header class="bg-white shadow-sm position-fixed top-0 start-0 w-100 border-bottom" style="z-index: 1030; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.95);">
-            <div class="container-fluid py-3 px-4">
-                <div class="row align-items-center">
-                    <div class="col-auto d-flex align-items-center">
-                        <i class="fas fa-code text-primary me-3 fs-4"></i>
-                         <h1 class="h5 fw-bold text-dark mb-0">${headerTitle}</h1>
-                    </div>
-                    <div class="col text-center d-none d-md-block">
-                        <small class="text-muted">AI-Powered Code Explanation</small>
-                    </div>
-                </div>
-            </div>
-        </header>
+        // Conditionally add sidebar elements
+        if (showSidebarAndNavigation) {
+            headerParts.push(
+                '',
+                '        <!-- Sidebar Toggle Button (Mobile) -->',
+                '        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">',
+                '            <i class="fas fa-bars"></i>',
+                '        </button>',
+                '',
+                '        <!-- Sidebar Navigation -->',
+                '        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(0); opacity: 1; pointer-events: auto; transition: all 0.3s ease; z-index: 1000;">',
+                '            <div class="position-absolute" style="top: 0; right: 0; width: 5px; height: 100%; cursor: ew-resize; background: rgba(0,0,0,0.1);" id="sidebar-resizer"></div>',
+                '            <div class="p-3 border-bottom">',
+                '                <h2 class="h6 fw-bold mb-0 text-muted d-flex align-items-center">',
+                '                    <i class="fas fa-folder-tree me-2"></i>',
+                '                    Project Files',
+                '                </h2>',
+                '            </div>',
+                '            <div class="sidebar-content" style="height: calc(100% - 60px); overflow-y: auto;">',
+                '                <ul class="list-unstyled p-2">',
+                sidebarItems,
+                '                </ul>',
+                '            </div>',
+                '        </aside>'
+            );
+        }
 
-        <!-- Sidebar Toggle Button (Mobile) -->
-        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">
-            <i class="fas fa-bars"></i>
-        </button>
+        headerParts.push(
+            '',
+            '        <!-- Main Content -->',
+            '        <main style="' + (showSidebarAndNavigation ? 'margin-left: 280px; width: calc(100% - 280px);' : 'margin-left: 0; width: 100%;') + ' margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">',
+            '            <div class="container-fluid">',
+            '                <!-- File Entries -->',
+            '                <div id="file-entries" class="row g-4">'
+        );
 
-        <!-- Sidebar Navigation -->
-        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(0); opacity: 1; pointer-events: auto; transition: all 0.3s ease; z-index: 1000;">
-            <div class="position-absolute" style="top: 0; right: 0; width: 5px; height: 100%; cursor: ew-resize; background: rgba(0,0,0,0.1);" id="sidebar-resizer"></div>
-            <div class="p-3 border-bottom">
-                <h2 class="h6 fw-bold mb-0 text-muted d-flex align-items-center">
-                    <i class="fas fa-folder-tree me-2"></i>
-                    Project Files
-                </h2>
-            </div>
-            <div class="sidebar-content" style="height: calc(100% - 60px); overflow-y: auto;">
-                <ul class="list-unstyled p-2">
-                    ${sidebarItems}
-                </ul>
-            </div>
-        </aside>
+        return headerParts.join('\n');
+    }
 
-        <!-- Main Content -->
-        <main style="margin-left: 280px; width: calc(100% - 280px); margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
-            <div class="container-fluid">
-                <!-- File Entries -->
-                <div id="file-entries" class="row g-4">
-                    ${fileEntries}
-                </div>
-            </div>
-        </main>
+    // For streaming: return only footer part
+    if (footerOnly) {
+        const footerParts = [
+            '                </div>',
+            '            </div>',
+            '        </main>'
+        ];
 
-        <!-- Navigation Arrows -->
-        <div id="nav-arrows" class="position-fixed d-none d-flex flex-column" style="bottom: 20px; right: 20px; z-index: 1040; gap: 8px;">
-            <button id="prev-file" class="btn btn-primary btn-sm" title="Previous file">
-                <i class="fas fa-chevron-up"></i>
-            </button>
-            <button id="next-file" class="btn btn-primary btn-sm" title="Next file">
-                <i class="fas fa-chevron-down"></i>
-            </button>
-        </div>
-    </div>
+        // Conditionally add navigation arrows
+        if (showSidebarAndNavigation) {
+            footerParts.push(
+                '',
+                '        <!-- Navigation Arrows -->',
+                '        <div id="nav-arrows" class="position-fixed d-none d-flex flex-column" style="bottom: 20px; right: 20px; z-index: 1040; gap: 8px;">',
+                '            <button id="prev-file" class="btn btn-primary btn-sm" title="Previous file">',
+                '                <i class="fas fa-chevron-up"></i>',
+                '            </button>',
+                '            <button id="next-file" class="btn btn-primary btn-sm" title="Next file">',
+                '                <i class="fas fa-chevron-down"></i>',
+                '            </button>',
+                '        </div>'
+            );
+        }
 
-    <!-- Non-critical scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script>
-    <!-- Load common programming languages for syntax highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/typescript.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/csharp.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/ruby.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/rust.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/php.min.js" defer></script>
-     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.0/marked.min.js" defer></script>
-     <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.1.0/lib/index.umd.js" defer></script>
-     <script src="https://cdn.jsdelivr.net/npm/mermaid@11.0.0/dist/mermaid.min.js" defer></script>
-`;
+        footerParts.push(
+            '    </div>',
+            '',
+            '    <!-- Non-critical scripts -->',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script>',
+            '    <!-- Load common programming languages for syntax highlighting -->',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/typescript.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/csharp.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/ruby.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/rust.min.js" defer></script>',
+            '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/php.min.js" defer></script>',
+            '     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.0/marked.min.js" defer></script>',
+            '     <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.1.0/lib/index.umd.js" defer></script>',
+            '     <script src="https://cdn.jsdelivr.net/npm/mermaid@11.0.0/dist/mermaid.min.js" defer></script>',
+            '</html>'
+        );
+
+        return footerParts.join('\n');
+    }
+
+    // Regular complete HTML return
+    return [
+        '<!DOCTYPE html>',
+        '<html lang="en">',
+        '<head>',
+        '    <meta charset="UTF-8">',
+        '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        '    <title>' + finalTitle + '</title>',
+        '    <!-- Critical CSS -->',
+        '    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">',
+        '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">',
+        '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/cupertino.min.css">',
+        '',
+        '    <!-- Critical JavaScript -->',
+        '    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>',
+        '    <style>',
+        styles,
+        '    </style>',
+        '',
+        '    <script>',
+        jsCode,
+        (jsCodeFlowChart || ''),
+        '    </script>',
+        '</head>',
+        '    <body class="bg-light text-dark" style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, \'Helvetica Neue\', Arial, sans-serif;">',
+        '    <div id="app" class="vh-100">',
+        '        <!-- Header -->',
+        '        <header class="bg-white shadow-sm position-fixed top-0 start-0 w-100 border-bottom" style="z-index: 1030; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.95);">',
+        '            <div class="container-fluid py-3 px-4">',
+        '                <div class="row align-items-center">',
+        '                    <div class="col-auto d-flex align-items-center">',
+        '                        <i class="fas fa-code text-primary me-3 fs-4"></i>',
+        '                         <h1 class="h5 fw-bold text-dark mb-0">' + headerTitle + '</h1>',
+        '                    </div>',
+        '                    <div class="col text-center d-none d-md-block">',
+        '                        <small class="text-muted">AI-Powered Code Explanation</small>',
+        '                    </div>',
+        '                </div>',
+        '            </div>',
+        '        </header>',
+        '',
+        '        <!-- Sidebar Toggle Button (Mobile) -->',
+        '        <button id="sidebar-toggle" class="btn btn-primary position-fixed d-none" style="top: 16px; left: 16px; z-index: 1030; display: block;" title="Toggle Sidebar">',
+        '            <i class="fas fa-bars"></i>',
+        '        </button>',
+        '',
+        '        <!-- Sidebar Navigation -->',
+        '        <aside class="position-fixed bg-white border-end" id="sidebar" style="width: 280px; height: calc(100vh - 64px); top: 64px; left: 0; transform: translateX(0); opacity: 1; pointer-events: auto; transition: all 0.3s ease; z-index: 1000;">',
+        '            <div class="position-absolute" style="top: 0; right: 0; width: 5px; height: 100%; cursor: ew-resize; background: rgba(0,0,0,0.1);" id="sidebar-resizer"></div>',
+        '            <div class="p-3 border-bottom">',
+        '                <h2 class="h6 fw-bold mb-0 text-muted d-flex align-items-center">',
+        '                    <i class="fas fa-folder-tree me-2"></i>',
+        '                    Project Files',
+        '                </h2>',
+        '            </div>',
+        '            <div class="sidebar-content" style="height: calc(100% - 60px); overflow-y: auto;">',
+        '                <ul class="list-unstyled p-2">',
+        sidebarItems,
+        '                </ul>',
+        '            </div>',
+        '        </aside>',
+        '',
+        '        <!-- Main Content -->',
+        '        <main style="margin-left: 280px; width: calc(100% - 280px); margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">',
+        '            <div class="container-fluid">',
+        '                <!-- File Entries -->',
+        '                <div id="file-entries" class="row g-4">',
+        fileEntries,
+        '                </div>',
+        '            </div>',
+        '        </main>',
+        '',
+        '        <!-- Navigation Arrows -->',
+        '        <div id="nav-arrows" class="position-fixed d-none d-flex flex-column" style="bottom: 20px; right: 20px; z-index: 1040; gap: 8px;">',
+        '            <button id="prev-file" class="btn btn-primary btn-sm" title="Previous file">',
+        '                <i class="fas fa-chevron-up"></i>',
+        '            </button>',
+        '            <button id="next-file" class="btn btn-primary btn-sm" title="Next file">',
+        '                <i class="fas fa-chevron-down"></i>',
+        '            </button>',
+        '        </div>',
+        '    </div>',
+        '',
+        '    <!-- Non-critical scripts -->',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script>',
+        '    <!-- Load common programming languages for syntax highlighting -->',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/typescript.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/csharp.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/ruby.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/rust.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/php.min.js" defer></script>',
+        '     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.0/marked.min.js" defer></script>',
+        '     <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.1.0/lib/index.umd.js" defer></script>',
+        '     <script src="https://cdn.jsdelivr.net/npm/mermaid@11.0.0/dist/mermaid.min.js" defer></script>',
+        '</html>'
+    ].join('\n');
 }
 
 /**
@@ -155,73 +290,75 @@ function createSingleFileLayout(config, title, sidebarItems, fileEntries, assets
     }
 
     const { styles, jsCode, jsCodeFlowChart } = assets;
-    return `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${finalTitle}</title>
-    <!-- Critical CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/cupertino.min.css">
-
-    <!-- Critical JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
-    <style>
-    ${styles}
-    </style>
-
-    <script>
-    ${jsCode}
-    ${jsCodeFlowChart || ''}
-    </script>
-</head>
-    <body class="bg-light text-dark" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
-    <div id="app" class="vh-100">
-        <!-- Header -->
-        <header class="bg-white shadow-sm position-fixed top-0 start-0 w-100 border-bottom" style="z-index: 1030; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.95);">
-            <div class="container-fluid py-3 px-4">
-                <div class="row align-items-center">
-                    <div class="col-auto d-flex align-items-center">
-                        <i class="fas fa-code text-primary me-3 fs-4"></i>
-                         <h1 class="h5 fw-bold text-dark mb-0">${headerTitle}</h1>
-                    </div>
-                    <div class="col text-center d-none d-md-block">
-                        <small class="text-muted">AI-Powered Code Explanation</small>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <main style="margin-left: 0px; width: 100%; margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">
-            <div class="container-fluid">
-                <!-- File Entries -->
-                <div id="file-entries" class="row g-4">
-                    ${fileEntries}
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Non-critical scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script>
-    <!-- Load common programming languages for syntax highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/typescript.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/csharp.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/ruby.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/rust.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/php.min.js" defer></script>
-     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.0/marked.min.js" defer></script>
-     <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.1.0/lib/index.umd.js" defer></script>
-     <script src="https://cdn.jsdelivr.net/npm/mermaid@11.0.0/dist/mermaid.min.js" defer></script>
-`;
+    return [
+        '<!DOCTYPE html>',
+        '<html lang="en">',
+        '<head>',
+        '    <meta charset="UTF-8">',
+        '    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        '    <title>' + finalTitle + '</title>',
+        '    <!-- Critical CSS -->',
+        '    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">',
+        '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">',
+        '    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/base16/cupertino.min.css">',
+        '',
+        '    <!-- Critical JavaScript -->',
+        '    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>',
+        '    <style>',
+        styles,
+        '    </style>',
+        '',
+        '    <script>',
+        jsCode,
+        (jsCodeFlowChart || ''),
+        '    </script>',
+        '</head>',
+        '    <body class="bg-light text-dark" style="font-family: -apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, \'Helvetica Neue\', Arial, sans-serif;">',
+        '    <div id="app" class="vh-100">',
+        '        <!-- Header -->',
+        '        <header class="bg-white shadow-sm position-fixed top-0 start-0 w-100 border-bottom" style="z-index: 1030; backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.95);">',
+        '            <div class="container-fluid py-3 px-4">',
+        '                <div class="row align-items-center">',
+        '                    <div class="col-auto d-flex align-items-center">',
+        '                        <i class="fas fa-code text-primary me-3 fs-4"></i>',
+        '                         <h1 class="h5 fw-bold text-dark mb-0">' + headerTitle + '</h1>',
+        '                    </div>',
+        '                    <div class="col text-center d-none d-md-block">',
+        '                        <small class="text-muted">AI-Powered Code Explanation</small>',
+        '                    </div>',
+        '                </div>',
+        '            </div>',
+        '        </header>',
+        '',
+        '        <!-- Main Content -->',
+        '        <main style="margin-left: 0px; width: 100%; margin-top: 96px; padding: 2rem; transition: margin-left 0.3s ease; min-height: calc(100vh - 96px);">',
+        '            <div class="container-fluid">',
+        '                <!-- File Entries -->',
+        '                <div id="file-entries" class="row g-4">',
+        fileEntries,
+        '                </div>',
+        '            </div>',
+        '        </main>',
+        '    </div>',
+        '',
+        '    <!-- Non-critical scripts -->',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js" defer></script>',
+        '    <!-- Load common programming languages for syntax highlighting -->',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/python.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/javascript.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/typescript.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/java.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/cpp.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/csharp.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/ruby.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/go.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/rust.min.js" defer></script>',
+        '    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/languages/php.min.js" defer></script>',
+        '     <script src="https://cdn.jsdelivr.net/npm/marked@9.1.0/marked.min.js" defer></script>',
+        '     <script src="https://cdn.jsdelivr.net/npm/marked-highlight@2.1.0/lib/index.umd.js" defer></script>',
+        '     <script src="https://cdn.jsdelivr.net/npm/mermaid@11.0.0/dist/mermaid.min.js" defer></script>',
+        '</html>'
+    ].join('\n');
 }
 
 /**
@@ -234,12 +371,18 @@ function createSingleFileLayout(config, title, sidebarItems, fileEntries, assets
  * @param {object} assets - { styles, jsCode, jsCodeFlowChart }
  * @returns {string} Complete HTML document
  */
-function createHTMLTemplate(config, title, sidebarItems, fileEntries, assets) {
+function createHTMLTemplate(config, title, sidebarItems, fileEntries, assets, headerOnly = false, footerOnly = false, showSidebarAndNavigation = true) {
     // Determine which layout to use based on mode
     const isMultiFileMode = config.mode === 'explain' || config.mode === 'issues';
 
-    if (isMultiFileMode) {
-        return createMultiFileLayout(config, title, sidebarItems, fileEntries, assets);
+    if (headerOnly) {
+        // Return only the header part for streaming
+        return createMultiFileLayout(config, title, sidebarItems, fileEntries, assets, true, false, showSidebarAndNavigation);
+    } else if (footerOnly) {
+        // Return only the footer part for streaming
+        return createMultiFileLayout(config, title, sidebarItems, fileEntries, assets, false, true, showSidebarAndNavigation);
+    } else if (isMultiFileMode) {
+        return createMultiFileLayout(config, title, sidebarItems, fileEntries, assets, false, false, true);
     } else {
         return createSingleFileLayout(config, title, sidebarItems, fileEntries, assets);
     }

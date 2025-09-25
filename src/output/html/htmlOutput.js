@@ -47,26 +47,72 @@ class HTMLOutput {
     // Ensure analysis is always an array
     const files = Array.isArray(analysis) ? analysis : [analysis];
 
-    // Create a tree structure for the sidebar
-    const tree = createFileTree(files);
-    const sidebarItems = generateSidebarTree(tree);
+    // Determine if this mode should show sidebar and navigation
+    const showSidebarAndNavigation = this.config.mode === 'explain' || this.config.mode === 'issues';
 
-    // Pre-calculate file indices for each file
-    const fileEntries = files.map((file, index) => generateFileEntry(this.config, file, index)).join('\n');
+    // Create a tree structure for the sidebar (only for modes that need it)
+    let sidebarItems = '';
+    if (showSidebarAndNavigation) {
+      const tree = createFileTree(files);
+      sidebarItems = generateSidebarTree(tree);
+    }
 
     // Modify title to include success labels for paths
     const titleResult = this.modifyTitleWithLabels(title);
-    const modifiedTitle = typeof titleResult === 'object' ? titleResult.html : titleResult;
 
     // Load HTML assets (CSS, JS)
     const assets = await loadHTMLAssets(this.config);
 
-    // Create the complete HTML
-    const html = createHTMLTemplate(this.config, titleResult, sidebarItems, fileEntries, assets);
+    // Use streaming HTML generation to reduce memory usage
+    return await this.generateStreamingHTML(files, outputPath, titleResult, sidebarItems, assets, showSidebarAndNavigation);
+  }
 
-    // Write to file asynchronously
-    await fs.writeFile(outputPath, html);
-    return outputPath;
+  // Streaming HTML generation to reduce memory fragmentation
+  async generateStreamingHTML(files, outputPath, titleResult, sidebarItems, assets, showSidebarAndNavigation = true) {
+    const fs = require('fs').promises;
+    const stream = require('fs').createWriteStream(outputPath);
+
+    try {
+      // Write HTML header
+      const headerHTML = createHTMLTemplate(this.config, titleResult, sidebarItems, '', assets, true, false, showSidebarAndNavigation);
+      stream.write(headerHTML);
+
+      // Write file entries one by one to reduce memory usage
+      for (let i = 0; i < files.length; i++) {
+        const fileEntry = await generateFileEntry(this.config, files[i], i);
+        stream.write(fileEntry + '\n');
+
+        // Clear reference to file content to free memory
+        if (files[i] && files[i].content) {
+          files[i].content = null;
+        }
+
+        // Suggest GC every 10 files for large codebases
+        if (i % 10 === 0 && typeof global !== 'undefined' && global.gc) {
+          try {
+            global.gc();
+          } catch (error) {
+            // Ignore GC errors
+          }
+        }
+      }
+
+      // Write HTML footer
+      const footerHTML = createHTMLTemplate(this.config, titleResult, sidebarItems, '', assets, false, true, showSidebarAndNavigation);
+      stream.write(footerHTML);
+
+      // Wait for stream to finish
+      await new Promise((resolve, reject) => {
+        stream.on('finish', resolve);
+        stream.on('error', reject);
+        stream.end();
+      });
+
+      return outputPath;
+    } catch (error) {
+      stream.destroy();
+      throw error;
+    }
   }
 
   modifyTitleWithLabels(title) {
@@ -285,11 +331,12 @@ function processFlowchartContent(content, explanation) {
 
 /**
  * Generate HTML for a single file entry
+ * @param {Object} config - Configuration object
  * @param {Object} file - File analysis object
  * @param {number} fileIndex - Index of the file for unique IDs
- * @returns {string} HTML string for the file entry
+ * @returns {Promise<string>} HTML string for the file entry
  */
-function generateFileEntry(config, file, fileIndex) {
+async function generateFileEntry(config, file, fileIndex) {
    let processedExplanation = file.explanation || 'No explanation available.';
    const isFlowchart = config.mode === 'flowchart';
    const isMultiFileMode = config.mode === 'explain' || config.mode === 'issues';
@@ -332,49 +379,63 @@ function generateFileEntry(config, file, fileIndex) {
 
   // For flowchart mode, diagrams are already embedded in the explanation
 
+  // Prepare highlighted code content for dynamic loading
+  let codeContentDiv = '';
+  if (isMultiFileMode) {
+    try {
+      // Read content from file since it may have been cleared for memory optimization
+      const fs = require('fs').promises;
+      const content = await fs.readFile(file.path, 'utf8');
+      const highlightedContent = highlightCode(content, file.language);
+      codeContentDiv = `<div class="code-content" style="display: none;">${highlightedContent}</div>`;
+    } catch (error) {
+      // Fallback if file can't be read
+      codeContentDiv = `<div class="code-content" style="display: none;"><span class="hljs-comment">// Error loading file content</span></div>`;
+    }
+  }
+
   return `
-<div class="file-entry col-12 mb-4" id="file-${fileIndex}" data-file-path="${escapeHtml(file.path)}" data-file-index="${fileIndex}">
-    <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
-        <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
-            <div class="d-flex justify-content-between align-items-center">
-                 <h2 class="${isMultiFileMode ? 'toggle-code' : ''} h5 fw-semibold mb-0 ${isMultiFileMode ? 'cursor-pointer' : ''} d-flex align-items-center text-white" data-file-index="${fileIndex}" style="font-size: 1.1rem;">
-                     ${isMultiFileMode ? '<i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>' : ''}
-                     <i class="fas fa-${isFlowchart ? 'project-diagram' : 'file-code'} me-2"></i>
-                     ${escapeHtml(file.relativePath || path.basename(file.path))}
-                 </h2>
-                <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
-                    ${file.language || 'text'}
-                </span>
-            </div>
-        </div>
+ <div class="file-entry col-12 mb-4" id="file-${fileIndex}" data-file-path="${escapeHtml(file.path)}" data-file-index="${fileIndex}">
+     <div class="card shadow-sm border-0 h-100" style="border-radius: 12px; overflow: hidden;">
+         <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 1rem 1.5rem;">
+             <div class="d-flex justify-content-between align-items-center">
+                  <h2 class="${isMultiFileMode ? 'toggle-code' : ''} h5 fw-semibold mb-0 ${isMultiFileMode ? 'cursor-pointer' : ''} d-flex align-items-center text-white" data-file-index="${fileIndex}" style="font-size: 1.1rem;">
+                      ${isMultiFileMode ? '<i class="fas fa-chevron-right me-2 transition-transform duration-200"></i>' : ''}
+                      <i class="fas fa-${isFlowchart ? 'project-diagram' : 'file-code'} me-2"></i>
+                      ${escapeHtml(file.relativePath || path.basename(file.path))}
+                  </h2>
+                 <span class="badge bg-white bg-opacity-25 text-white px-2 py-1" style="font-size: 0.75rem;">
+                     ${file.language || 'text'}
+                 </span>
+             </div>
+         </div>
 
-             <div class="card-body p-0">
-               ${isMultiFileMode ? `<div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;">
-                   <div class="p-3">
-                       <pre class="mb-0"><code class="language-${file.language}" style="font-size: 0.9rem; line-height: 1.5;">
-${highlightCode(file.content, file.language)}
-                       </code></pre>
-                   </div>
-               </div>` : ''}
+               <div class="card-body p-0">
+                 ${isMultiFileMode ? `<div class="code-container bg-light border-bottom d-none" style="max-height: 400px; overflow: auto;" data-file-path="${escapeHtml(file.path)}" data-file-language="${file.language}">
+                     <div class="p-3 text-center text-muted">
+                         <div class="spinner-border spinner-border-sm me-2" role="status" style="display: none;"></div>
+                         <span class="loading-text">Click to load code</span>
+                     </div>
+                     ${codeContentDiv}
+                 </div>` : ''}
 
-            <div class="p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="h6 text-muted mb-0 d-flex align-items-center">
-                        <i class="fas fa-brain me-2 text-primary"></i>
-                        AI Explanation
-                    </h3>
-                    <button class="btn btn-outline-primary btn-sm copy-explanation" data-file-index="${fileIndex}" title="Copy explanation">
-                        <i class="fas fa-copy me-1"></i> Copy
-                    </button>
-                </div>
-                <div class="explanation-content">
-                    ${renderedExplanation}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-    `;
+             <div class="p-4">
+                 <div class="d-flex justify-content-between align-items-center mb-3">
+                     <h3 class="h6 text-muted mb-0 d-flex align-items-center">
+                         <i class="fas fa-brain me-2 text-primary"></i>
+                         AI Explanation
+                     </h3>
+                     <button class="btn btn-outline-primary btn-sm copy-explanation" data-file-index="${fileIndex}" title="Copy explanation">
+                         <i class="fas fa-copy me-1"></i> Copy
+                     </button>
+                 </div>
+                 <div class="explanation-content">
+                     ${renderedExplanation}
+                 </div>
+             </div>
+         </div>
+     </div>
+ </div>`;
 }
 
 module.exports = { HTMLOutput };

@@ -8,6 +8,7 @@ const { HTMLOutput } = require('../output/html/htmlOutput');
 const { PDFOutput } = require('../output/pdf/pdfOutput');
 const { PromptManager } = require('../ai/promptManager');
 const { FlowchartGenerator } = require('../flowchart/flowchartGenerator');
+const { Logger } = require('../utils/logger');
 const {
   MODE_LINE_BY_LINE,
   MODE_FLOWCHART,
@@ -44,7 +45,7 @@ async function explain(paths, options) {
     // To achieve this, we need to selectively apply CLI options that were explicitly provided
     // Check for explicitly provided options by looking for their flags in process.argv
     const cliArgs = process.argv;
-    
+
     // Build final config with proper precedence
     const finalConfig = {
       // Start with the loaded config which includes environment variables
@@ -55,6 +56,8 @@ async function explain(paths, options) {
       mode: (cliArgs.includes('--mode') || cliArgs.includes('-m')) ? options.mode : config.mode,
       level: (cliArgs.includes('--level') || cliArgs.includes('-l')) ? options.level : config.level,
       maxTokens: (cliArgs.includes('--max-tokens') || cliArgs.includes('-t')) ? parseInt(options.maxTokens) : config.maxTokens,
+      concurrency: (cliArgs.includes('--concurrency')) ? parseInt(options.concurrency) : config.concurrency,
+      maxFileSize: (cliArgs.includes('--max-file-size')) ? parseInt(options.maxFileSize) : config.maxFileSize,
       model: (cliArgs.includes('--model') || cliArgs.includes('-M')) ? options.model : config.model,
       baseUrl: (cliArgs.includes('--base-url')) ? options.baseUrl : config.baseUrl,
       cache: (cliArgs.includes('--no-cache')) ? false : config.cache, // --no-cache sets cache to false
@@ -64,9 +67,12 @@ async function explain(paths, options) {
       // For API key, follow precedence: CLI > Config (this was already handled correctly)
       apiKey: options.apiKey || options.apikey || config.apiKey
     };
-    
+
     // Remove lowercase variant if it exists to standardize on camelCase
     delete finalConfig.apikey;
+
+    // Initialize logger
+    const logger = new Logger({ verbose: finalConfig.verbose });
 
     // Validate linebyline mode restrictions
     if (finalConfig.mode === MODE_LINE_BY_LINE) {
@@ -94,7 +100,7 @@ async function explain(paths, options) {
     }
 
     // Verbose: Show configuration
-    if (options.verbose) {
+    logger.logVerbose(() => {
       console.log(chalk.gray('📋 Configuration:'));
       console.log(chalk.gray(`   Paths: ${pathArray.join(', ')}`));
       console.log(chalk.gray(`   Provider: ${finalConfig.provider}`));
@@ -107,7 +113,7 @@ async function explain(paths, options) {
       console.log(chalk.gray(`   Cache: ${finalConfig.cache !== false ? 'enabled' : 'disabled'}`));
       console.log(chalk.gray(`   Verbose: enabled`));
       console.log('');
-    }
+    });
 
     // Initialize prompt manager to ensure prompts directory exists
     const promptManager = new PromptManager();
@@ -121,9 +127,7 @@ async function explain(paths, options) {
 
     const allAnalysis = [];
     for (const filePath of pathArray) {
-      if (options.verbose) {
-        console.log(chalk.gray(`   Analyzing path: ${filePath}`));
-      }
+      logger.logVerbose(() => console.log(chalk.gray(`   Analyzing path: ${filePath}`)));
       const analysis = await codeAnalyzer.analyze(filePath);
       if (Array.isArray(analysis)) {
         allAnalysis.push(...analysis);
@@ -135,13 +139,13 @@ async function explain(paths, options) {
     console.log(chalk.green(`📁 Found ${allAnalysis.length} file(s) to analyze`));
 
     // Verbose: Show file details
-    if (options.verbose) {
+    logger.logVerbose(() => {
       console.log(chalk.gray('📄 Files to analyze:'));
       allAnalysis.forEach((file, index) => {
         console.log(chalk.gray(`   ${index + 1}. ${file.relativePath} (${file.language}) - ${file.content.length} chars`));
       });
       console.log('');
-    }
+    });
 
     console.log(chalk.green('✅ Code analysis completed!'));
 
@@ -233,14 +237,14 @@ async function explain(paths, options) {
       const aiEngine = new AIEngine(finalConfig);
       console.log(chalk.yellow('🤖 Generating AI explanations...'));
 
-      // Verbose: Show AI engine details
-      if (options.verbose) {
-        console.log(chalk.gray(`   AI Provider: ${finalConfig.provider}`));
-        console.log(chalk.gray(`   Model: ${finalConfig.model}`));
-        console.log(chalk.gray(`   Max Tokens: ${finalConfig.maxTokens}`));
-        console.log(chalk.gray(`   Retry Attempts: ${finalConfig.retry?.attempts || 3}`));
-        console.log('');
-      }
+       // Verbose: Show AI engine details
+       logger.logVerbose(() => {
+         console.log(chalk.gray(`   AI Provider: ${finalConfig.provider}`));
+         console.log(chalk.gray(`   Model: ${finalConfig.model}`));
+         console.log(chalk.gray(`   Max Tokens: ${finalConfig.maxTokens}`));
+         console.log(chalk.gray(`   Retry Attempts: ${finalConfig.retry?.attempts || 3}`));
+         console.log('');
+       });
 
        let fileCounter = 0;
       explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
@@ -282,30 +286,26 @@ async function explain(paths, options) {
     const title = `Code Explanation: ${pathArray.join(', ')}`;
 
     // Verbose: Show output generation details
-    if (options.verbose) {
+    logger.logVerbose(() => {
       console.log(chalk.gray('📤 Generating output:'));
       console.log(chalk.gray(`   Format: ${finalConfig.output.toUpperCase()}`));
       console.log(chalk.gray(`   Title: ${title}`));
       console.log(chalk.gray(`   Files processed: ${explanations.length}`));
       console.log('');
-    }
+    });
 
     if (finalConfig.output === OUTPUT_PDF) {
       const pdfOutput = new PDFOutput(finalConfig);
       await pdfOutput.generate(explanations, 'codeexplain-output.pdf', title);
       console.log(chalk.green('📄 PDF documentation generated successfully!'));
 
-      if (options.verbose) {
-        console.log(chalk.gray('   Output file: codeexplain-output.pdf'));
-      }
+      logger.logVerbose(() => console.log(chalk.gray('   Output file: codeexplain-output.pdf')));
     } else {
       const htmlOutput = new HTMLOutput(finalConfig);
       await htmlOutput.generate(explanations, 'codeexplain-output.html', title);
       console.log(chalk.green('🌐 HTML documentation generated successfully!'));
 
-      if (options.verbose) {
-        console.log(chalk.gray('   Output file: codeexplain-output.html'));
-      }
+      logger.logVerbose(() => console.log(chalk.gray('   Output file: codeexplain-output.html')));
     }
   } catch (error) {
     const errorLine = error.stack && error.stack.split('\n')[1]
