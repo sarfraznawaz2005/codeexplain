@@ -40,12 +40,29 @@ async function explain(paths, options) {
     const configManager = new ConfigManager(options.config);
     const config = await configManager.loadConfig();
 
-    // Merge CLI options with config, ensuring proper API key casing
+    // Create final config with proper precedence: CLI > Config > Environment
+    // To achieve this, we need to selectively apply CLI options that were explicitly provided
+    // Check for explicitly provided options by looking for their flags in process.argv
+    const cliArgs = process.argv;
+    
+    // Build final config with proper precedence
     const finalConfig = {
+      // Start with the loaded config which includes environment variables
       ...config,
-      ...options,
+      // Override with CLI options that were explicitly specified
+      provider: (cliArgs.includes('--provider')) ? options.provider : config.provider,
+      output: (cliArgs.includes('--output')) ? options.output : config.output,
+      mode: (cliArgs.includes('--mode') || cliArgs.includes('-m')) ? options.mode : config.mode,
+      level: (cliArgs.includes('--level') || cliArgs.includes('-l')) ? options.level : config.level,
+      maxTokens: (cliArgs.includes('--max-tokens') || cliArgs.includes('-t')) ? parseInt(options.maxTokens) : config.maxTokens,
+      model: (cliArgs.includes('--model') || cliArgs.includes('-M')) ? options.model : config.model,
+      baseUrl: (cliArgs.includes('--base-url')) ? options.baseUrl : config.baseUrl,
+      cache: (cliArgs.includes('--no-cache')) ? false : config.cache, // --no-cache sets cache to false
+      // Always use values that are not subject to default conflicts
+      verbose: options.verbose,
       paths: pathArray,
-      apiKey: options.apiKey || options.apikey || config.apiKey // Prioritize options.apiKey, then options.apikey, then config.apiKey
+      // For API key, follow precedence: CLI > Config (this was already handled correctly)
+      apiKey: options.apiKey || options.apikey || config.apiKey
     };
     
     // Remove lowercase variant if it exists to standardize on camelCase

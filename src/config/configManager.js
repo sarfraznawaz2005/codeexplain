@@ -199,8 +199,8 @@ class ConfigManager {
         await this.saveConfig(config, configFile)
       }
 
-      // Override with environment variables if present
-      if (process.env.CODEEXPLAIN_API_KEY) {
+      // Only set environment variable as fallback if apiKey is not already set in config file
+      if (!config.apiKey && process.env.CODEEXPLAIN_API_KEY) {
         config.apiKey = process.env.CODEEXPLAIN_API_KEY
       }
 
