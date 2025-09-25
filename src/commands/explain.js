@@ -162,7 +162,6 @@ async function explain(paths, options) {
       const aiEngine = new AIEngine(finalConfig);
       let fileCounter = 0;
       explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
-        console.log(`DEBUG: Progress callback called with ${filePath}, ${completed}/${total}, ${progress}%, cached=${cached}, isStarting=${isStarting}`);
         // Convert to relative path from the scanned folder
         let displayPath = filePath;
         if (pathArray.length === 1) {
@@ -189,7 +188,6 @@ async function explain(paths, options) {
       const aiEngine = new AIEngine(finalConfig);
       let fileCounter = 0;
       explanations = await aiEngine.generateExplanations(allAnalysis, (filePath, completed, total, progress, cached, isStarting) => {
-        console.log(`DEBUG: Progress callback called with ${filePath}, ${completed}/${total}, ${progress}%, cached=${cached}, isStarting=${isStarting}`);
         // Convert to relative path from the scanned folder
         let displayPath = filePath;
         if (pathArray.length === 1) {
